@@ -1,62 +1,75 @@
-import { FilterSidebar } from "@/components/FilterSidebar";
-import { IslandCard } from "@/components/IslandCard";
 import { PirateChat } from "@/components/PirateChat";
 import { RealTimeInfo } from "@/components/RealTimeInfo";
-
-// Mock data for initial display
-const mockIslands = [
-  {
-    id: "001",
-    name: "Skull's Haven",
-    climate: "Tropical",
-    terrain: "Volcanic",
-    dangerLevel: "High" as const,
-    imageUrl: "https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151",
-  },
-  {
-    id: "002",
-    name: "Mermaid's Cove",
-    climate: "Temperate",
-    terrain: "Coral",
-    dangerLevel: "Low" as const,
-    imageUrl: "https://images.unsplash.com/photo-1433086966358-54859d0ed716",
-  },
-  {
-    id: "003",
-    name: "Dragon's Lair",
-    climate: "Stormy",
-    terrain: "Rocky",
-    dangerLevel: "Medium" as const,
-    imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-  },
-];
+import { Button } from "@/components/ui/button";
+import { Github, Twitter } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
     <div className="flex min-h-screen bg-background">
-      <FilterSidebar />
-      <main className="flex-1 p-6">
-        <div className="mb-6">
-          <h1 className="text-4xl font-pirate text-pirate-navy mb-2">
-            Treasure Islands
-          </h1>
-          <p className="text-muted-foreground">
-            Explore mysterious islands and uncover hidden treasures
-          </p>
-        </div>
+      {/* Project Info Sidebar */}
+      <div className="w-64 bg-white p-4 border-r h-screen overflow-y-auto">
+        <div className="space-y-6">
+          <div>
+            <h2 className="text-2xl font-pirate text-pirate-navy mb-2">Treasure Hunt</h2>
+            <p className="text-sm text-muted-foreground">
+              Explore 10,000 unique islands and hunt for cryptocurrency treasures in this Web3-powered adventure.
+            </p>
+          </div>
 
+          <div>
+            <h3 className="font-pirate text-lg text-pirate-navy mb-2">TL;DR</h3>
+            <ul className="text-sm text-muted-foreground space-y-2">
+              <li>• 10,000 unique islands to explore</li>
+              <li>• AI Pirate guide with crypto-unlocked hints</li>
+              <li>• Real treasure hunts with crypto rewards</li>
+              <li>• Community-driven exploration</li>
+            </ul>
+          </div>
+
+          <div className="pt-4 border-t">
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" asChild>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                  <Twitter className="w-4 h-4" />
+                  Twitter
+                </a>
+              </Button>
+              <Button variant="outline" size="sm" asChild>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                  <Github className="w-4 h-4" />
+                  GitHub
+                </a>
+              </Button>
+            </div>
+          </div>
+
+          <div className="pt-4">
+            <Button className="w-full" asChild>
+              <Link to="/treasure-islands">
+                Start Hunting
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <main className="flex-1 p-6">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
           <div className="space-y-6">
-            {/* Chat section on top */}
+            <div className="mb-6">
+              <h1 className="text-4xl font-pirate text-pirate-navy mb-2">
+                Welcome, Treasure Hunter!
+              </h1>
+              <p className="text-muted-foreground">
+                Chat with our AI Pirate guide and track real-time treasure hunting activity.
+              </p>
+            </div>
+
+            {/* Chat section */}
             <div className="w-full">
               <PirateChat />
-            </div>
-            
-            {/* Islands grid below */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {mockIslands.map((island) => (
-                <IslandCard key={island.id} {...island} />
-              ))}
             </div>
           </div>
 
