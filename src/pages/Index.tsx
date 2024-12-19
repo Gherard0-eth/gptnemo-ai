@@ -1,6 +1,7 @@
 import { FilterSidebar } from "@/components/FilterSidebar";
 import { IslandCard } from "@/components/IslandCard";
 import { PirateChat } from "@/components/PirateChat";
+import { RealTimeInfo } from "@/components/RealTimeInfo";
 
 // Mock data for initial display
 const mockIslands = [
@@ -43,14 +44,25 @@ const Index = () => {
             Explore mysterious islands and uncover hidden treasures
           </p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            {mockIslands.map((island) => (
-              <IslandCard key={island.id} {...island} />
-            ))}
+
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
+          <div className="space-y-6">
+            {/* Chat section on top */}
+            <div className="w-full">
+              <PirateChat />
+            </div>
+            
+            {/* Islands grid below */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {mockIslands.map((island) => (
+                <IslandCard key={island.id} {...island} />
+              ))}
+            </div>
           </div>
-          <div className="w-full lg:w-auto">
-            <PirateChat />
+
+          {/* Real-time information sidebar */}
+          <div className="hidden lg:block">
+            <RealTimeInfo />
           </div>
         </div>
       </main>
