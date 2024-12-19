@@ -1,5 +1,6 @@
 import { FilterSidebar } from "@/components/FilterSidebar";
 import { IslandCard } from "@/components/IslandCard";
+import { PirateChat } from "@/components/PirateChat";
 
 // Mock data for initial display
 const mockIslands = [
@@ -42,10 +43,15 @@ const Index = () => {
             Explore mysterious islands and uncover hidden treasures
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mockIslands.map((island) => (
-            <IslandCard key={island.id} {...island} />
-          ))}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            {mockIslands.map((island) => (
+              <IslandCard key={island.id} {...island} />
+            ))}
+          </div>
+          <div className="w-full lg:w-auto">
+            <PirateChat />
+          </div>
         </div>
       </main>
     </div>
