@@ -32,7 +32,7 @@ const Index = () => {
               <div 
                 className="p-6 rounded-lg border border-pirate-gold/20 relative overflow-hidden group"
                 style={{
-                  backgroundImage: "url('/lovable-uploads/a7a99faf-3a38-4061-b9dc-4f474001bf8f.png')",
+                  backgroundImage: "url('/lovable-uploads/89c3491b-16e9-4b19-8004-9f5e66b901f5.png')",
                   backgroundSize: 'cover',
                   backgroundPosition: 'center'
                 }}
