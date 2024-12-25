@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Map, ArrowLeft, Mountain, Cloud, Anchor, Skull } from "lucide-react";
+import { Map, ArrowLeft, Mountain, Cloud, Anchor, Skull, LucideIcon } from "lucide-react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { IslandCharacteristics } from "@/components/island/IslandCharacteristics";
 import { IslandStats } from "@/components/island/IslandStats";
