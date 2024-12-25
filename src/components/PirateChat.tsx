@@ -45,10 +45,10 @@ export const PirateChat = () => {
   };
 
   return (
-    <div className="flex flex-col h-[500px] w-full max-w-md border border-pirate-brown rounded-lg bg-white/95 shadow-lg">
-      <div className="flex items-center gap-2 p-4 border-b border-pirate-brown bg-pirate-navy text-white rounded-t-lg">
-        <MessageSquare className="text-pirate-gold" />
-        <h2 className="font-pirate text-xl">AI Pirate Chat</h2>
+    <div className="flex flex-col h-[500px] w-full max-w-md apple-container">
+      <div className="flex items-center gap-2 p-4 border-b border-apple-gray-200 dark:border-apple-gray-600">
+        <MessageSquare className="text-apple-gray-500 dark:text-apple-gray-300" />
+        <h2 className="font-display text-xl text-apple-gray-700 dark:text-apple-gray-100">AI Assistant</h2>
       </div>
 
       <ScrollArea className="flex-1 p-4">
@@ -63,8 +63,8 @@ export const PirateChat = () => {
               <div
                 className={`max-w-[80%] rounded-lg p-3 ${
                   message.role === "user"
-                    ? "bg-pirate-ocean text-white"
-                    : "bg-pirate-gold/20 text-pirate-navy"
+                    ? "bg-apple-accent text-white"
+                    : "bg-apple-gray-200 dark:bg-apple-gray-600 text-apple-gray-700 dark:text-apple-gray-100"
                 }`}
               >
                 {message.content}
@@ -74,11 +74,11 @@ export const PirateChat = () => {
         </div>
       </ScrollArea>
 
-      <div className="p-4 border-t border-pirate-brown">
+      <div className="p-4 border-t border-apple-gray-200 dark:border-apple-gray-600">
         {!isUnlocked && (
           <Button
             onClick={() => setIsUnlocked(true)}
-            className="w-full mb-4 bg-pirate-gold hover:bg-pirate-gold/90 text-pirate-navy font-pirate"
+            className="w-full mb-4 apple-button"
           >
             Unlock Hints with Cryptocurrency
           </Button>
@@ -89,12 +89,9 @@ export const PirateChat = () => {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about treasures..."
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            className="flex-1"
+            className="flex-1 bg-apple-gray-100 dark:bg-apple-gray-600 border-apple-gray-200 dark:border-apple-gray-500"
           />
-          <Button
-            onClick={handleSend}
-            className="bg-pirate-navy hover:bg-pirate-navy/90"
-          >
+          <Button onClick={handleSend} className="apple-button">
             <Send className="h-4 w-4" />
           </Button>
         </div>
