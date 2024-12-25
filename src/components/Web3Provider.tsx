@@ -1,21 +1,24 @@
-import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
-import { WagmiProvider } from 'wagmi';
+import { WagmiConfig, createConfig } from "wagmi";
+import { ConnectKitProvider, ConnectKitButton, getDefaultConfig } from "connectkit";
 import { mainnet, sepolia } from 'wagmi/chains';
-import '@rainbow-me/rainbowkit/styles.css';
 
-const config = getDefaultConfig({
-  appName: 'Epirates',
-  projectId: 'YOUR_PROJECT_ID', // Get this from WalletConnect Cloud
-  chains: [mainnet, sepolia],
-  ssr: false, // Required for Vite
-});
+const config = createConfig(
+  getDefaultConfig({
+    appName: "Epirates",
+    // You can get this from WalletConnect Cloud
+    walletConnectProjectId: "YOUR_PROJECT_ID",
+    chains: [mainnet, sepolia],
+  })
+);
 
 export function Web3Provider({ children }: { children: React.ReactNode }) {
   return (
-    <WagmiProvider config={config}>
-      <RainbowKitProvider>
+    <WagmiConfig config={config}>
+      <ConnectKitProvider>
         {children}
-      </RainbowKitProvider>
-    </WagmiProvider>
+      </ConnectKitProvider>
+    </WagmiConfig>
   );
 }
+
+export { ConnectKitButton };

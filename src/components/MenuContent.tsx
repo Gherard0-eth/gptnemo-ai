@@ -3,7 +3,7 @@ import { Github, Twitter } from "lucide-react";
 import { Button } from "./ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { ThemeToggle } from "./ThemeToggle";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ConnectKitButton } from "./Web3Provider";
 import { Link } from "react-router-dom";
 
 export const MenuContent = () => {
@@ -45,7 +45,7 @@ export const MenuContent = () => {
       </div>
 
       <div className="space-y-4">
-        <ConnectButton />
+        <ConnectKitButton />
         <Link to="/profile">
           <Button variant="outline" className="w-full">
             View Profile
@@ -82,11 +82,7 @@ export const MenuContent = () => {
       </div>
 
       <div className="pt-4 border-t border-border">
-        <Button variant="ghost" className="w-full justify-start" asChild>
-          <div>
-            <ThemeToggle />
-          </div>
-        </Button>
+        <ThemeToggle className="w-full justify-start" />
       </div>
     </div>
   );
