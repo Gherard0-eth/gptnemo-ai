@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
 import TreasureIslands from "./pages/TreasureIslands";
+import IslandDetails from "./pages/IslandDetails";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/treasure-islands" element={<TreasureIslands />} />
+            <Route path="/island/:id" element={<IslandDetails />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
