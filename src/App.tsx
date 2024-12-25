@@ -27,14 +27,12 @@ const App = () => (
                 <div className="mt-16">
                   <PrizePoolBanner />
                 </div>
-                <div className="mt-4"> {/* Reduced from mt-8 to mt-4 */}
-                  <Routes>
-                    <Route path="/" element={<Index />} />
-                    <Route path="/treasure-islands" element={<TreasureIslands />} />
-                    <Route path="/island/:id" element={<IslandDetails />} />
-                    <Route path="/island/:id/map" element={<IslandMapPage />} />
-                  </Routes>
-                </div>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/treasure-islands" element={<TreasureIslands />} />
+                  <Route path="/island/:id" element={<IslandDetails />} />
+                  <Route path="/island/:id/map" element={<IslandMapPage />} />
+                </Routes>
               </main>
             </div>
           </div>
