@@ -1,13 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Shovel, ZoomIn, ZoomOut, Move } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { MapControls } from "./map/MapControls";
+import { MapGrid } from "./map/MapGrid";
+import { DigDialog } from "./map/DigDialog";
 
 interface IslandMapProps {
   coordinates: {
@@ -59,31 +54,6 @@ export function IslandMap({ coordinates }: IslandMapProps) {
     setSelectedSquare(`${row}-${col}`);
   };
 
-  const renderGrid = () => {
-    const gridSize = 100;
-    const squares = [];
-
-    for (let i = 0; i < gridSize; i++) {
-      for (let j = 0; j < gridSize; j++) {
-        squares.push(
-          <div
-            key={`${i}-${j}`}
-            className="absolute border border-white/30 cursor-pointer hover:bg-white/10 transition-colors"
-            style={{
-              width: `${100 / gridSize}%`,
-              height: `${100 / gridSize}%`,
-              left: `${(j * 100) / gridSize}%`,
-              top: `${(i * 100) / gridSize}%`,
-            }}
-            onClick={() => handleSquareClick(i, j)}
-          />
-        );
-      }
-    }
-
-    return squares;
-  };
-
   return (
     <div className="relative">
       <div
@@ -110,60 +80,18 @@ export function IslandMap({ coordinates }: IslandMapProps) {
             alt="Island Map"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0">{renderGrid()}</div>
+          <MapGrid onSquareClick={handleSquareClick} />
         </div>
       </div>
 
-      {/* Mobile Controls */}
       {isMobile && (
-        <div className="absolute bottom-4 right-4 flex gap-2">
-          <Button
-            variant="secondary"
-            size="icon"
-            className="bg-white/80 dark:bg-pirate-navy/80"
-            onClick={handleZoomIn}
-          >
-            <ZoomIn className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="secondary"
-            size="icon"
-            className="bg-white/80 dark:bg-pirate-navy/80"
-            onClick={handleZoomOut}
-          >
-            <ZoomOut className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="secondary"
-            size="icon"
-            className="bg-white/80 dark:bg-pirate-navy/80"
-          >
-            <Move className="h-4 w-4" />
-          </Button>
-        </div>
+        <MapControls onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
       )}
 
-      <Dialog open={!!selectedSquare} onOpenChange={() => setSelectedSquare(null)}>
-        <DialogContent className="bg-white/95 dark:bg-pirate-navy border-pirate-gold/20">
-          <DialogHeader>
-            <DialogTitle className="font-pirate text-2xl text-pirate-navy dark:text-pirate-gold">
-              Eyo hunter!
-            </DialogTitle>
-          </DialogHeader>
-          <div className="text-center space-y-4">
-            <p className="text-lg text-muted-foreground dark:text-pirate-gold/70">
-              Do ya think the treasure is here? Wanna dig?
-            </p>
-            <Button
-              className="bg-pirate-gold hover:bg-pirate-gold/90 text-pirate-navy font-pirate text-lg"
-              onClick={() => console.log(`Digging at square ${selectedSquare}`)}
-            >
-              <Shovel className="mr-2 h-5 w-5" />
-              Dig Here
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <DigDialog
+        selectedSquare={selectedSquare}
+        onOpenChange={() => setSelectedSquare(null)}
+      />
     </div>
   );
 }
