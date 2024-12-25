@@ -6,7 +6,8 @@ import { ThemeToggle } from "./ThemeToggle";
 import { useToast } from "./ui/use-toast";
 
 export const MenuContent = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isProjectInfoOpen, setProjectInfoOpen] = useState(false);
+  const [isTldrOpen, setTldrOpen] = useState(false);
   const { toast } = useToast();
 
   const handleConnectWallet = () => {
@@ -20,10 +21,10 @@ export const MenuContent = () => {
     <div className="space-y-6">
       <div className="space-y-4">
         <h2 className="font-display text-xl text-apple-gray-700 dark:text-apple-gray-100">
-          TL;DR
+          Project Info
         </h2>
         <div className="space-y-4">
-          <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+          <Collapsible open={isProjectInfoOpen} onOpenChange={setProjectInfoOpen}>
             <div className="text-sm text-muted-foreground">
               <p>
                 Welcome to Epirates, where blockchain meets adventure! Our platform transforms
@@ -44,7 +45,38 @@ export const MenuContent = () => {
                 size="sm"
                 className="mt-2 w-full justify-start"
               >
-                {isOpen ? "Show less" : "Show more..."}
+                {isProjectInfoOpen ? "Show less" : "Show more..."}
+              </Button>
+            </CollapsibleTrigger>
+          </Collapsible>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <h2 className="font-display text-xl text-apple-gray-700 dark:text-apple-gray-100">
+          TL;DR
+        </h2>
+        <div className="space-y-4">
+          <Collapsible open={isTldrOpen} onOpenChange={setTldrOpen}>
+            <div className="text-sm text-muted-foreground">
+              <p>
+                Epirates is a Web3 treasure hunting game that combines real-world exploration
+                with blockchain rewards.
+              </p>
+              <CollapsibleContent>
+                <p className="mt-2">
+                  Find treasures in real locations, solve puzzles, and earn crypto. Perfect
+                  for adventure seekers and crypto enthusiasts!
+                </p>
+              </CollapsibleContent>
+            </div>
+            <CollapsibleTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="mt-2 w-full justify-start"
+              >
+                {isTldrOpen ? "Show less" : "Show more..."}
               </Button>
             </CollapsibleTrigger>
           </Collapsible>

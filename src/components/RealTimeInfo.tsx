@@ -14,39 +14,56 @@ const mockRecentFinds = [
   { id: 3, finder: "Mary Read", island: "Mermaid's Cove", worth: "1.5 ETH", time: "5h ago" },
 ];
 
+const getPositionEmoji = (position: number) => {
+  switch (position) {
+    case 1:
+      return "🥇";
+    case 2:
+      return "🥈";
+    case 3:
+      return "🥉";
+    default:
+      return "";
+  }
+};
+
 export function RealTimeInfo() {
   return (
     <div className="space-y-6">
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="flex items-center gap-2 text-lg font-pirate text-pirate-navy">
-            <DollarSign className="h-5 w-5 text-pirate-gold" />
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <DollarSign className="h-5 w-5 text-apple-accent" />
             Current Prize Pool
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold text-pirate-gold">45.8 ETH</div>
+          <div className="text-2xl font-bold text-apple-accent">45.8 ETH</div>
           <p className="text-sm text-muted-foreground">≈ $98,750 USD</p>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="flex items-center gap-2 text-lg font-pirate text-pirate-navy">
-            <Award className="h-5 w-5 text-pirate-gold" />
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <Award className="h-5 w-5 text-apple-accent" />
             Top Treasure Hunters
           </CardTitle>
         </CardHeader>
         <CardContent>
           <ScrollArea className="h-[300px] pr-4">
             <div className="space-y-6">
-              {mockLeaderboard.map((hunter) => (
-                <div key={hunter.id} className="flex flex-col items-center text-center p-4 rounded-lg bg-background/50">
-                  <div className="font-medium text-lg mb-1">{hunter.name}</div>
-                  <div className="text-sm text-muted-foreground mb-2">
-                    {hunter.finds} finds
+              {mockLeaderboard.map((hunter, index) => (
+                <div key={hunter.id} className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <div className="font-medium">
+                      {hunter.name} <span className="text-muted-foreground">#{index + 1} {getPositionEmoji(index + 1)}</span>
+                    </div>
                   </div>
-                  <div className="text-pirate-gold font-medium">{hunter.worth}</div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">{hunter.finds} finds</span>
+                    <span className="text-apple-accent font-medium">{hunter.worth}</span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -56,8 +73,8 @@ export function RealTimeInfo() {
 
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="flex items-center gap-2 text-lg font-pirate text-pirate-navy">
-            <Sparkles className="h-5 w-5 text-pirate-gold" />
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <Sparkles className="h-5 w-5 text-apple-accent" />
             Recent Finds
           </CardTitle>
         </CardHeader>
@@ -72,7 +89,7 @@ export function RealTimeInfo() {
                   </div>
                   <div className="flex items-center justify-between text-sm">
                     <div className="text-muted-foreground">{find.island}</div>
-                    <div className="text-pirate-gold">{find.worth}</div>
+                    <div className="text-apple-accent">{find.worth}</div>
                   </div>
                 </div>
               ))}
