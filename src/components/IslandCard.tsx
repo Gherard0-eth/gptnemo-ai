@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Compass, MapPin, Skull } from "lucide-react";
+import { Compass, MapPin, Skull, Mountain, Cloud, Anchor, Ghost } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface IslandCardProps {
@@ -18,6 +18,30 @@ export function IslandCard({ id, name, climate, terrain, dangerLevel, imageUrl }
     Medium: "bg-yellow-500",
     High: "bg-red-500",
   }[dangerLevel];
+
+  // Map characteristics to their respective icons
+  const characteristics = [
+    {
+      type: "climate",
+      icon: <Cloud className="w-4 h-4" />,
+      label: climate,
+    },
+    {
+      type: "terrain",
+      icon: <Mountain className="w-4 h-4" />,
+      label: terrain,
+    },
+    {
+      type: "water",
+      icon: <Anchor className="w-4 h-4" />,
+      label: "Cursed Waters",
+    },
+    {
+      type: "ships",
+      icon: <Ghost className="w-4 h-4" />,
+      label: "Ghost Ships",
+    },
+  ];
 
   return (
     <Link to={`/island/${id}`}>
@@ -38,19 +62,20 @@ export function IslandCard({ id, name, climate, terrain, dangerLevel, imageUrl }
           </div>
         </CardHeader>
         <CardContent className="p-4">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-display text-white">{name}</h3>
             <span className="text-sm text-white/70">#{id}</span>
           </div>
-          <div className="flex items-center gap-2 text-sm text-white/70">
-            <div className="flex items-center">
-              <Compass className="w-4 h-4 mr-1" />
-              {climate}
-            </div>
-            <div className="flex items-center">
-              <MapPin className="w-4 h-4 mr-1" />
-              {terrain}
-            </div>
+          <div className="flex flex-wrap gap-2">
+            {characteristics.map((char, index) => (
+              <Badge
+                key={index}
+                variant="secondary"
+                className="bg-white/10 hover:bg-white/20 text-white border border-white/10 transition-colors px-3 py-1.5"
+              >
+                {char.icon}
+              </Badge>
+            ))}
           </div>
         </CardContent>
       </Card>

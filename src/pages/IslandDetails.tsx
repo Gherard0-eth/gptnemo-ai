@@ -105,7 +105,7 @@ export default function IslandDetails() {
           <Link to={`/island/${id}/map`}>
             <Button className="w-full apple-button mb-6">
               <Map className="mr-2 h-5 w-5" />
-              Choose Your Spot to Dig
+              Dig in the Island
             </Button>
           </Link>
 
