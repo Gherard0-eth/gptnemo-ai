@@ -54,69 +54,84 @@ export default function IslandDetails() {
 
   if (!island) return <div>Island not found</div>;
 
+  const dangerColor = {
+    Low: "bg-green-500/20 hover:bg-green-500/30 text-green-500",
+    Medium: "bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-500",
+    High: "bg-red-500/20 hover:bg-red-500/30 text-red-500",
+  }[island.dangerLevel];
+
   return (
-    <div className="min-h-screen bg-background dark:bg-apple-gray-700 transition-colors duration-300">
-      <div className="flex pt-8">
-        {/* Desktop Sidebar */}
-        <div className="hidden md:block w-64 fixed left-0 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-apple-gray-700/50 p-4 border-r border-apple-gray-200/20 dark:border-apple-gray-600/20 overflow-y-auto">
-          <MenuContent />
+    <div className="min-h-screen bg-background dark:bg-apple-gray-700 p-4">
+      <Button
+        variant="ghost"
+        onClick={() => navigate(-1)}
+        className="mb-4 text-apple-gray-700 dark:text-apple-gray-100"
+      >
+        <ArrowLeft className="mr-2 h-5 w-5" />
+        Back to Island Details
+      </Button>
+      
+      <div className="space-y-6 apple-container p-6">
+        <h1 className="text-4xl font-display text-apple-gray-700 dark:text-apple-gray-100">
+          {island.name}
+        </h1>
+        
+        <p className="text-apple-gray-500 dark:text-apple-gray-300">
+          {island.description}
+        </p>
+
+        <div className="flex flex-wrap gap-3 mb-6">
+          {island.characteristics.map((char, index) => (
+            <Badge
+              key={index}
+              variant="secondary"
+              className="bg-apple-gray-100/10 hover:bg-apple-gray-100/20 text-apple-gray-100 
+                       border border-apple-gray-100/10 transition-colors px-3 py-1.5 
+                       flex items-center gap-2"
+            >
+              <char.icon className="w-4 h-4" />
+              <span>{char.label}</span>
+            </Badge>
+          ))}
         </div>
 
-        {/* Main Content */}
-        <main className="flex-1 p-6 md:ml-64">
-          <div className="mb-6">
-            <div className="flex items-center gap-4 mb-6">
-              <Link to="/treasure-islands">
-                <Button variant="outline" className="flex items-center gap-2">
-                  <ArrowLeft className="h-4 w-4" />
-                  Back to Treasure Islands
-                </Button>
-              </Link>
-            </div>
-            
-            <h1 className="text-3xl font-display text-apple-gray-700 dark:text-apple-gray-100">
-              {island.name}
-            </h1>
-            <p className="text-apple-gray-500 dark:text-apple-gray-300 mb-4">{island.description}</p>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {island.characteristics.map((char, index) => (
-                <Badge key={index} variant="secondary" className="flex items-center gap-1 bg-apple-gray-100 dark:bg-apple-gray-600 text-apple-gray-700 dark:text-apple-gray-100">
-                  <char.icon className="w-3 h-3" />
-                  {char.label}
-                </Badge>
-              ))}
-            </div>
-            <div className="grid grid-cols-3 gap-4 mb-6">
-              <div className="text-center">
-                <h3 className="font-display text-lg text-apple-gray-700 dark:text-apple-gray-100">Climate</h3>
-                <p className="text-apple-gray-500 dark:text-apple-gray-300">{island.climate}</p>
-              </div>
-              <div className="text-center">
-                <h3 className="font-display text-lg text-apple-gray-700 dark:text-apple-gray-100">Terrain</h3>
-                <p className="text-apple-gray-500 dark:text-apple-gray-300">{island.terrain}</p>
-              </div>
-              <div className="text-center">
-                <h3 className="font-display text-lg text-apple-gray-700 dark:text-apple-gray-100">Danger Level</h3>
-                <p className="text-apple-gray-500 dark:text-apple-gray-300">{island.dangerLevel}</p>
-              </div>
-            </div>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Badge
+            variant="secondary"
+            className="bg-apple-gray-100/10 hover:bg-apple-gray-100/20 text-apple-gray-100 
+                     border border-apple-gray-100/10 transition-colors px-3 py-2
+                     flex items-center gap-2 justify-center"
+          >
+            <Cloud className="w-4 h-4" />
+            <span>Climate: {island.climate}</span>
+          </Badge>
 
-          <Link to={`/island/${id}/map`}>
-            <Button className="w-full apple-button mb-6">
-              <Map className="mr-2 h-5 w-5" />
-              Dig in the Island
-            </Button>
-          </Link>
+          <Badge
+            variant="secondary"
+            className="bg-apple-gray-100/10 hover:bg-apple-gray-100/20 text-apple-gray-100 
+                     border border-apple-gray-100/10 transition-colors px-3 py-2
+                     flex items-center gap-2 justify-center"
+          >
+            <Mountain className="w-4 h-4" />
+            <span>Terrain: {island.terrain}</span>
+          </Badge>
 
-          <div className="rounded-lg overflow-hidden mb-6">
-            <img
-              src="https://images.unsplash.com/photo-1501854140801-50d01698950b"
-              alt={`${island.name} Map Preview`}
-              className="w-full h-64 object-cover"
-            />
-          </div>
-        </main>
+          <Badge
+            variant="secondary"
+            className={`${dangerColor} border border-current transition-colors px-3 py-2
+                     flex items-center gap-2 justify-center`}
+          >
+            <Skull className="w-4 h-4" />
+            <span>Danger Level: {island.dangerLevel}</span>
+          </Badge>
+        </div>
+
+        <Link to={`/island/${id}/map`}>
+          <Button className="w-full apple-button mt-6">
+            <Map className="mr-2 h-5 w-5" />
+            Dig in the Island
+          </Button>
+        </Link>
       </div>
     </div>
   );

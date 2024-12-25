@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Compass, MapPin, Skull, Mountain, Cloud, Anchor, Ghost } from "lucide-react";
+import { Skull, Mountain, Cloud } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface IslandCardProps {
@@ -18,30 +18,6 @@ export function IslandCard({ id, name, climate, terrain, dangerLevel, imageUrl }
     Medium: "bg-yellow-500",
     High: "bg-red-500",
   }[dangerLevel];
-
-  // Map characteristics to their respective icons and labels
-  const characteristics = [
-    {
-      type: "climate",
-      icon: <Cloud className="w-4 h-4" />,
-      label: climate,
-    },
-    {
-      type: "terrain",
-      icon: <Mountain className="w-4 h-4" />,
-      label: terrain,
-    },
-    {
-      type: "water",
-      icon: <Anchor className="w-4 h-4" />,
-      label: "Cursed Waters",
-    },
-    {
-      type: "ships",
-      icon: <Ghost className="w-4 h-4" />,
-      label: "Ghost Ships",
-    },
-  ];
 
   return (
     <Link to={`/island/${id}`}>
@@ -67,16 +43,20 @@ export function IslandCard({ id, name, climate, terrain, dangerLevel, imageUrl }
             <span className="text-sm text-white/70">#{id}</span>
           </div>
           <div className="flex flex-wrap gap-2">
-            {characteristics.map((char, index) => (
-              <Badge
-                key={index}
-                variant="secondary"
-                className="bg-white/10 hover:bg-white/20 text-white border border-white/10 transition-colors px-3 py-1.5 flex items-center gap-2"
-              >
-                {char.icon}
-                <span>{char.label}</span>
-              </Badge>
-            ))}
+            <Badge
+              variant="secondary"
+              className="bg-white/10 hover:bg-white/20 text-white border border-white/10 transition-colors px-3 py-1.5 flex items-center gap-2"
+            >
+              <Cloud className="w-4 h-4" />
+              {climate}
+            </Badge>
+            <Badge
+              variant="secondary"
+              className="bg-white/10 hover:bg-white/20 text-white border border-white/10 transition-colors px-3 py-1.5 flex items-center gap-2"
+            >
+              <Mountain className="w-4 h-4" />
+              {terrain}
+            </Badge>
           </div>
         </CardContent>
       </Card>
