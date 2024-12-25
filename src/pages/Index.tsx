@@ -32,9 +32,15 @@ const Index = () => {
               </div>
             </div>
 
+            {/* Leaderboard - Desktop */}
             <div className="hidden lg:block">
               <RealTimeInfo />
             </div>
+          </div>
+
+          {/* Leaderboard - Mobile */}
+          <div className="mt-6 lg:hidden">
+            <RealTimeInfo />
           </div>
         </main>
       </div>

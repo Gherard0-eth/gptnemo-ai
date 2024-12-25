@@ -1,12 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Shovel } from "lucide-react";
@@ -20,115 +17,102 @@ interface IslandMapProps {
 
 export function IslandMap({ coordinates }: IslandMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
+  const [scale, setScale] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+
+  const handleWheel = (e: WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? 0.9 : 1.1;
+    setScale((prev) => Math.min(Math.max(prev * delta, 0.5), 3));
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setDragStart({ x: e.clientX - position.x, y: e.clientY - position.y });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDragging) {
+      setPosition({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y,
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleSquareClick = (row: number, col: number) => {
+    setSelectedSquare(`${row}-${col}`);
+  };
 
   useEffect(() => {
-    if (!mapContainer.current) return;
+    const container = mapContainer.current;
+    if (!container) return;
 
-    // Initialize map
-    mapboxgl.accessToken = 'YOUR_MAPBOX_TOKEN'; // Replace with your Mapbox token
-    
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/satellite-v9",
-      center: [coordinates.lng, coordinates.lat],
-      zoom: 15,
-    });
-
-    // Add navigation controls
-    map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
-
-    // Create grid overlay
-    map.current.on("load", () => {
-      // Add grid source
-      const gridSize = 100; // 100x100 grid = 10,000 squares
-      const bounds = map.current!.getBounds();
-      const gridFeatures = [];
-
-      for (let i = 0; i < gridSize; i++) {
-        for (let j = 0; j < gridSize; j++) {
-          const minLng = bounds.getWest() + (bounds.getEast() - bounds.getWest()) * (i / gridSize);
-          const maxLng = bounds.getWest() + (bounds.getEast() - bounds.getWest()) * ((i + 1) / gridSize);
-          const minLat = bounds.getSouth() + (bounds.getNorth() - bounds.getSouth()) * (j / gridSize);
-          const maxLat = bounds.getSouth() + (bounds.getNorth() - bounds.getSouth()) * ((j + 1) / gridSize);
-
-          gridFeatures.push({
-            type: "Feature",
-            properties: {
-              id: `${i}-${j}`,
-            },
-            geometry: {
-              type: "Polygon",
-              coordinates: [[
-                [minLng, minLat],
-                [maxLng, minLat],
-                [maxLng, maxLat],
-                [minLng, maxLat],
-                [minLng, minLat],
-              ]],
-            },
-          });
-        }
-      }
-
-      map.current!.addSource("grid", {
-        type: "geojson",
-        data: {
-          type: "FeatureCollection",
-          features: gridFeatures,
-        },
-      });
-
-      // Add grid layer
-      map.current!.addLayer({
-        id: "grid-fill",
-        type: "fill",
-        source: "grid",
-        layout: {},
-        paint: {
-          "fill-color": "transparent",
-          "fill-opacity": 0.1,
-        },
-      });
-
-      map.current!.addLayer({
-        id: "grid-lines",
-        type: "line",
-        source: "grid",
-        layout: {},
-        paint: {
-          "line-color": "#ffffff",
-          "line-opacity": 0.3,
-          "line-width": 1,
-        },
-      });
-
-      // Add click event
-      map.current!.on("click", "grid-fill", (e) => {
-        if (e.features && e.features[0]) {
-          setSelectedSquare(e.features[0].properties.id);
-        }
-      });
-
-      // Change cursor on hover
-      map.current!.on("mouseenter", "grid-fill", () => {
-        map.current!.getCanvas().style.cursor = "pointer";
-      });
-
-      map.current!.on("mouseleave", "grid-fill", () => {
-        map.current!.getCanvas().style.cursor = "";
-      });
-    });
-
+    container.addEventListener("wheel", handleWheel, { passive: false });
     return () => {
-      map.current?.remove();
+      container.removeEventListener("wheel", handleWheel);
     };
-  }, [coordinates]);
+  }, []);
+
+  const renderGrid = () => {
+    const gridSize = 100; // 100x100 grid = 10,000 squares
+    const squares = [];
+
+    for (let i = 0; i < gridSize; i++) {
+      for (let j = 0; j < gridSize; j++) {
+        squares.push(
+          <div
+            key={`${i}-${j}`}
+            className="absolute border border-white/30 cursor-pointer hover:bg-white/10 transition-colors"
+            style={{
+              width: `${100 / gridSize}%`,
+              height: `${100 / gridSize}%`,
+              left: `${(j * 100) / gridSize}%`,
+              top: `${(i * 100) / gridSize}%`,
+            }}
+            onClick={() => handleSquareClick(i, j)}
+          />
+        );
+      }
+    }
+
+    return squares;
+  };
 
   return (
     <>
-      <div ref={mapContainer} className="w-full h-full" />
+      <div
+        ref={mapContainer}
+        className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing"
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+      >
+        <div
+          className="absolute w-full h-full"
+          style={{
+            transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
+            transformOrigin: "center",
+            transition: isDragging ? "none" : "transform 0.1s ease-out",
+          }}
+        >
+          <img
+            src="https://images.unsplash.com/photo-1501854140801-50d01698950b"
+            alt="Island Map"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0">{renderGrid()}</div>
+        </div>
+      </div>
+
       <Dialog open={!!selectedSquare} onOpenChange={() => setSelectedSquare(null)}>
         <DialogContent className="bg-white/95 dark:bg-pirate-navy border-pirate-gold/20">
           <DialogHeader>
