@@ -6,7 +6,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Shovel } from "lucide-react";
+import { Shovel, ZoomIn, ZoomOut, Move } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface IslandMapProps {
   coordinates: {
@@ -18,28 +19,34 @@ interface IslandMapProps {
 export function IslandMap({ coordinates }: IslandMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
-  const [isExpanded, setIsExpanded] = useState(false);
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const isMobile = useIsMobile();
 
-  const handleWheel = (e: WheelEvent) => {
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? 0.9 : 1.1;
-    setScale((prev) => Math.min(Math.max(prev * delta, 0.5), 3));
+  const handleZoomIn = () => {
+    setScale((prev) => Math.min(prev * 1.2, 3));
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const handleZoomOut = () => {
+    setScale((prev) => Math.max(prev * 0.8, 0.5));
+  };
+
+  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     setIsDragging(true);
-    setDragStart({ x: e.clientX - position.x, y: e.clientY - position.y });
+    const clientX = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
+    setDragStart({ x: clientX - position.x, y: clientY - position.y });
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (isDragging) {
+      const clientX = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
+      const clientY = 'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
       setPosition({
-        x: e.clientX - dragStart.x,
-        y: e.clientY - dragStart.y,
+        x: clientX - dragStart.x,
+        y: clientY - dragStart.y,
       });
     }
   };
@@ -52,18 +59,8 @@ export function IslandMap({ coordinates }: IslandMapProps) {
     setSelectedSquare(`${row}-${col}`);
   };
 
-  useEffect(() => {
-    const container = mapContainer.current;
-    if (!container) return;
-
-    container.addEventListener("wheel", handleWheel, { passive: false });
-    return () => {
-      container.removeEventListener("wheel", handleWheel);
-    };
-  }, []);
-
   const renderGrid = () => {
-    const gridSize = 100; // 100x100 grid = 10,000 squares
+    const gridSize = 100;
     const squares = [];
 
     for (let i = 0; i < gridSize; i++) {
@@ -88,15 +85,17 @@ export function IslandMap({ coordinates }: IslandMapProps) {
   };
 
   return (
-    <>
+    <div className="relative">
       <div
         ref={mapContainer}
-        className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing"
-        onClick={() => !isDragging && setIsExpanded(true)}
+        className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing rounded-lg"
         onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
+        onMouseMove={handleMouseMove as any}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
+        onTouchStart={handleMouseDown}
+        onTouchMove={handleMouseMove as any}
+        onTouchEnd={handleMouseUp}
       >
         <div
           className="absolute w-full h-full"
@@ -114,6 +113,35 @@ export function IslandMap({ coordinates }: IslandMapProps) {
           <div className="absolute inset-0">{renderGrid()}</div>
         </div>
       </div>
+
+      {/* Mobile Controls */}
+      {isMobile && (
+        <div className="absolute bottom-4 right-4 flex gap-2">
+          <Button
+            variant="secondary"
+            size="icon"
+            className="bg-white/80 dark:bg-pirate-navy/80"
+            onClick={handleZoomIn}
+          >
+            <ZoomIn className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="secondary"
+            size="icon"
+            className="bg-white/80 dark:bg-pirate-navy/80"
+            onClick={handleZoomOut}
+          >
+            <ZoomOut className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="secondary"
+            size="icon"
+            className="bg-white/80 dark:bg-pirate-navy/80"
+          >
+            <Move className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
 
       <Dialog open={!!selectedSquare} onOpenChange={() => setSelectedSquare(null)}>
         <DialogContent className="bg-white/95 dark:bg-pirate-navy border-pirate-gold/20">
@@ -136,6 +164,6 @@ export function IslandMap({ coordinates }: IslandMapProps) {
           </div>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 }

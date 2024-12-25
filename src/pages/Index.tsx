@@ -4,7 +4,7 @@ import { Header } from "@/components/Header";
 import { MenuContent } from "@/components/MenuContent";
 import { PrizePoolBanner } from "@/components/PrizePoolBanner";
 import { Button } from "@/components/ui/button";
-import { Map } from "lucide-react";
+import { Map, Compass, Skull, Ship } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -34,18 +34,23 @@ const Index = () => {
 
               {/* Treasure Islands Link Section */}
               <div className="p-6 bg-white/50 dark:bg-pirate-navy/50 rounded-lg border border-pirate-gold/20">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col items-center text-center space-y-4">
+                  <div className="flex gap-4 mb-2">
+                    <Ship className="h-6 w-6 text-pirate-gold animate-float" />
+                    <Compass className="h-6 w-6 text-pirate-ocean animate-float" />
+                    <Skull className="h-6 w-6 text-pirate-brown animate-float" />
+                  </div>
                   <div>
                     <h2 className="text-2xl font-pirate text-pirate-navy dark:text-pirate-gold mb-2">
                       Explore Treasure Islands
                     </h2>
-                    <p className="text-muted-foreground dark:text-pirate-gold/70">
-                      Discover mysterious islands and hunt for hidden treasures
+                    <p className="text-muted-foreground dark:text-pirate-gold/70 mb-4">
+                      Discover mysterious islands and hunt for hidden treasures in our vast ocean of opportunities
                     </p>
                   </div>
-                  <Link to="/treasure-islands">
-                    <Button className="bg-pirate-gold hover:bg-pirate-gold/90 text-pirate-navy">
-                      <Map className="mr-2 h-4 w-4" />
+                  <Link to="/treasure-islands" className="w-full sm:w-auto">
+                    <Button className="w-full sm:w-auto bg-pirate-gold hover:bg-pirate-gold/90 text-pirate-navy font-pirate text-lg">
+                      <Map className="mr-2 h-5 w-5" />
                       View Islands
                     </Button>
                   </Link>
