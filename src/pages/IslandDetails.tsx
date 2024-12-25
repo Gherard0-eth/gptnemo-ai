@@ -1,10 +1,25 @@
 import { Button } from "@/components/ui/button";
-import { Map, ArrowLeft } from "lucide-react";
+import { Map, ArrowLeft, Mountain, Cloud, Anchor, Skull } from "lucide-react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { IslandCharacteristics } from "@/components/island/IslandCharacteristics";
 import { IslandStats } from "@/components/island/IslandStats";
 
-const islandData = {
+type DangerLevel = "Low" | "Medium" | "High";
+
+interface Island {
+  name: string;
+  description: string;
+  climate: string;
+  terrain: string;
+  dangerLevel: DangerLevel;
+  coordinates: { lat: number; lng: number };
+  characteristics: Array<{
+    label: string;
+    icon: LucideIcon;
+  }>;
+}
+
+const islandData: Record<string, Island> = {
   "001": {
     name: "Skull's Haven",
     description: "A treacherous volcanic island shrouded in mystery. Ancient legends speak of a cursed treasure hidden within its depths, guarded by restless spirits of fallen pirates.",
