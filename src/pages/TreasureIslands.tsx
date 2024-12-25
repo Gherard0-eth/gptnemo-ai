@@ -1,5 +1,7 @@
 import { FilterSidebar } from "@/components/FilterSidebar";
 import { IslandCard } from "@/components/IslandCard";
+import { Header } from "@/components/Header";
+import { MenuContent } from "@/components/MenuContent";
 
 // Mock data for initial display
 const mockIslands = [
@@ -31,24 +33,38 @@ const mockIslands = [
 
 const TreasureIslands = () => {
   return (
-    <div className="flex min-h-screen bg-background">
-      <FilterSidebar />
-      <main className="flex-1 p-6">
-        <div className="mb-6">
-          <h1 className="text-4xl font-pirate text-pirate-navy mb-2">
-            Treasure Islands
-          </h1>
-          <p className="text-muted-foreground">
-            Explore mysterious islands and uncover hidden treasures
-          </p>
+    <div className="min-h-screen bg-background dark:bg-pirate-navy transition-colors duration-300">
+      <Header />
+      
+      <div className="flex pt-16">
+        {/* Desktop Navigation Sidebar */}
+        <div className="hidden md:block w-64 fixed left-0 top-16 h-[calc(100vh-4rem)] bg-white/95 dark:bg-pirate-navy/50 p-4 border-r border-pirate-gold/20 overflow-y-auto">
+          <MenuContent />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {mockIslands.map((island) => (
-            <IslandCard key={island.id} {...island} />
-          ))}
+        {/* Filter Sidebar */}
+        <div className="hidden lg:block w-64 fixed left-64 top-16 h-[calc(100vh-4rem)] bg-white/95 dark:bg-pirate-navy/50 p-4 border-r border-pirate-gold/20 overflow-y-auto">
+          <FilterSidebar />
         </div>
-      </main>
+
+        {/* Main Content */}
+        <main className="flex-1 p-6 md:ml-64 lg:ml-[32rem]">
+          <div className="mb-6">
+            <h1 className="text-4xl font-pirate text-pirate-navy dark:text-pirate-gold mb-2">
+              Treasure Islands
+            </h1>
+            <p className="text-muted-foreground dark:text-pirate-gold/70">
+              Explore mysterious islands and uncover hidden treasures
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {mockIslands.map((island) => (
+              <IslandCard key={island.id} {...island} />
+            ))}
+          </div>
+        </main>
+      </div>
     </div>
   );
 };
