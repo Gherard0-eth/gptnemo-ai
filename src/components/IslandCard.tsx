@@ -19,7 +19,7 @@ export function IslandCard({ id, name, climate, terrain, dangerLevel, imageUrl }
     High: "bg-red-500",
   }[dangerLevel];
 
-  // Map characteristics to their respective icons
+  // Map characteristics to their respective icons and labels
   const characteristics = [
     {
       type: "climate",
@@ -71,9 +71,10 @@ export function IslandCard({ id, name, climate, terrain, dangerLevel, imageUrl }
               <Badge
                 key={index}
                 variant="secondary"
-                className="bg-white/10 hover:bg-white/20 text-white border border-white/10 transition-colors px-3 py-1.5"
+                className="bg-white/10 hover:bg-white/20 text-white border border-white/10 transition-colors px-3 py-1.5 flex items-center gap-2"
               >
                 {char.icon}
+                <span>{char.label}</span>
               </Badge>
             ))}
           </div>
