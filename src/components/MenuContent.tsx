@@ -12,12 +12,12 @@ export const MenuContent = () => {
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h2 className="font-pirate text-xl text-pirate-navy dark:text-pirate-gold">
+        <h2 className="font-display text-xl text-apple-gray-700 dark:text-apple-gray-100">
           About Epirates
         </h2>
         <div className="space-y-4">
           <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-            <div className="text-sm text-muted-foreground dark:text-pirate-gold/70">
+            <div className="text-sm text-muted-foreground">
               <p>
                 Welcome to Epirates, where blockchain meets adventure! Our platform transforms
                 treasure hunting into an exciting Web3 experience.
@@ -35,7 +35,7 @@ export const MenuContent = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                className="mt-2 w-full justify-start dark:text-pirate-gold/70"
+                className="mt-2 w-full justify-start"
               >
                 {isOpen ? "Show less" : "Show more..."}
               </Button>
@@ -54,13 +54,13 @@ export const MenuContent = () => {
       </div>
 
       <div className="space-y-2">
-        <h2 className="font-pirate text-xl text-pirate-navy dark:text-pirate-gold mb-4">
+        <h2 className="font-display text-xl text-apple-gray-700 dark:text-apple-gray-100 mb-4">
           Social Links
         </h2>
         <div className="flex gap-4">
           <Button 
             variant="outline" 
-            className="flex-1 border-pirate-gold/10 dark:text-pirate-gold/70 hover:border-pirate-gold/30" 
+            className="flex-1" 
             asChild
           >
             <a href="https://github.com/your-repo" target="_blank" rel="noopener noreferrer">
@@ -70,7 +70,7 @@ export const MenuContent = () => {
           </Button>
           <Button 
             variant="outline" 
-            className="flex-1 border-pirate-gold/10 dark:text-pirate-gold/70 hover:border-pirate-gold/30" 
+            className="flex-1" 
             asChild
           >
             <a href="https://twitter.com/your-handle" target="_blank" rel="noopener noreferrer">
@@ -82,7 +82,11 @@ export const MenuContent = () => {
       </div>
 
       <div className="pt-4 border-t border-border">
-        <ThemeToggle className="w-full justify-start" />
+        <Button variant="ghost" className="w-full justify-start" asChild>
+          <div>
+            <ThemeToggle />
+          </div>
+        </Button>
       </div>
     </div>
   );
