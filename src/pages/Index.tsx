@@ -11,9 +11,11 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background dark:bg-pirate-navy transition-colors duration-300">
       <Header />
-      <PrizePoolBanner />
+      <div className="pt-16">
+        <PrizePoolBanner />
+      </div>
       
-      <div className="flex pt-32">
+      <div className="flex pt-8">
         {/* Desktop Sidebar */}
         <div className="hidden md:block w-64 fixed left-0 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-pirate-navy/50 p-4 border-r border-pirate-gold/20 overflow-y-auto">
           <MenuContent />
