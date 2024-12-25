@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Github, Twitter } from "lucide-react";
+import { Github, Twitter, Wallet } from "lucide-react";
 import { Button } from "./ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { ThemeToggle } from "./ThemeToggle";
-import { ConnectKitButton } from "./Web3Provider";
 import { Link } from "react-router-dom";
 
 export const MenuContent = () => {
@@ -45,7 +44,10 @@ export const MenuContent = () => {
       </div>
 
       <div className="space-y-4">
-        <ConnectKitButton />
+        <Button variant="outline" className="w-full" onClick={() => alert("Connect Wallet functionality coming soon!")}>
+          <Wallet className="mr-2 h-4 w-4" />
+          Connect Wallet
+        </Button>
         <Link to="/profile">
           <Button variant="outline" className="w-full">
             View Profile
