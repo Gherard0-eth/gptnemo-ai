@@ -3,16 +3,24 @@ import { Github, Twitter, Wallet } from "lucide-react";
 import { Button } from "./ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { ThemeToggle } from "./ThemeToggle";
-import { Link } from "react-router-dom";
+import { useToast } from "./ui/use-toast";
 
 export const MenuContent = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { toast } = useToast();
+
+  const handleConnectWallet = () => {
+    toast({
+      title: "Coming Soon",
+      description: "Wallet connection functionality will be available soon!",
+    });
+  };
 
   return (
     <div className="space-y-6">
       <div className="space-y-4">
         <h2 className="font-display text-xl text-apple-gray-700 dark:text-apple-gray-100">
-          About Epirates
+          TL;DR
         </h2>
         <div className="space-y-4">
           <Collapsible open={isOpen} onOpenChange={setIsOpen}>
@@ -44,15 +52,10 @@ export const MenuContent = () => {
       </div>
 
       <div className="space-y-4">
-        <Button variant="outline" className="w-full" onClick={() => alert("Connect Wallet functionality coming soon!")}>
+        <Button variant="outline" className="w-full" onClick={handleConnectWallet}>
           <Wallet className="mr-2 h-4 w-4" />
           Connect Wallet
         </Button>
-        <Link to="/profile">
-          <Button variant="outline" className="w-full">
-            View Profile
-          </Button>
-        </Link>
       </div>
 
       <div className="space-y-2">

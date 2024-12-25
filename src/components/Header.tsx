@@ -1,7 +1,6 @@
 import { Menu, Compass, Map, Skull, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
-import { ThemeToggle } from "./ThemeToggle";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { MenuContent } from "./MenuContent";
 import { useToast } from "./ui/use-toast";
@@ -55,7 +54,6 @@ export const Header = () => {
             <Wallet className="h-4 w-4" />
             <span>Connect Wallet</span>
           </Button>
-          <ThemeToggle />
         </div>
       </div>
     </header>

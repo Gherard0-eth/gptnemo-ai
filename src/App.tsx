@@ -10,7 +10,6 @@ import Index from "./pages/Index";
 import TreasureIslands from "./pages/TreasureIslands";
 import IslandDetails from "./pages/IslandDetails";
 import IslandMapPage from "./pages/IslandMap";
-import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -33,7 +32,6 @@ const App = () => (
                   <Route path="/treasure-islands" element={<TreasureIslands />} />
                   <Route path="/island/:id" element={<IslandDetails />} />
                   <Route path="/island/:id/map" element={<IslandMapPage />} />
-                  <Route path="/profile" element={<Profile />} />
                 </Routes>
               </main>
             </div>
