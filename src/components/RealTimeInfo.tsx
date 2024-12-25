@@ -57,7 +57,11 @@ export function RealTimeInfo() {
                 <div key={hunter.id} className="space-y-1">
                   <div className="flex items-center justify-between">
                     <div className="font-medium">
-                      {hunter.name} <span className="text-muted-foreground">#{index + 1} {getPositionEmoji(index + 1)}</span>
+                      {hunter.name}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-muted-foreground">#{index + 1}</span>
+                      <span>{getPositionEmoji(index + 1)}</span>
                     </div>
                   </div>
                   <div className="flex items-center justify-between text-sm">
