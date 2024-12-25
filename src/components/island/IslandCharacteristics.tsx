@@ -17,9 +17,9 @@ export function IslandCharacteristics({ characteristics }: IslandCharacteristics
         <Badge
           key={index}
           variant="secondary"
-          className="bg-apple-gray-100/10 hover:bg-apple-gray-100/20 text-apple-gray-100 
-                   border border-apple-gray-100/10 transition-colors px-3 py-1.5 
-                   flex items-center gap-2"
+          className="bg-apple-gray-700/40 hover:bg-apple-gray-700/60 text-apple-gray-100 
+                   border-none transition-colors px-3 py-1.5 
+                   flex items-center gap-2 rounded-full"
         >
           <char.icon className="w-4 h-4" />
           <span>{char.label}</span>
