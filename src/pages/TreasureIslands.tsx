@@ -2,8 +2,11 @@ import { FilterSidebar } from "@/components/FilterSidebar";
 import { IslandCard } from "@/components/IslandCard";
 import { Header } from "@/components/Header";
 import { MenuContent } from "@/components/MenuContent";
+import { PrizePoolBanner } from "@/components/PrizePoolBanner";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Filter } from "lucide-react";
 
-// Mock data for initial display
 const mockIslands = [
   {
     id: "001",
@@ -35,6 +38,7 @@ const TreasureIslands = () => {
   return (
     <div className="min-h-screen bg-background dark:bg-pirate-navy transition-colors duration-300">
       <Header />
+      <PrizePoolBanner />
       
       <div className="flex pt-16">
         {/* Desktop Navigation Sidebar */}
@@ -42,13 +46,28 @@ const TreasureIslands = () => {
           <MenuContent />
         </div>
 
-        {/* Filter Sidebar */}
+        {/* Filter Sidebar - Desktop */}
         <div className="hidden lg:block w-64 fixed left-64 top-16 h-[calc(100vh-4rem)] bg-white/95 dark:bg-pirate-navy/50 p-4 border-r border-pirate-gold/20 overflow-y-auto">
           <FilterSidebar />
         </div>
 
         {/* Main Content */}
         <main className="flex-1 p-6 md:ml-64 lg:ml-[32rem]">
+          {/* Mobile Filter Button */}
+          <div className="lg:hidden mb-6">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" className="w-full">
+                  <Filter className="mr-2 h-4 w-4" />
+                  Filters
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px]">
+                <FilterSidebar />
+              </SheetContent>
+            </Sheet>
+          </div>
+
           <div className="mb-6">
             <h1 className="text-4xl font-pirate text-pirate-navy dark:text-pirate-gold mb-2">
               Treasure Islands

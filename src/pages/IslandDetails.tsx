@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { MenuContent } from "@/components/MenuContent";
 import { IslandMap } from "@/components/IslandMap";
+import { PrizePoolBanner } from "@/components/PrizePoolBanner";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Anchor, Cloud, Mountain, Skull } from "lucide-react";
@@ -59,6 +60,7 @@ export default function IslandDetails() {
   return (
     <div className="min-h-screen bg-background dark:bg-pirate-navy transition-colors duration-300">
       <Header />
+      <PrizePoolBanner />
       
       <div className="flex pt-16">
         {/* Desktop Sidebar */}
@@ -108,4 +110,4 @@ export default function IslandDetails() {
       </div>
     </div>
   );
-}
+};

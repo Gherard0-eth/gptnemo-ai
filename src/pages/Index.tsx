@@ -2,11 +2,13 @@ import { PirateChat } from "@/components/PirateChat";
 import { RealTimeInfo } from "@/components/RealTimeInfo";
 import { Header } from "@/components/Header";
 import { MenuContent } from "@/components/MenuContent";
+import { PrizePoolBanner } from "@/components/PrizePoolBanner";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background dark:bg-pirate-navy transition-colors duration-300">
       <Header />
+      <PrizePoolBanner />
       
       <div className="flex pt-16">
         {/* Desktop Sidebar */}

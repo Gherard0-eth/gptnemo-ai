@@ -18,6 +18,7 @@ interface IslandMapProps {
 export function IslandMap({ coordinates }: IslandMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [scale, setScale] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -91,6 +92,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
       <div
         ref={mapContainer}
         className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing"
+        onClick={() => !isDragging && setIsExpanded(true)}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
