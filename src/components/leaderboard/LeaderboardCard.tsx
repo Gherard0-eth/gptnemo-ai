@@ -19,7 +19,7 @@ export const LeaderboardCard = () => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[300px] pr-4">
+        <ScrollArea className="h-[180px] pr-4">
           <div className="space-y-6">
             {mockLeaderboard.map((hunter, index) => (
               <LeaderboardEntry

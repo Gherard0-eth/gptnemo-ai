@@ -19,7 +19,7 @@ export const RecentFindsCard = () => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[200px] pr-4">
+        <ScrollArea className="h-[160px] pr-4">
           <div className="space-y-4">
             {mockRecentFinds.map((find) => (
               <RecentFindEntry key={find.id} find={find} />
