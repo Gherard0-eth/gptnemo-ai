@@ -24,7 +24,7 @@ const App = () => (
             <div className="min-h-screen backdrop-blur-sm bg-white/30 dark:bg-black/30">
               <Header />
               <main className="flex flex-col">
-                <div className="mt-16">
+                <div className="mt-8">
                   <PrizePoolBanner />
                 </div>
                 <Routes>
