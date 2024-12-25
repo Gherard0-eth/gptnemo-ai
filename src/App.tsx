@@ -19,18 +19,20 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <div className="min-h-screen bg-background dark:bg-pirate-navy transition-colors duration-300">
-            <Header />
-            <main className="flex flex-col">
-              <div className="mt-16">
-                <PrizePoolBanner />
-              </div>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/treasure-islands" element={<TreasureIslands />} />
-                <Route path="/island/:id" element={<IslandDetails />} />
-              </Routes>
-            </main>
+          <div className="min-h-screen bg-[url('https://images.unsplash.com/photo-1501854140801-50d01698950b')] bg-cover bg-fixed bg-center dark:bg-pirate-navy transition-colors duration-300">
+            <div className="min-h-screen backdrop-blur-sm bg-white/30 dark:bg-pirate-navy/30">
+              <Header />
+              <main className="flex flex-col">
+                <div className="mt-16">
+                  <PrizePoolBanner />
+                </div>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/treasure-islands" element={<TreasureIslands />} />
+                  <Route path="/island/:id" element={<IslandDetails />} />
+                </Routes>
+              </main>
+            </div>
           </div>
         </BrowserRouter>
       </TooltipProvider>

@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Pirata+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -26,7 +26,7 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    --radius: 0;
   }
  
   * {
@@ -57,5 +57,38 @@
     border-image-source: linear-gradient(to right, currentColor 2px, transparent 2px) 2;
     border-image-slice: 2;
     image-rendering: pixelated;
+  }
+
+  /* Minecraft-style scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #2c2c2c;
+    border: 2px solid #3d3d3d;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #5d5d5d;
+    border: 2px solid #3d3d3d;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #717171;
+  }
+}
+
+@layer components {
+  .minecraft-button {
+    @apply bg-pirate-wood text-white px-4 py-2 border-b-4 border-pirate-brown hover:border-b-2 hover:mt-0.5 transition-all duration-100 font-pirate;
+  }
+
+  .minecraft-container {
+    @apply bg-white/90 dark:bg-pirate-navy/90 backdrop-blur-sm border-2 border-pirate-gold/20 rounded-none shadow-lg;
+  }
+
+  .minecraft-text {
+    @apply font-pirate text-lg leading-relaxed;
   }
 }
