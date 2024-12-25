@@ -54,11 +54,17 @@ export function IslandMap({ coordinates }: IslandMapProps) {
     setSelectedSquare(`${row}-${col}`);
   };
 
+  // Reset position and scale when component mounts
+  useEffect(() => {
+    setPosition({ x: 0, y: 0 });
+    setScale(1);
+  }, []);
+
   return (
-    <div className="relative">
+    <div className="relative w-full h-full">
       <div
         ref={mapContainer}
-        className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing rounded-lg"
+        className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing rounded-lg touch-none"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove as any}
         onMouseUp={handleMouseUp}
@@ -84,9 +90,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
         </div>
       </div>
 
-      {isMobile && (
-        <MapControls onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
-      )}
+      <MapControls onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
 
       <DigDialog
         selectedSquare={selectedSquare}
