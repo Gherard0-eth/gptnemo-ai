@@ -1,9 +1,8 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Mountain, Cloud, Anchor, Skull, Map, ArrowLeft } from "lucide-react";
+import { Map, ArrowLeft } from "lucide-react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { MenuContent } from "@/components/MenuContent";
+import { IslandCharacteristics } from "@/components/island/IslandCharacteristics";
+import { IslandStats } from "@/components/island/IslandStats";
 
 const islandData = {
   "001": {
@@ -55,12 +54,6 @@ export default function IslandDetails() {
 
   if (!island) return <div>Island not found</div>;
 
-  const dangerColor = {
-    Low: "bg-green-500/20 hover:bg-green-500/30 text-green-500",
-    Medium: "bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-500",
-    High: "bg-red-500/20 hover:bg-red-500/30 text-red-500",
-  }[island.dangerLevel];
-
   return (
     <div className="min-h-screen bg-background dark:bg-apple-gray-700 p-4">
       <Button
@@ -81,51 +74,13 @@ export default function IslandDetails() {
           {island.description}
         </p>
 
-        <div className="flex flex-wrap gap-3 mb-6">
-          {island.characteristics.map((char, index) => (
-            <Badge
-              key={index}
-              variant="secondary"
-              className="bg-apple-gray-100/10 hover:bg-apple-gray-100/20 text-apple-gray-100 
-                       border border-apple-gray-100/10 transition-colors px-3 py-1.5 
-                       flex items-center gap-2"
-            >
-              <char.icon className="w-4 h-4" />
-              <span>{char.label}</span>
-            </Badge>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Badge
-            variant="secondary"
-            className="bg-apple-gray-100/10 hover:bg-apple-gray-100/20 text-apple-gray-100 
-                     border border-apple-gray-100/10 transition-colors px-3 py-2
-                     flex items-center gap-2 justify-center"
-          >
-            <Cloud className="w-4 h-4" />
-            <span>Climate: {island.climate}</span>
-          </Badge>
-
-          <Badge
-            variant="secondary"
-            className="bg-apple-gray-100/10 hover:bg-apple-gray-100/20 text-apple-gray-100 
-                     border border-apple-gray-100/10 transition-colors px-3 py-2
-                     flex items-center gap-2 justify-center"
-          >
-            <Mountain className="w-4 h-4" />
-            <span>Terrain: {island.terrain}</span>
-          </Badge>
-
-          <Badge
-            variant="secondary"
-            className={`${dangerColor} border border-current transition-colors px-3 py-2
-                     flex items-center gap-2 justify-center`}
-          >
-            <Skull className="w-4 h-4" />
-            <span>Danger Level: {island.dangerLevel}</span>
-          </Badge>
-        </div>
+        <IslandCharacteristics characteristics={island.characteristics} />
+        
+        <IslandStats
+          climate={island.climate}
+          terrain={island.terrain}
+          dangerLevel={island.dangerLevel}
+        />
 
         <Link to={`/island/${id}/map`}>
           <Button className="w-full apple-button mt-6">
