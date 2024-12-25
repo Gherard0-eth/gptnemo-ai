@@ -1,11 +1,10 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { IslandMap } from "@/components/IslandMap";
+import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { MenuContent } from "@/components/MenuContent";
-import { Mountain, Cloud, Anchor, Skull } from "lucide-react";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Mountain, Cloud, Anchor, Skull, Map } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
 
 const islandData = {
   "001": {
@@ -53,28 +52,27 @@ const islandData = {
 export default function IslandDetails() {
   const { id } = useParams();
   const island = islandData[id as keyof typeof islandData];
-  const [isMapExpanded, setIsMapExpanded] = useState(false);
 
   if (!island) return <div>Island not found</div>;
 
   return (
-    <div className="min-h-screen bg-background dark:bg-pirate-navy transition-colors duration-300">
+    <div className="min-h-screen bg-background dark:bg-apple-gray-700 transition-colors duration-300">
       <div className="flex pt-8">
         {/* Desktop Sidebar */}
-        <div className="hidden md:block w-64 fixed left-0 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-pirate-navy/50 p-4 border-r border-pirate-gold/20 overflow-y-auto">
+        <div className="hidden md:block w-64 fixed left-0 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-apple-gray-700/50 p-4 border-r border-apple-gray-200/20 dark:border-apple-gray-600/20 overflow-y-auto">
           <MenuContent />
         </div>
 
         {/* Main Content */}
         <main className="flex-1 p-6 md:ml-64">
           <div className="mb-6">
-            <h1 className="text-3xl font-pirate text-pirate-navy dark:text-pirate-gold">
+            <h1 className="text-3xl font-display text-apple-gray-700 dark:text-apple-gray-100">
               {island.name}
             </h1>
-            <p className="text-muted-foreground mb-4">{island.description}</p>
+            <p className="text-apple-gray-500 dark:text-apple-gray-300 mb-4">{island.description}</p>
             <div className="flex flex-wrap gap-2 mb-4">
               {island.characteristics.map((char, index) => (
-                <Badge key={index} variant="secondary" className="flex items-center gap-1">
+                <Badge key={index} variant="secondary" className="flex items-center gap-1 bg-apple-gray-100 dark:bg-apple-gray-600 text-apple-gray-700 dark:text-apple-gray-100">
                   <char.icon className="w-3 h-3" />
                   {char.label}
                 </Badge>
@@ -82,34 +80,26 @@ export default function IslandDetails() {
             </div>
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="text-center">
-                <h3 className="font-pirate text-lg text-pirate-navy dark:text-pirate-gold">Climate</h3>
-                <p className="text-muted-foreground">{island.climate}</p>
+                <h3 className="font-display text-lg text-apple-gray-700 dark:text-apple-gray-100">Climate</h3>
+                <p className="text-apple-gray-500 dark:text-apple-gray-300">{island.climate}</p>
               </div>
               <div className="text-center">
-                <h3 className="font-pirate text-lg text-pirate-navy dark:text-pirate-gold">Terrain</h3>
-                <p className="text-muted-foreground">{island.terrain}</p>
+                <h3 className="font-display text-lg text-apple-gray-700 dark:text-apple-gray-100">Terrain</h3>
+                <p className="text-apple-gray-500 dark:text-apple-gray-300">{island.terrain}</p>
               </div>
               <div className="text-center">
-                <h3 className="font-pirate text-lg text-pirate-navy dark:text-pirate-gold">Danger Level</h3>
-                <p className="text-muted-foreground">{island.dangerLevel}</p>
+                <h3 className="font-display text-lg text-apple-gray-700 dark:text-apple-gray-100">Danger Level</h3>
+                <p className="text-apple-gray-500 dark:text-apple-gray-300">{island.dangerLevel}</p>
               </div>
             </div>
           </div>
 
-          <div 
-            className="h-[600px] rounded-lg overflow-hidden cursor-pointer"
-            onClick={() => setIsMapExpanded(true)}
-          >
-            <IslandMap coordinates={island.coordinates} />
-          </div>
-
-          <Dialog open={isMapExpanded} onOpenChange={setIsMapExpanded}>
-            <DialogContent className="max-w-[95vw] w-[1200px] h-[90vh]">
-              <div className="w-full h-full">
-                <IslandMap coordinates={island.coordinates} />
-              </div>
-            </DialogContent>
-          </Dialog>
+          <Link to={`/island/${id}/map`}>
+            <Button className="w-full apple-button">
+              <Map className="mr-2 h-5 w-5" />
+              View Island Map
+            </Button>
+          </Link>
         </main>
       </div>
     </div>
