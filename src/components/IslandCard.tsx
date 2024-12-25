@@ -21,7 +21,7 @@ export function IslandCard({ id, name, climate, terrain, dangerLevel, imageUrl }
 
   return (
     <Link to={`/island/${id}`}>
-      <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer">
+      <Card className="group hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer bg-gradient-to-br from-black/60 to-black/40 backdrop-blur-sm">
         <CardHeader className="p-0">
           <div className="relative h-48 overflow-hidden">
             <img
@@ -39,10 +39,10 @@ export function IslandCard({ id, name, climate, terrain, dangerLevel, imageUrl }
         </CardHeader>
         <CardContent className="p-4">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-lg font-pirate text-pirate-navy dark:text-pirate-gold">{name}</h3>
-            <span className="text-sm text-muted-foreground">#{id}</span>
+            <h3 className="text-lg font-display text-white">{name}</h3>
+            <span className="text-sm text-white/70">#{id}</span>
           </div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2 text-sm text-white/70">
             <div className="flex items-center">
               <Compass className="w-4 h-4 mr-1" />
               {climate}
