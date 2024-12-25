@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
+import { Header } from "@/components/Header";
+import { PrizePoolBanner } from "@/components/PrizePoolBanner";
 import Index from "./pages/Index";
 import TreasureIslands from "./pages/TreasureIslands";
 import IslandDetails from "./pages/IslandDetails";
@@ -17,11 +19,17 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/treasure-islands" element={<TreasureIslands />} />
-            <Route path="/island/:id" element={<IslandDetails />} />
-          </Routes>
+          <div className="min-h-screen bg-background dark:bg-pirate-navy transition-colors duration-300">
+            <Header />
+            <div className="pt-16">
+              <PrizePoolBanner />
+            </div>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/treasure-islands" element={<TreasureIslands />} />
+              <Route path="/island/:id" element={<IslandDetails />} />
+            </Routes>
+          </div>
         </BrowserRouter>
       </TooltipProvider>
     </ThemeProvider>
