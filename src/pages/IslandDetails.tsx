@@ -1,9 +1,7 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Header } from "@/components/Header";
-import { MenuContent } from "@/components/MenuContent";
-import { Mountain, Cloud, Anchor, Skull, Map } from "lucide-react";
+import { Mountain, Cloud, Anchor, Skull, Map, ArrowLeft } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 
 const islandData = {
@@ -66,6 +64,15 @@ export default function IslandDetails() {
         {/* Main Content */}
         <main className="flex-1 p-6 md:ml-64">
           <div className="mb-6">
+            <div className="flex items-center gap-4 mb-6">
+              <Link to="/treasure-islands">
+                <Button variant="outline" className="flex items-center gap-2">
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to Treasure Islands
+                </Button>
+              </Link>
+            </div>
+            
             <h1 className="text-3xl font-display text-apple-gray-700 dark:text-apple-gray-100">
               {island.name}
             </h1>
@@ -95,11 +102,19 @@ export default function IslandDetails() {
           </div>
 
           <Link to={`/island/${id}/map`}>
-            <Button className="w-full apple-button">
+            <Button className="w-full apple-button mb-6">
               <Map className="mr-2 h-5 w-5" />
-              View Island Map
+              Choose Your Spot to Dig
             </Button>
           </Link>
+
+          <div className="rounded-lg overflow-hidden mb-6">
+            <img
+              src="https://images.unsplash.com/photo-1501854140801-50d01698950b"
+              alt={`${island.name} Map Preview`}
+              className="w-full h-64 object-cover"
+            />
+          </div>
         </main>
       </div>
     </div>
