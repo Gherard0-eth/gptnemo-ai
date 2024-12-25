@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Mountain, Cloud, Anchor, Skull, Map, ArrowLeft } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
+import { MenuContent } from "@/components/MenuContent";
 
 const islandData = {
   "001": {
