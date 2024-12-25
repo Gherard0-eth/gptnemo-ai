@@ -2,7 +2,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Mountain, Cloud, Anchor, Skull, Map, ArrowLeft } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { MenuContent } from "@/components/MenuContent";
 
 const islandData = {
@@ -50,6 +50,7 @@ const islandData = {
 
 export default function IslandDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const island = islandData[id as keyof typeof islandData];
 
   if (!island) return <div>Island not found</div>;
