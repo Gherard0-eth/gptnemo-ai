@@ -1,11 +1,21 @@
-import { Menu, Compass, Map, Skull } from "lucide-react";
+import { Menu, Compass, Map, Skull, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { ThemeToggle } from "./ThemeToggle";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { MenuContent } from "./MenuContent";
+import { useToast } from "./ui/use-toast";
 
 export const Header = () => {
+  const { toast } = useToast();
+
+  const handleConnectWallet = () => {
+    toast({
+      title: "Coming Soon",
+      description: "Wallet connection functionality will be available soon!",
+    });
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-apple-gray-700/95 border-b border-apple-gray-200/20 dark:border-apple-gray-600/20 backdrop-blur-sm">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -35,8 +45,18 @@ export const Header = () => {
           </span>
         </Link>
 
-        {/* Theme Toggle */}
-        <ThemeToggle />
+        {/* Right side buttons */}
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            className="hidden md:flex items-center gap-2"
+            onClick={handleConnectWallet}
+          >
+            <Wallet className="h-4 w-4" />
+            <span>Connect Wallet</span>
+          </Button>
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

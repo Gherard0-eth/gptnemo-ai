@@ -8,13 +8,20 @@ export function ThemeToggle({ className }: { className?: string }) {
   return (
     <Button
       variant="ghost"
-      size="icon"
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-      className={className}
+      className={`flex items-center justify-center gap-2 ${className}`}
     >
-      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-apple-gray-700 dark:text-apple-gray-100" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-apple-gray-700 dark:text-apple-gray-100" />
-      <span className="sr-only">Toggle theme</span>
+      {theme === "light" ? (
+        <>
+          <Sun className="h-[1.2rem] w-[1.2rem]" />
+          <span>Light Mode</span>
+        </>
+      ) : (
+        <>
+          <Moon className="h-[1.2rem] w-[1.2rem]" />
+          <span>Dark Mode</span>
+        </>
+      )}
     </Button>
   );
 }
