@@ -2,7 +2,6 @@ import { Award, DollarSign, Sparkles } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
-// Mock data - would be replaced with real data from API
 const mockLeaderboard = [
   { id: 1, name: "Captain Blackbeard", finds: 23, worth: "12.5 ETH" },
   { id: 2, name: "Silver Morgan", finds: 19, worth: "10.2 ETH" },
@@ -39,15 +38,13 @@ export function RealTimeInfo() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <ScrollArea className="h-[200px] pr-4">
-            <div className="space-y-4">
+          <ScrollArea className="h-[300px] pr-4">
+            <div className="space-y-6">
               {mockLeaderboard.map((hunter) => (
-                <div key={hunter.id} className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="font-medium">{hunter.name}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {hunter.finds} finds
-                    </div>
+                <div key={hunter.id} className="flex flex-col items-center text-center p-4 rounded-lg bg-background/50">
+                  <div className="font-medium text-lg mb-1">{hunter.name}</div>
+                  <div className="text-sm text-muted-foreground mb-2">
+                    {hunter.finds} finds
                   </div>
                   <div className="text-pirate-gold font-medium">{hunter.worth}</div>
                 </div>

@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Github, Twitter } from "lucide-react";
 import { Button } from "./ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
+import { ThemeToggle } from "./ThemeToggle";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { Link } from "react-router-dom";
 
 export const MenuContent = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,16 +41,16 @@ export const MenuContent = () => {
               </Button>
             </CollapsibleTrigger>
           </Collapsible>
-
-          <div className="space-y-2">
-            <h3 className="font-pirate text-lg text-pirate-navy dark:text-pirate-gold">
-              TL;DR
-            </h3>
-            <p className="text-sm text-muted-foreground dark:text-pirate-gold/70">
-              A Web3 treasure hunting game with real crypto rewards!
-            </p>
-          </div>
         </div>
+      </div>
+
+      <div className="space-y-4">
+        <ConnectButton />
+        <Link to="/profile">
+          <Button variant="outline" className="w-full">
+            View Profile
+          </Button>
+        </Link>
       </div>
 
       <div className="space-y-2">
@@ -76,6 +79,10 @@ export const MenuContent = () => {
             </a>
           </Button>
         </div>
+      </div>
+
+      <div className="pt-4 border-t border-border">
+        <ThemeToggle className="w-full justify-start" />
       </div>
     </div>
   );
