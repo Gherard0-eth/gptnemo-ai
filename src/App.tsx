@@ -24,15 +24,17 @@ const App = () => (
             <div className="min-h-screen backdrop-blur-sm bg-white/30 dark:bg-black/30">
               <Header />
               <main className="flex flex-col">
-                <div className="mt-8">
+                <div className="mt-16">
                   <PrizePoolBanner />
                 </div>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/treasure-islands" element={<TreasureIslands />} />
-                  <Route path="/island/:id" element={<IslandDetails />} />
-                  <Route path="/island/:id/map" element={<IslandMapPage />} />
-                </Routes>
+                <div className="mt-4"> {/* Reduced from mt-8 to mt-4 */}
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/treasure-islands" element={<TreasureIslands />} />
+                    <Route path="/island/:id" element={<IslandDetails />} />
+                    <Route path="/island/:id/map" element={<IslandMapPage />} />
+                  </Routes>
+                </div>
               </main>
             </div>
           </div>
