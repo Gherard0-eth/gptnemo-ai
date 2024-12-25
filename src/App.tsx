@@ -19,8 +19,8 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <div className="min-h-screen bg-[url('https://images.unsplash.com/photo-1501854140801-50d01698950b')] bg-cover bg-fixed bg-center dark:bg-pirate-navy transition-colors duration-300">
-            <div className="min-h-screen backdrop-blur-sm bg-white/30 dark:bg-pirate-navy/30">
+          <div className="min-h-screen bg-apple-gray-100 dark:bg-apple-gray-700 transition-colors duration-300">
+            <div className="min-h-screen backdrop-blur-sm bg-white/30 dark:bg-black/30">
               <Header />
               <main className="flex flex-col">
                 <div className="mt-16">

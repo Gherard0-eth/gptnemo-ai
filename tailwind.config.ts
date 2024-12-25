@@ -19,14 +19,17 @@ export default {
     },
     extend: {
       colors: {
-        pirate: {
-          navy: "#1E293B",
-          gold: "#FFD700",
-          brown: "#8B4513",
-          ocean: "#0EA5E9",
-          grass: "#5D9C59",
-          sand: "#DEB887",
-          wood: "#8B4513",
+        apple: {
+          gray: {
+            100: "#F5F5F7",
+            200: "#E5E5E7",
+            300: "#D2D2D7",
+            400: "#86868B",
+            500: "#6E6E73",
+            600: "#424245",
+            700: "#1D1D1F",
+          },
+          accent: "#2997FF",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -63,38 +66,13 @@ export default {
         },
       },
       fontFamily: {
-        pirate: ["VT323", "monospace"],
-        sans: ["Press Start 2P", "system-ui"],
+        sans: ["-apple-system", "BlinkMacSystemFont", "system-ui", "sans-serif"],
+        display: ["SF Pro Display", "system-ui", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
-      },
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-        float: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-5px)" },
-        },
-        pixelate: {
-          "0%": { transform: "scale(1)" },
-          "50%": { transform: "scale(1.02)" },
-          "100%": { transform: "scale(1)" },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-        float: "float 3s ease-in-out infinite",
-        pixelate: "pixelate 2s ease-in-out infinite",
       },
     },
   },
