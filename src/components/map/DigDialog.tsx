@@ -15,21 +15,22 @@ interface DigDialogProps {
 export function DigDialog({ selectedSquare, onOpenChange }: DigDialogProps) {
   return (
     <Dialog open={!!selectedSquare} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-white/95 dark:bg-pirate-navy border-pirate-gold/20">
+      <DialogContent className="apple-container max-w-sm mx-auto">
         <DialogHeader>
-          <DialogTitle className="font-pirate text-2xl text-pirate-navy dark:text-pirate-gold">
+          <DialogTitle className="text-2xl font-display text-apple-gray-700 dark:text-apple-gray-100 text-center">
             Eyo hunter!
           </DialogTitle>
         </DialogHeader>
-        <div className="text-center space-y-4">
-          <p className="text-lg text-muted-foreground dark:text-pirate-gold/70">
+        <div className="text-center space-y-6 py-4">
+          <p className="apple-text text-lg">
             Do ya think the treasure is here? Wanna dig?
           </p>
           <Button
-            className="bg-pirate-gold hover:bg-pirate-gold/90 text-pirate-navy font-pirate text-lg"
+            className="apple-button w-full max-w-[200px] mx-auto group transition-all duration-300 
+                     hover:transform hover:scale-105 active:scale-95"
             onClick={() => console.log(`Digging at square ${selectedSquare}`)}
           >
-            <Shovel className="mr-2 h-5 w-5" />
+            <Shovel className="mr-2 h-5 w-5 group-hover:animate-bounce" />
             Dig Here
           </Button>
         </div>
