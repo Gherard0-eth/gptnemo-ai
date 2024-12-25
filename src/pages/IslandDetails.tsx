@@ -63,9 +63,9 @@ export default function IslandDetails() {
       <Header />
       <PrizePoolBanner />
       
-      <div className="flex pt-16">
+      <div className="flex pt-32">
         {/* Desktop Sidebar */}
-        <div className="hidden md:block w-64 fixed left-0 top-16 h-[calc(100vh-4rem)] bg-white/95 dark:bg-pirate-navy/50 p-4 border-r border-pirate-gold/20 overflow-y-auto">
+        <div className="hidden md:block w-64 fixed left-0 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-pirate-navy/50 p-4 border-r border-pirate-gold/20 overflow-y-auto">
           <MenuContent />
         </div>
 
