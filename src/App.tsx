@@ -21,14 +21,16 @@ const App = () => (
         <BrowserRouter>
           <div className="min-h-screen bg-background dark:bg-pirate-navy transition-colors duration-300">
             <Header />
-            <div className="pt-16">
-              <PrizePoolBanner />
-            </div>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/treasure-islands" element={<TreasureIslands />} />
-              <Route path="/island/:id" element={<IslandDetails />} />
-            </Routes>
+            <main className="flex flex-col">
+              <div className="mt-16">
+                <PrizePoolBanner />
+              </div>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/treasure-islands" element={<TreasureIslands />} />
+                <Route path="/island/:id" element={<IslandDetails />} />
+              </Routes>
+            </main>
           </div>
         </BrowserRouter>
       </TooltipProvider>
