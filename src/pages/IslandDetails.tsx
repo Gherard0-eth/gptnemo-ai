@@ -1,13 +1,13 @@
-import { useParams } from "react-router-dom";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { IslandMap } from "@/components/IslandMap";
 import { Header } from "@/components/Header";
 import { MenuContent } from "@/components/MenuContent";
-import { IslandMap } from "@/components/IslandMap";
 import { PrizePoolBanner } from "@/components/PrizePoolBanner";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Anchor, Cloud, Mountain, Skull } from "lucide-react";
+import { Mountain, Cloud, Anchor, Skull } from "lucide-react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 
-// Mock data - would be replaced with real data from API
 const islandData = {
   "001": {
     name: "Skull's Haven",
@@ -54,6 +54,7 @@ const islandData = {
 export default function IslandDetails() {
   const { id } = useParams();
   const island = islandData[id as keyof typeof islandData];
+  const [isMapExpanded, setIsMapExpanded] = useState(false);
 
   if (!island) return <div>Island not found</div>;
 
@@ -70,44 +71,51 @@ export default function IslandDetails() {
 
         {/* Main Content */}
         <main className="flex-1 p-6 md:ml-64">
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle className="text-3xl font-pirate text-pirate-navy dark:text-pirate-gold">
-                {island.name}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground mb-4">{island.description}</p>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {island.characteristics.map((char, index) => (
-                  <Badge key={index} variant="secondary" className="flex items-center gap-1">
-                    <char.icon className="w-3 h-3" />
-                    {char.label}
-                  </Badge>
-                ))}
+          <div className="mb-6">
+            <h1 className="text-3xl font-pirate text-pirate-navy dark:text-pirate-gold">
+              {island.name}
+            </h1>
+            <p className="text-muted-foreground mb-4">{island.description}</p>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {island.characteristics.map((char, index) => (
+                <Badge key={index} variant="secondary" className="flex items-center gap-1">
+                  <char.icon className="w-3 h-3" />
+                  {char.label}
+                </Badge>
+              ))}
+            </div>
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="text-center">
+                <h3 className="font-pirate text-lg text-pirate-navy dark:text-pirate-gold">Climate</h3>
+                <p className="text-muted-foreground">{island.climate}</p>
               </div>
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="text-center">
-                  <h3 className="font-pirate text-lg text-pirate-navy dark:text-pirate-gold">Climate</h3>
-                  <p className="text-muted-foreground">{island.climate}</p>
-                </div>
-                <div className="text-center">
-                  <h3 className="font-pirate text-lg text-pirate-navy dark:text-pirate-gold">Terrain</h3>
-                  <p className="text-muted-foreground">{island.terrain}</p>
-                </div>
-                <div className="text-center">
-                  <h3 className="font-pirate text-lg text-pirate-navy dark:text-pirate-gold">Danger Level</h3>
-                  <p className="text-muted-foreground">{island.dangerLevel}</p>
-                </div>
+              <div className="text-center">
+                <h3 className="font-pirate text-lg text-pirate-navy dark:text-pirate-gold">Terrain</h3>
+                <p className="text-muted-foreground">{island.terrain}</p>
               </div>
-            </CardContent>
-          </Card>
+              <div className="text-center">
+                <h3 className="font-pirate text-lg text-pirate-navy dark:text-pirate-gold">Danger Level</h3>
+                <p className="text-muted-foreground">{island.dangerLevel}</p>
+              </div>
+            </div>
+          </div>
 
-          <div className="h-[600px] rounded-lg overflow-hidden">
+          <div 
+            className="h-[600px] rounded-lg overflow-hidden cursor-pointer"
+            onClick={() => setIsMapExpanded(true)}
+          >
             <IslandMap coordinates={island.coordinates} />
           </div>
+
+          <Dialog open={isMapExpanded} onOpenChange={setIsMapExpanded}>
+            <DialogContent className="max-w-[95vw] w-[1200px] h-[90vh]">
+              <div className="w-full h-full">
+                <IslandMap coordinates={island.coordinates} />
+              </div>
+            </DialogContent>
+          </Dialog>
         </main>
       </div>
     </div>
   );
-};
+}

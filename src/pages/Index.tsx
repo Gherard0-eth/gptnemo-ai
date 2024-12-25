@@ -3,6 +3,9 @@ import { RealTimeInfo } from "@/components/RealTimeInfo";
 import { Header } from "@/components/Header";
 import { MenuContent } from "@/components/MenuContent";
 import { PrizePoolBanner } from "@/components/PrizePoolBanner";
+import { Button } from "@/components/ui/button";
+import { Map } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
@@ -27,6 +30,26 @@ const Index = () => {
                 <p className="text-muted-foreground dark:text-pirate-gold/70">
                   Chat with our AI Pirate guide and track real-time treasure hunting activity.
                 </p>
+              </div>
+
+              {/* Treasure Islands Link Section */}
+              <div className="p-6 bg-white/50 dark:bg-pirate-navy/50 rounded-lg border border-pirate-gold/20">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-pirate text-pirate-navy dark:text-pirate-gold mb-2">
+                      Explore Treasure Islands
+                    </h2>
+                    <p className="text-muted-foreground dark:text-pirate-gold/70">
+                      Discover mysterious islands and hunt for hidden treasures
+                    </p>
+                  </div>
+                  <Link to="/treasure-islands">
+                    <Button className="bg-pirate-gold hover:bg-pirate-gold/90 text-pirate-navy">
+                      <Map className="mr-2 h-4 w-4" />
+                      View Islands
+                    </Button>
+                  </Link>
+                </div>
               </div>
 
               <div className="w-full">
