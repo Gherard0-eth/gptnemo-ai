@@ -28,9 +28,14 @@ const Index = () => {
                 </p>
               </div>
 
-              {/* Treasure Islands Link Section */}
+              {/* Chat Box */}
+              <div className="w-full">
+                <PirateChat />
+              </div>
+
+              {/* Treasure Islands Link Section - Now below chat on mobile/tablet */}
               <div 
-                className="p-6 rounded-lg border border-pirate-gold/20 relative overflow-hidden group"
+                className="lg:order-first p-6 rounded-lg border border-pirate-gold/20 relative overflow-hidden group"
                 style={{
                   backgroundImage: "url('/lovable-uploads/89c3491b-16e9-4b19-8004-9f5e66b901f5.png')",
                   backgroundSize: 'cover',
@@ -42,9 +47,9 @@ const Index = () => {
                 
                 <div className="relative flex flex-col items-center text-center space-y-4">
                   <div className="flex gap-4 mb-2">
-                    <Ship className="h-6 w-6 text-white animate-float" />
-                    <Compass className="h-6 w-6 text-white animate-float" />
-                    <Skull className="h-6 w-6 text-white animate-float" />
+                    <Ship className="h-6 w-6 text-white" />
+                    <Compass className="h-6 w-6 text-white" />
+                    <Skull className="h-6 w-6 text-white" />
                   </div>
                   <div>
                     <h2 className="text-2xl font-display text-white mb-2">
@@ -61,10 +66,6 @@ const Index = () => {
                     </Button>
                   </Link>
                 </div>
-              </div>
-
-              <div className="w-full">
-                <PirateChat />
               </div>
             </div>
 
