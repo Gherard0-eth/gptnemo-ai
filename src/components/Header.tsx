@@ -1,4 +1,4 @@
-import { Menu, Wallet } from "lucide-react";
+import { Menu, Compass, Map, Skull, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
@@ -33,7 +33,12 @@ export const Header = () => {
         </div>
 
         {/* Logo */}
-        <Link to="/" className="flex items-center">
+        <Link to="/" className="flex items-center space-x-4">
+          <div className="flex space-x-2">
+            <Compass className="h-8 w-8 text-apple-gray-700 dark:text-apple-gray-100" />
+            <Map className="h-8 w-8 text-apple-gray-700 dark:text-apple-gray-100" />
+            <Skull className="h-8 w-8 text-apple-gray-700 dark:text-apple-gray-100" />
+          </div>
           <span className="font-display text-2xl text-apple-gray-700 dark:text-apple-gray-100">
             Epirates
           </span>
@@ -43,11 +48,11 @@ export const Header = () => {
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
-            className="flex items-center gap-2"
+            className="hidden md:flex items-center gap-2"
             onClick={handleConnectWallet}
           >
             <Wallet className="h-4 w-4" />
-            <span className="hidden md:inline">Connect Wallet</span>
+            <span>Connect Wallet</span>
           </Button>
         </div>
       </div>
