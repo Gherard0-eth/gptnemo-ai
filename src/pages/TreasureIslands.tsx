@@ -31,6 +31,30 @@ const mockIslands = [
     dangerLevel: "Medium" as const,
     imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
   },
+  {
+    id: "004",
+    name: "Phoenix Peak",
+    climate: "Arid",
+    terrain: "Mountain",
+    dangerLevel: "High" as const,
+    imageUrl: "https://images.unsplash.com/photo-1472396961693-142e6e269027",
+  },
+  {
+    id: "005",
+    name: "Mystic Valley",
+    climate: "Temperate",
+    terrain: "Valley",
+    dangerLevel: "Medium" as const,
+    imageUrl: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb",
+  },
+  {
+    id: "006",
+    name: "Frost Haven",
+    climate: "Arctic",
+    terrain: "Tundra",
+    dangerLevel: "High" as const,
+    imageUrl: "https://images.unsplash.com/photo-1501854140801-50d01698950b",
+  },
 ];
 
 const TreasureIslands = () => {

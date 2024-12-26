@@ -60,6 +60,48 @@ const islandData: Record<string, Island> = {
       { label: "Hidden Caves", icon: Skull },
     ]
   },
+  "004": {
+    name: "Phoenix Peak",
+    description: "A mystical mountain where legends say an ancient phoenix guards a treasure of immeasurable value. The scorching heat and treacherous terrain make this a challenging conquest.",
+    climate: "Arid",
+    terrain: "Mountain",
+    dangerLevel: "High",
+    coordinates: { lat: 35.6892, lng: 139.6922 },
+    characteristics: [
+      { label: "Extreme Heat", icon: Cloud },
+      { label: "Steep Cliffs", icon: Mountain },
+      { label: "Phoenix Sightings", icon: Skull },
+      { label: "Ancient Ruins", icon: Anchor },
+    ]
+  },
+  "005": {
+    name: "Mystic Valley",
+    description: "A serene valley shrouded in perpetual mist, where ancient tribes once buried their treasures. The fog plays tricks on the mind, making navigation a constant challenge.",
+    climate: "Temperate",
+    terrain: "Valley",
+    dangerLevel: "Medium",
+    coordinates: { lat: 27.1751, lng: 78.0421 },
+    characteristics: [
+      { label: "Dense Fog", icon: Cloud },
+      { label: "Hidden Paths", icon: Mountain },
+      { label: "Ancient Spirits", icon: Skull },
+      { label: "Sacred Ground", icon: Anchor },
+    ]
+  },
+  "006": {
+    name: "Frost Haven",
+    description: "An arctic fortress where ice giants are said to guard the lost treasures of ancient Nordic explorers. The extreme cold and unpredictable weather make this island particularly dangerous.",
+    climate: "Arctic",
+    terrain: "Tundra",
+    dangerLevel: "High",
+    coordinates: { lat: 78.2232, lng: 15.6267 },
+    characteristics: [
+      { label: "Extreme Cold", icon: Cloud },
+      { label: "Ice Caves", icon: Mountain },
+      { label: "Ice Giants", icon: Skull },
+      { label: "Frozen Ships", icon: Anchor },
+    ]
+  },
 };
 
 export default function IslandDetails() {
