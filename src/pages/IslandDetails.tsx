@@ -152,3 +152,13 @@ export const islandData: Record<string, Island> = {
     ],
   },
 };
+
+const IslandDetails = () => {
+  return (
+    <div>
+      {/* Implementation of Island Details component will go here */}
+    </div>
+  );
+};
+
+export default IslandDetails;
