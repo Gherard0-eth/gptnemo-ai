@@ -55,6 +55,38 @@ const mockIslands = [
     dangerLevel: "High" as const,
     imageUrl: "https://images.unsplash.com/photo-1501854140801-50d01698950b",
   },
+  {
+    id: "007",
+    name: "Serpent's Lagoon",
+    climate: "Tropical",
+    terrain: "Coastal",
+    dangerLevel: "High" as const,
+    imageUrl: "https://images.unsplash.com/photo-1439405326854-014607f694d7",
+  },
+  {
+    id: "008",
+    name: "Echo Caverns",
+    climate: "Humid",
+    terrain: "Cave System",
+    dangerLevel: "Medium" as const,
+    imageUrl: "https://images.unsplash.com/photo-1496196614460-48988a57fccf",
+  },
+  {
+    id: "009",
+    name: "Crimson Reef",
+    climate: "Tropical",
+    terrain: "Coral Reef",
+    dangerLevel: "Low" as const,
+    imageUrl: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688",
+  },
+  {
+    id: "010",
+    name: "Whispering Dunes",
+    climate: "Desert",
+    terrain: "Sand Dunes",
+    dangerLevel: "High" as const,
+    imageUrl: "https://images.unsplash.com/photo-1509316785289-025f5b846b35",
+  },
 ];
 
 const TreasureIslands = () => {

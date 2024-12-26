@@ -1,151 +1,154 @@
-import { Button } from "@/components/ui/button";
-import { Map, ArrowLeft, Mountain, Cloud, Anchor, Skull, LucideIcon } from "lucide-react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { IslandCharacteristics } from "@/components/island/IslandCharacteristics";
-import { IslandStats } from "@/components/island/IslandStats";
+import { Cloud, Skull, Mountain, Anchor } from "lucide-react";
 
-type DangerLevel = "Low" | "Medium" | "High";
-
-interface Island {
+export interface Island {
   name: string;
   description: string;
   climate: string;
   terrain: string;
-  dangerLevel: DangerLevel;
+  dangerLevel: string;
   coordinates: { lat: number; lng: number };
-  characteristics: Array<{
-    label: string;
-    icon: LucideIcon;
-  }>;
+  characteristics: { label: string; icon: any }[];
 }
 
-const islandData: Record<string, Island> = {
+export const islandData: Record<string, Island> = {
   "001": {
     name: "Skull's Haven",
-    description: "A treacherous volcanic island shrouded in mystery. Ancient legends speak of a cursed treasure hidden within its depths, guarded by restless spirits of fallen pirates.",
+    description: "A treacherous island known for its hidden caves and pirate legends.",
     climate: "Tropical",
     terrain: "Volcanic",
     dangerLevel: "High",
     coordinates: { lat: -8.4095, lng: 115.1889 },
     characteristics: [
+      { label: "Hidden Caves", icon: Cloud },
+      { label: "Pirate Legends", icon: Skull },
       { label: "Volcanic Activity", icon: Mountain },
-      { label: "Dense Jungle", icon: Cloud },
-      { label: "Cursed Waters", icon: Anchor },
-      { label: "Ghost Ships", icon: Skull },
-    ]
+      { label: "Treasure Maps", icon: Anchor },
+    ],
   },
   "002": {
     name: "Mermaid's Cove",
-    description: "A peaceful coral paradise with crystal-clear waters. Local sailors whisper tales of merfolk protecting an underwater treasury of lost Spanish galleons.",
+    description: "A serene cove where mermaids are said to sing and lure sailors.",
     climate: "Temperate",
     terrain: "Coral",
     dangerLevel: "Low",
-    coordinates: { lat: 25.0343, lng: -77.3963 },
+    coordinates: { lat: -8.4095, lng: 115.1889 },
     characteristics: [
-      { label: "Coral Reefs", icon: Cloud },
-      { label: "Clear Waters", icon: Anchor },
-      { label: "Friendly Merfolk", icon: Skull },
-    ]
+      { label: "Mermaid Songs", icon: Cloud },
+      { label: "Coral Reefs", icon: Skull },
+      { label: "Calm Waters", icon: Mountain },
+      { label: "Hidden Treasures", icon: Anchor },
+    ],
   },
   "003": {
     name: "Dragon's Lair",
-    description: "A storm-battered rocky outcrop shaped like a sleeping dragon. They say the island's caves hold the accumulated wealth of a century of shipwrecks.",
+    description: "An island rumored to be home to a fierce dragon guarding its treasure.",
     climate: "Stormy",
     terrain: "Rocky",
     dangerLevel: "Medium",
-    coordinates: { lat: 64.9631, lng: -19.0208 },
+    coordinates: { lat: -8.4095, lng: 115.1889 },
     characteristics: [
-      { label: "Treacherous Rocks", icon: Mountain },
-      { label: "Storm Surges", icon: Cloud },
-      { label: "Hidden Caves", icon: Skull },
-    ]
+      { label: "Dragon Sightings", icon: Cloud },
+      { label: "Rocky Terrain", icon: Skull },
+      { label: "Stormy Weather", icon: Mountain },
+      { label: "Hidden Caves", icon: Anchor },
+    ],
   },
   "004": {
     name: "Phoenix Peak",
-    description: "A mystical mountain where legends say an ancient phoenix guards a treasure of immeasurable value. The scorching heat and treacherous terrain make this a challenging conquest.",
+    description: "A mystical mountain where the legendary phoenix is said to rise from the ashes.",
     climate: "Arid",
     terrain: "Mountain",
     dangerLevel: "High",
-    coordinates: { lat: 35.6892, lng: 139.6922 },
+    coordinates: { lat: -8.4095, lng: 115.1889 },
     characteristics: [
-      { label: "Extreme Heat", icon: Cloud },
-      { label: "Steep Cliffs", icon: Mountain },
-      { label: "Phoenix Sightings", icon: Skull },
-      { label: "Ancient Ruins", icon: Anchor },
-    ]
+      { label: "Phoenix Legends", icon: Cloud },
+      { label: "Mountain Climbing", icon: Skull },
+      { label: "Arid Climate", icon: Mountain },
+      { label: "Hidden Treasures", icon: Anchor },
+    ],
   },
   "005": {
     name: "Mystic Valley",
-    description: "A serene valley shrouded in perpetual mist, where ancient tribes once buried their treasures. The fog plays tricks on the mind, making navigation a constant challenge.",
+    description: "A lush valley filled with ancient ruins and hidden secrets.",
     climate: "Temperate",
     terrain: "Valley",
     dangerLevel: "Medium",
-    coordinates: { lat: 27.1751, lng: 78.0421 },
+    coordinates: { lat: -8.4095, lng: 115.1889 },
     characteristics: [
-      { label: "Dense Fog", icon: Cloud },
+      { label: "Ancient Ruins", icon: Cloud },
+      { label: "Lush Vegetation", icon: Skull },
       { label: "Hidden Paths", icon: Mountain },
-      { label: "Ancient Spirits", icon: Skull },
-      { label: "Sacred Ground", icon: Anchor },
-    ]
+      { label: "Treasure Hunts", icon: Anchor },
+    ],
   },
   "006": {
     name: "Frost Haven",
-    description: "An arctic fortress where ice giants are said to guard the lost treasures of ancient Nordic explorers. The extreme cold and unpredictable weather make this island particularly dangerous.",
+    description: "A chilling island where the frost never melts and secrets lie buried.",
     climate: "Arctic",
     terrain: "Tundra",
     dangerLevel: "High",
-    coordinates: { lat: 78.2232, lng: 15.6267 },
+    coordinates: { lat: -8.4095, lng: 115.1889 },
     characteristics: [
-      { label: "Extreme Cold", icon: Cloud },
-      { label: "Ice Caves", icon: Mountain },
-      { label: "Ice Giants", icon: Skull },
-      { label: "Frozen Ships", icon: Anchor },
-    ]
+      { label: "Frozen Treasures", icon: Cloud },
+      { label: "Arctic Wildlife", icon: Skull },
+      { label: "Icy Terrain", icon: Mountain },
+      { label: "Hidden Caves", icon: Anchor },
+    ],
+  },
+  "007": {
+    name: "Serpent's Lagoon",
+    description: "A mysterious lagoon where ancient sea serpents are said to guard sunken treasures. The waters are treacherous, and the legends of massive sea creatures keep most adventurers at bay.",
+    climate: "Tropical",
+    terrain: "Coastal",
+    dangerLevel: "High",
+    coordinates: { lat: -8.4095, lng: 115.1889 },
+    characteristics: [
+      { label: "Deep Waters", icon: Cloud },
+      { label: "Sea Serpents", icon: Skull },
+      { label: "Hidden Reefs", icon: Mountain },
+      { label: "Whirlpools", icon: Anchor },
+    ],
+  },
+  "008": {
+    name: "Echo Caverns",
+    description: "An intricate network of caves where sound plays tricks on explorers. Ancient civilizations used these caves to hide their most valuable treasures.",
+    climate: "Humid",
+    terrain: "Cave System",
+    dangerLevel: "Medium",
+    coordinates: { lat: 20.7097, lng: -156.2533 },
+    characteristics: [
+      { label: "Echo Chambers", icon: Cloud },
+      { label: "Crystal Formations", icon: Mountain },
+      { label: "Underground Rivers", icon: Anchor },
+      { label: "Ancient Markings", icon: Skull },
+    ],
+  },
+  "009": {
+    name: "Crimson Reef",
+    description: "A vibrant coral reef system hiding countless shipwrecks and their treasures. The beautiful but dangerous marine life keeps most treasure hunters at a safe distance.",
+    climate: "Tropical",
+    terrain: "Coral Reef",
+    dangerLevel: "Low",
+    coordinates: { lat: -16.5004, lng: 145.9812 },
+    characteristics: [
+      { label: "Coral Maze", icon: Mountain },
+      { label: "Shipwrecks", icon: Anchor },
+      { label: "Marine Life", icon: Skull },
+      { label: "Clear Waters", icon: Cloud },
+    ],
+  },
+  "010": {
+    name: "Whispering Dunes",
+    description: "An endless desert where the winds whisper ancient secrets. Lost caravans and their treasures lie buried beneath the ever-shifting sands.",
+    climate: "Desert",
+    terrain: "Sand Dunes",
+    dangerLevel: "High",
+    coordinates: { lat: 23.4162, lng: 25.6628 },
+    characteristics: [
+      { label: "Shifting Sands", icon: Cloud },
+      { label: "Mirages", icon: Mountain },
+      { label: "Sand Storms", icon: Skull },
+      { label: "Ancient Ruins", icon: Anchor },
+    ],
   },
 };
-
-export default function IslandDetails() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const island = islandData[id as keyof typeof islandData];
-
-  if (!island) return <div>Island not found</div>;
-
-  return (
-    <div className="min-h-screen bg-background dark:bg-apple-gray-700 p-4">
-      <Button
-        variant="ghost"
-        onClick={() => navigate(-1)}
-        className="mb-4 text-apple-gray-700 dark:text-apple-gray-100"
-      >
-        <ArrowLeft className="mr-2 h-5 w-5" />
-        Back to Island Details
-      </Button>
-      
-      <div className="space-y-6 apple-container p-6">
-        <h1 className="text-4xl font-display text-apple-gray-700 dark:text-apple-gray-100">
-          {island.name}
-        </h1>
-        
-        <p className="text-apple-gray-500 dark:text-apple-gray-300">
-          {island.description}
-        </p>
-
-        <IslandCharacteristics characteristics={island.characteristics} />
-        
-        <IslandStats
-          climate={island.climate}
-          terrain={island.terrain}
-          dangerLevel={island.dangerLevel}
-        />
-
-        <Link to={`/island/${id}/map`}>
-          <Button className="w-full apple-button mt-6">
-            <Map className="mr-2 h-5 w-5" />
-            Dig in the Island
-          </Button>
-        </Link>
-      </div>
-    </div>
-  );
-}
