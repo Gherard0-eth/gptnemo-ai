@@ -23,16 +23,18 @@ const App = () => (
           <div className="min-h-screen bg-apple-gray-100 dark:bg-apple-gray-700 transition-colors duration-300">
             <div className="min-h-screen backdrop-blur-sm bg-white/30 dark:bg-black/30">
               <Header />
-              <main className="flex flex-col">
-                <div className="mt-16">
+              <main className="flex flex-col md:h-screen md:overflow-hidden">
+                <div className="mt-16 h-full overflow-y-auto md:overflow-hidden">
                   <PrizePoolBanner />
+                  <div className="h-full overflow-y-auto">
+                    <Routes>
+                      <Route path="/" element={<Index />} />
+                      <Route path="/treasure-islands" element={<TreasureIslands />} />
+                      <Route path="/island/:id" element={<IslandDetails />} />
+                      <Route path="/island/:id/map" element={<IslandMapPage />} />
+                    </Routes>
+                  </div>
                 </div>
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/treasure-islands" element={<TreasureIslands />} />
-                  <Route path="/island/:id" element={<IslandDetails />} />
-                  <Route path="/island/:id/map" element={<IslandMapPage />} />
-                </Routes>
               </main>
             </div>
           </div>
