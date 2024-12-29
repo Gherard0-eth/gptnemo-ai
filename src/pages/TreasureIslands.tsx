@@ -95,46 +95,8 @@ const TreasureIslands = () => {
   return (
     <div className="min-h-screen bg-background dark:bg-apple-gray-700 transition-colors duration-300">
       <div className="flex pt-8">
-        {/* Desktop Navigation Sidebar */}
-        <div className="hidden md:block w-64 fixed left-0 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-apple-gray-700/95 border-r border-apple-gray-200/20 dark:border-apple-gray-600/20 overflow-y-auto">
-          <div className="p-6 space-y-6">
-            <MenuContent />
-          </div>
-        </div>
-
         {/* Main Content */}
-        <main className={`flex-1 p-6 transition-all duration-300 ${isFilterOpen ? 'md:mr-64' : ''} md:ml-64`}>
-          {/* Mobile Filter Button */}
-          <div className="mb-6 flex justify-end md:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" className="w-auto">
-                  <Filter className="mr-2 h-4 w-4" />
-                  Filters
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] p-0">
-                <FilterSidebar />
-              </SheetContent>
-            </Sheet>
-          </div>
-
-          {/* Desktop Filter Toggle Button */}
-          <div className="mb-6 hidden md:flex justify-end">
-            <Button
-              variant="outline"
-              className="w-auto"
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-            >
-              {isFilterOpen ? (
-                <ChevronRight className="mr-2 h-4 w-4" />
-              ) : (
-                <ChevronLeft className="mr-2 h-4 w-4" />
-              )}
-              Filters
-            </Button>
-          </div>
-
+        <main className="flex-1 p-6">
           <div className="mb-6">
             <h1 className="text-4xl font-display text-apple-gray-700 dark:text-apple-gray-100 mb-2">
               Treasure Islands
@@ -144,23 +106,22 @@ const TreasureIslands = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {mockIslands.map((island) => (
-              <IslandCard key={island.id} {...island} />
-            ))}
+          <div className="flex gap-6">
+            {/* Filter Sidebar - Desktop */}
+            <div className="hidden lg:block w-64 shrink-0">
+              <FilterSidebar />
+            </div>
+
+            {/* Islands Grid */}
+            <div className="flex-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {mockIslands.map((island) => (
+                  <IslandCard key={island.id} {...island} />
+                ))}
+              </div>
+            </div>
           </div>
         </main>
-
-        {/* Filter Sidebar - Desktop */}
-        <div 
-          className={`hidden lg:block fixed right-0 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-apple-gray-700/95 border-l border-apple-gray-200/20 dark:border-apple-gray-600/20 overflow-y-auto transition-all duration-300 ${
-            isFilterOpen ? 'w-64 opacity-100' : 'w-0 opacity-0'
-          }`}
-        >
-          <div className="p-6">
-            <FilterSidebar />
-          </div>
-        </div>
       </div>
     </div>
   );

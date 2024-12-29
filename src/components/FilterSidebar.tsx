@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import {
   Accordion,
   AccordionContent,
@@ -13,18 +12,6 @@ import { Search } from "lucide-react";
 export function FilterSidebar() {
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="space-y-1">
-          <Label htmlFor="treasure-mode" className="text-apple-gray-700 dark:text-apple-gray-100">
-            Treasure Mode
-          </Label>
-          <div className="text-sm text-apple-gray-500 dark:text-apple-gray-300">
-            Unlock special hints
-          </div>
-        </div>
-        <Switch id="treasure-mode" />
-      </div>
-
       <div className="space-y-2">
         <Label htmlFor="search" className="text-apple-gray-700 dark:text-apple-gray-100">
           Search Islands
