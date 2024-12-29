@@ -1,10 +1,10 @@
 import { FilterSidebar } from "@/components/FilterSidebar";
 import { IslandCard } from "@/components/IslandCard";
-import { Header } from "@/components/Header";
 import { MenuContent } from "@/components/MenuContent";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Filter } from "lucide-react";
+import { Filter, ChevronRight, ChevronLeft } from "lucide-react";
+import { useState } from "react";
 
 const mockIslands = [
   {
@@ -90,18 +90,22 @@ const mockIslands = [
 ];
 
 const TreasureIslands = () => {
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-background dark:bg-apple-gray-700 transition-colors duration-300">
       <div className="flex pt-8">
         {/* Desktop Navigation Sidebar */}
-        <div className="hidden md:block w-64 fixed left-0 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-apple-gray-700/95 p-4 border-r border-apple-gray-200/20 dark:border-apple-gray-600/20 overflow-y-auto">
-          <MenuContent />
+        <div className="hidden md:block w-64 fixed left-0 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-apple-gray-700/95 border-r border-apple-gray-200/20 dark:border-apple-gray-600/20 overflow-y-auto">
+          <div className="p-6 space-y-6">
+            <MenuContent />
+          </div>
         </div>
 
         {/* Main Content */}
-        <main className="flex-1 p-6 md:ml-64">
-          {/* Mobile & Desktop Filter Button */}
-          <div className="mb-6 flex justify-end">
+        <main className={`flex-1 p-6 transition-all duration-300 ${isFilterOpen ? 'md:mr-64' : ''} md:ml-64`}>
+          {/* Mobile Filter Button */}
+          <div className="mb-6 flex justify-end md:hidden">
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" className="w-auto">
@@ -109,10 +113,26 @@ const TreasureIslands = () => {
                   Filters
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px]">
+              <SheetContent side="right" className="w-[300px] p-0">
                 <FilterSidebar />
               </SheetContent>
             </Sheet>
+          </div>
+
+          {/* Desktop Filter Toggle Button */}
+          <div className="mb-6 hidden md:flex justify-end">
+            <Button
+              variant="outline"
+              className="w-auto"
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+            >
+              {isFilterOpen ? (
+                <ChevronRight className="mr-2 h-4 w-4" />
+              ) : (
+                <ChevronLeft className="mr-2 h-4 w-4" />
+              )}
+              Filters
+            </Button>
           </div>
 
           <div className="mb-6">
@@ -132,8 +152,14 @@ const TreasureIslands = () => {
         </main>
 
         {/* Filter Sidebar - Desktop */}
-        <div className="hidden lg:block w-64 fixed right-0 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-apple-gray-700/95 p-4 border-l border-apple-gray-200/20 dark:border-apple-gray-600/20 overflow-y-auto">
-          <FilterSidebar />
+        <div 
+          className={`hidden lg:block fixed right-0 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-apple-gray-700/95 border-l border-apple-gray-200/20 dark:border-apple-gray-600/20 overflow-y-auto transition-all duration-300 ${
+            isFilterOpen ? 'w-64 opacity-100' : 'w-0 opacity-0'
+          }`}
+        >
+          <div className="p-6">
+            <FilterSidebar />
+          </div>
         </div>
       </div>
     </div>
