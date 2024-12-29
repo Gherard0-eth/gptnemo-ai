@@ -6,7 +6,7 @@ import { ThemeToggle } from "./ThemeToggle";
 
 export const MenuContent = () => {
   return (
-    <div className="space-y-6">
+    <div className="p-6 space-y-6">
       <ProjectInfo />
       <TldrSection />
       <WalletButton />
