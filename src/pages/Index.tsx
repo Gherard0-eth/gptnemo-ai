@@ -1,7 +1,6 @@
 import { PirateChat } from "@/components/PirateChat";
 import { RealTimeInfo } from "@/components/RealTimeInfo";
 import { Header } from "@/components/Header";
-import { MenuContent } from "@/components/MenuContent";
 import { Button } from "@/components/ui/button";
 import { Map, Compass, Skull, Ship } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -10,13 +9,8 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-apple-gray-100 dark:bg-apple-gray-700 transition-colors duration-300">
       <div className="flex h-[calc(100vh-8rem)] pt-8">
-        {/* Desktop Sidebar */}
-        <div className="hidden md:block w-64 fixed left-0 top-32 h-[calc(100vh-8rem)] apple-container mx-4 overflow-y-auto">
-          <MenuContent />
-        </div>
-
         {/* Main Content */}
-        <main className="flex-1 px-6 md:ml-72 h-full overflow-hidden">
+        <main className="flex-1 px-6 h-full overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 h-full">
             <div className="space-y-6 flex flex-col h-full">
               <div className="flex-shrink-0">
