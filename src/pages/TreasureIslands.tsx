@@ -91,25 +91,20 @@ const mockIslands = [
 
 const TreasureIslands = () => {
   return (
-    <div className="min-h-screen bg-background dark:bg-pirate-navy transition-colors duration-300">
+    <div className="min-h-screen bg-background dark:bg-apple-gray-700 transition-colors duration-300">
       <div className="flex pt-8">
         {/* Desktop Navigation Sidebar */}
-        <div className="hidden md:block w-64 fixed left-0 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-pirate-navy/50 p-4 border-r border-pirate-gold/20 overflow-y-auto">
+        <div className="hidden md:block w-64 fixed left-0 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-apple-gray-700/95 p-4 border-r border-apple-gray-200/20 dark:border-apple-gray-600/20 overflow-y-auto">
           <MenuContent />
         </div>
 
-        {/* Filter Sidebar - Desktop */}
-        <div className="hidden lg:block w-64 fixed left-64 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-pirate-navy/50 p-4 border-r border-pirate-gold/20 overflow-y-auto">
-          <FilterSidebar />
-        </div>
-
         {/* Main Content */}
-        <main className="flex-1 p-6 md:ml-64 lg:ml-[32rem]">
-          {/* Mobile Filter Button */}
-          <div className="lg:hidden mb-6">
+        <main className="flex-1 p-6 md:ml-64">
+          {/* Mobile & Desktop Filter Button */}
+          <div className="mb-6 flex justify-end">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-auto">
                   <Filter className="mr-2 h-4 w-4" />
                   Filters
                 </Button>
@@ -121,10 +116,10 @@ const TreasureIslands = () => {
           </div>
 
           <div className="mb-6">
-            <h1 className="text-4xl font-pirate text-pirate-navy dark:text-pirate-gold mb-2">
+            <h1 className="text-4xl font-display text-apple-gray-700 dark:text-apple-gray-100 mb-2">
               Treasure Islands
             </h1>
-            <p className="text-muted-foreground dark:text-pirate-gold/70">
+            <p className="text-apple-gray-500 dark:text-apple-gray-300">
               Explore mysterious islands and uncover hidden treasures
             </p>
           </div>
@@ -135,6 +130,11 @@ const TreasureIslands = () => {
             ))}
           </div>
         </main>
+
+        {/* Filter Sidebar - Desktop */}
+        <div className="hidden lg:block w-64 fixed right-0 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-apple-gray-700/95 p-4 border-l border-apple-gray-200/20 dark:border-apple-gray-600/20 overflow-y-auto">
+          <FilterSidebar />
+        </div>
       </div>
     </div>
   );

@@ -8,34 +8,34 @@ import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background dark:bg-pirate-navy transition-colors duration-300">
+    <div className="min-h-screen bg-apple-gray-100 dark:bg-apple-gray-700 transition-colors duration-300">
       <div className="flex pt-8">
         {/* Desktop Sidebar */}
-        <div className="hidden md:block w-64 fixed left-0 top-32 h-[calc(100vh-8rem)] bg-white/95 dark:bg-pirate-navy/50 p-4 border-r border-pirate-gold/20 overflow-y-auto">
+        <div className="hidden md:block w-64 fixed left-0 top-32 h-[calc(100vh-8rem)] apple-container mx-4 overflow-y-auto">
           <MenuContent />
         </div>
 
         {/* Main Content */}
-        <main className="flex-1 p-6 md:ml-64">
+        <main className="flex-1 p-6 md:ml-72">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6">
             <div className="space-y-6">
               <div className="mb-6">
-                <h1 className="text-4xl font-display text-pirate-navy dark:text-pirate-gold mb-2">
+                <h1 className="text-4xl font-display text-apple-gray-700 dark:text-apple-gray-100 mb-2">
                   Welcome, Treasure Hunter!
                 </h1>
-                <p className="text-muted-foreground dark:text-pirate-gold/70">
+                <p className="text-apple-gray-500 dark:text-apple-gray-300">
                   Chat with our AI Pirate guide and track real-time treasure hunting activity.
                 </p>
               </div>
 
-              {/* Chat Box */}
-              <div className="w-full">
+              {/* Chat Box - Now more responsive */}
+              <div className="w-full max-w-none md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto">
                 <PirateChat />
               </div>
 
-              {/* Treasure Islands Link Section - Now below chat on mobile/tablet */}
+              {/* Treasure Islands Link Section */}
               <div 
-                className="lg:order-first p-6 rounded-lg border border-pirate-gold/20 relative overflow-hidden group"
+                className="lg:order-first p-6 rounded-lg border border-apple-gray-200/20 dark:border-apple-gray-600/20 relative overflow-hidden group"
                 style={{
                   backgroundImage: "url('/lovable-uploads/89c3491b-16e9-4b19-8004-9f5e66b901f5.png')",
                   backgroundSize: 'cover',

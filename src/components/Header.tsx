@@ -32,12 +32,14 @@ export const Header = () => {
           </Sheet>
         </div>
 
-        {/* Logo */}
-        <Link to="/" className="flex items-center">
-          <span className="font-display text-2xl text-apple-gray-700 dark:text-apple-gray-100">
-            Epirates
-          </span>
-        </Link>
+        {/* Logo - Now centered */}
+        <div className="flex-1 flex justify-center">
+          <Link to="/" className="flex items-center">
+            <span className="font-display text-2xl text-apple-gray-700 dark:text-apple-gray-100">
+              Epirates
+            </span>
+          </Link>
+        </div>
 
         {/* Right side buttons */}
         <div className="flex items-center gap-2">
