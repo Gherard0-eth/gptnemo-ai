@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { Button } from "@/components/ui/button";
-import { Shovel } from "lucide-react";
+import { ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Shovel } from "lucide-react";
 
 interface IslandGameProps {
   onDig: (x: number, y: number) => void;
@@ -10,8 +10,7 @@ interface IslandGameProps {
 export function IslandGame({ onDig }: IslandGameProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [joystickPosition, setJoystickPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
+  const [activeDirection, setActiveDirection] = useState<string | null>(null);
   
   useEffect(() => {
     if (!containerRef.current) return;
@@ -24,21 +23,67 @@ export function IslandGame({ onDig }: IslandGameProps) {
     renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
     containerRef.current.appendChild(renderer.domElement);
 
-    // Grid
-    const gridHelper = new THREE.GridHelper(10, 10);
-    gridHelper.rotation.x = Math.PI / 2;
-    scene.add(gridHelper);
+    // Add lighting
+    const ambientLight = new THREE.AmbientLight(0x404040);
+    scene.add(ambientLight);
+    
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(1, 1, 1);
+    scene.add(directionalLight);
 
-    // Character
-    const geometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
-    const material = new THREE.MeshBasicMaterial({ color: 0xff9900 });
-    const character = new THREE.Mesh(geometry, material);
+    // Create character (pixel-art style cube with textures)
+    const characterGeometry = new THREE.BoxGeometry(0.8, 0.8, 0.2);
+    const textureLoader = new THREE.TextureLoader();
+    
+    // Create a simple pixel-art style texture (you can replace this with actual sprite textures)
+    const canvas = document.createElement('canvas');
+    canvas.width = 32;
+    canvas.height = 32;
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      // Draw a simple pixel-art character
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, 32, 32);
+      ctx.fillStyle = '#FF6B6B';
+      ctx.fillRect(4, 4, 24, 24);
+      ctx.fillStyle = '#4ECDC4';
+      ctx.fillRect(8, 8, 8, 8);
+      ctx.fillRect(16, 8, 8, 8);
+    }
+    
+    const characterTexture = new THREE.CanvasTexture(canvas);
+    characterTexture.magFilter = THREE.NearestFilter;
+    const characterMaterial = new THREE.MeshBasicMaterial({ map: characterTexture });
+    const character = new THREE.Mesh(characterGeometry, characterMaterial);
     scene.add(character);
 
-    // Ground
+    // Ground with grid texture
     const groundGeometry = new THREE.PlaneGeometry(10, 10);
+    const gridCanvas = document.createElement('canvas');
+    gridCanvas.width = 512;
+    gridCanvas.height = 512;
+    const gridCtx = gridCanvas.getContext('2d');
+    if (gridCtx) {
+      gridCtx.fillStyle = '#90EE90';
+      gridCtx.fillRect(0, 0, 512, 512);
+      gridCtx.strokeStyle = '#ffffff';
+      gridCtx.lineWidth = 2;
+      for (let i = 0; i <= 10; i++) {
+        const pos = (i / 10) * 512;
+        gridCtx.beginPath();
+        gridCtx.moveTo(pos, 0);
+        gridCtx.lineTo(pos, 512);
+        gridCtx.stroke();
+        gridCtx.beginPath();
+        gridCtx.moveTo(0, pos);
+        gridCtx.lineTo(512, pos);
+        gridCtx.stroke();
+      }
+    }
+    
+    const groundTexture = new THREE.CanvasTexture(gridCanvas);
     const groundMaterial = new THREE.MeshBasicMaterial({ 
-      color: 0x90EE90,
+      map: groundTexture,
       side: THREE.DoubleSide 
     });
     const ground = new THREE.Mesh(groundGeometry, groundMaterial);
@@ -48,24 +93,27 @@ export function IslandGame({ onDig }: IslandGameProps) {
     camera.position.set(0, 10, 0);
     camera.lookAt(0, 0, 0);
 
-    // Animation loop
+    // Animation loop with smooth movement
     const animate = () => {
       requestAnimationFrame(animate);
       
-      // Update character position based on joystick
-      if (isDragging) {
-        const newX = position.x + joystickPosition.x * 0.1;
-        const newY = position.y + joystickPosition.y * 0.1;
-        
-        // Clamp position to grid
-        if (newX >= -4.5 && newX <= 4.5) {
-          setPosition(prev => ({ ...prev, x: newX }));
-          character.position.x = newX;
-        }
-        if (newY >= -4.5 && newY <= 4.5) {
-          setPosition(prev => ({ ...prev, y: newY }));
-          character.position.z = newY;
-        }
+      // Update character position based on active direction
+      const moveSpeed = 0.05;
+      if (activeDirection === 'up' && position.y > -4.5) {
+        setPosition(prev => ({ ...prev, y: prev.y - moveSpeed }));
+        character.position.z = position.y - moveSpeed;
+      }
+      if (activeDirection === 'down' && position.y < 4.5) {
+        setPosition(prev => ({ ...prev, y: prev.y + moveSpeed }));
+        character.position.z = position.y + moveSpeed;
+      }
+      if (activeDirection === 'left' && position.x > -4.5) {
+        setPosition(prev => ({ ...prev, x: prev.x - moveSpeed }));
+        character.position.x = position.x - moveSpeed;
+      }
+      if (activeDirection === 'right' && position.x < 4.5) {
+        setPosition(prev => ({ ...prev, x: prev.x + moveSpeed }));
+        character.position.x = position.x + moveSpeed;
       }
 
       renderer.render(scene, camera);
@@ -78,32 +126,7 @@ export function IslandGame({ onDig }: IslandGameProps) {
       renderer.dispose();
       containerRef.current?.removeChild(renderer.domElement);
     };
-  }, [position, joystickPosition, isDragging]);
-
-  const handleJoystickStart = (e: React.TouchEvent | React.MouseEvent) => {
-    setIsDragging(true);
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    setJoystickPosition({ x: 0, y: 0 });
-  };
-
-  const handleJoystickMove = (e: React.TouchEvent | React.MouseEvent) => {
-    if (!isDragging) return;
-    
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
-    
-    const rect = (e.target as HTMLElement).getBoundingClientRect();
-    const x = ((clientX - rect.left) / rect.width) * 2 - 1;
-    const y = -((clientY - rect.top) / rect.height) * 2 + 1;
-    
-    setJoystickPosition({ x, y });
-  };
-
-  const handleJoystickEnd = () => {
-    setIsDragging(false);
-    setJoystickPosition({ x: 0, y: 0 });
-  };
+  }, [position, activeDirection]);
 
   const handleDig = () => {
     const gridX = Math.round(position.x);
@@ -118,25 +141,61 @@ export function IslandGame({ onDig }: IslandGameProps) {
         className="w-full h-full"
       />
       
-      {/* Virtual joystick */}
-      <div 
-        className="absolute bottom-20 left-8 w-32 h-32 bg-black/20 rounded-full cursor-pointer"
-        onMouseDown={handleJoystickStart}
-        onMouseMove={handleJoystickMove}
-        onMouseUp={handleJoystickEnd}
-        onMouseLeave={handleJoystickEnd}
-        onTouchStart={handleJoystickStart}
-        onTouchMove={handleJoystickMove}
-        onTouchEnd={handleJoystickEnd}
-      >
-        <div 
-          className="absolute w-16 h-16 bg-white/30 rounded-full"
-          style={{
-            left: `${50 + joystickPosition.x * 25}%`,
-            top: `${50 - joystickPosition.y * 25}%`,
-            transform: 'translate(-50%, -50%)'
-          }}
-        />
+      {/* D-pad style controls */}
+      <div className="absolute bottom-20 left-8 w-32 h-32 grid grid-cols-3 gap-1">
+        <div /> {/* Empty cell */}
+        <Button
+          variant="secondary"
+          size="icon"
+          className="bg-white/80 dark:bg-black/80"
+          onMouseDown={() => setActiveDirection('up')}
+          onMouseUp={() => setActiveDirection(null)}
+          onMouseLeave={() => setActiveDirection(null)}
+          onTouchStart={() => setActiveDirection('up')}
+          onTouchEnd={() => setActiveDirection(null)}
+        >
+          <ArrowUp className="h-4 w-4" />
+        </Button>
+        <div /> {/* Empty cell */}
+        <Button
+          variant="secondary"
+          size="icon"
+          className="bg-white/80 dark:bg-black/80"
+          onMouseDown={() => setActiveDirection('left')}
+          onMouseUp={() => setActiveDirection(null)}
+          onMouseLeave={() => setActiveDirection(null)}
+          onTouchStart={() => setActiveDirection('left')}
+          onTouchEnd={() => setActiveDirection(null)}
+        >
+          <ArrowLeft className="h-4 w-4" />
+        </Button>
+        <div /> {/* Empty cell */}
+        <Button
+          variant="secondary"
+          size="icon"
+          className="bg-white/80 dark:bg-black/80"
+          onMouseDown={() => setActiveDirection('right')}
+          onMouseUp={() => setActiveDirection(null)}
+          onMouseLeave={() => setActiveDirection(null)}
+          onTouchStart={() => setActiveDirection('right')}
+          onTouchEnd={() => setActiveDirection(null)}
+        >
+          <ArrowRight className="h-4 w-4" />
+        </Button>
+        <div /> {/* Empty cell */}
+        <Button
+          variant="secondary"
+          size="icon"
+          className="bg-white/80 dark:bg-black/80"
+          onMouseDown={() => setActiveDirection('down')}
+          onMouseUp={() => setActiveDirection(null)}
+          onMouseLeave={() => setActiveDirection(null)}
+          onTouchStart={() => setActiveDirection('down')}
+          onTouchEnd={() => setActiveDirection(null)}
+        >
+          <ArrowDown className="h-4 w-4" />
+        </Button>
+        <div /> {/* Empty cell */}
       </div>
 
       {/* Dig button */}
