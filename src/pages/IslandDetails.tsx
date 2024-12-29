@@ -3,6 +3,8 @@ import { Map, ArrowLeft, Mountain, Cloud, Anchor, Skull, LucideIcon } from "luci
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { IslandCharacteristics } from "@/components/island/IslandCharacteristics";
 import { IslandStats } from "@/components/island/IslandStats";
+import { IslandGame } from "@/components/game/IslandGame";
+import { useToast } from "@/components/ui/use-toast";
 
 type DangerLevel = "Low" | "Medium" | "High";
 
@@ -107,9 +109,17 @@ const islandData: Record<string, Island> = {
 export default function IslandDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const island = islandData[id as keyof typeof islandData];
 
   if (!island) return <div>Island not found</div>;
+
+  const handleDig = (x: number, y: number) => {
+    toast({
+      title: "Digging...",
+      description: `Searching for treasure at coordinates (${x}, ${y})`,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background dark:bg-apple-gray-700 p-4">
@@ -138,6 +148,13 @@ export default function IslandDetails() {
           terrain={island.terrain}
           dangerLevel={island.dangerLevel}
         />
+
+        <div className="mt-8">
+          <h2 className="text-2xl font-display text-apple-gray-700 dark:text-apple-gray-100 mb-4">
+            Explore the Island
+          </h2>
+          <IslandGame onDig={handleDig} />
+        </div>
 
         <Link to={`/island/${id}/map`}>
           <Button className="w-full apple-button mt-6">
