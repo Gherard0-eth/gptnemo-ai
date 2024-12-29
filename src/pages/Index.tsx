@@ -1,5 +1,6 @@
 import { PirateChat } from "@/components/PirateChat";
 import { RealTimeInfo } from "@/components/RealTimeInfo";
+import { Header } from "@/components/Header";
 import { MenuContent } from "@/components/MenuContent";
 import { Button } from "@/components/ui/button";
 import { Map, Compass, Skull, Ship } from "lucide-react";
@@ -8,9 +9,9 @@ import { Link } from "react-router-dom";
 const Index = () => {
   return (
     <div className="min-h-screen bg-apple-gray-100 dark:bg-apple-gray-700 transition-colors duration-300">
-      <div className="flex h-[calc(100vh-4rem)] pt-4">
+      <div className="flex h-[calc(100vh-8rem)] pt-8">
         {/* Desktop Sidebar */}
-        <div className="hidden md:block w-64 fixed left-0 top-24 h-[calc(100vh-6rem)] apple-container mx-4 overflow-y-auto">
+        <div className="hidden md:block w-64 fixed left-0 top-32 h-[calc(100vh-8rem)] apple-container mx-4 overflow-y-auto">
           <MenuContent />
         </div>
 
@@ -27,14 +28,14 @@ const Index = () => {
                 </p>
               </div>
 
-              {/* Chat Box */}
+              {/* Chat Box - Now more responsive */}
               <div className="flex-1 min-h-0 w-full">
                 <PirateChat />
               </div>
 
               {/* Treasure Islands Link Section */}
               <div 
-                className="flex-shrink-0 p-6 rounded-lg border border-apple-gray-200/20 dark:border-apple-gray-600/20 relative overflow-hidden group mb-4"
+                className="flex-shrink-0 p-6 rounded-lg border border-apple-gray-200/20 dark:border-apple-gray-600/20 relative overflow-hidden group"
                 style={{
                   backgroundImage: "url('/lovable-uploads/89c3491b-16e9-4b19-8004-9f5e66b901f5.png')",
                   backgroundSize: 'cover',
@@ -69,7 +70,7 @@ const Index = () => {
             </div>
 
             {/* Leaderboard - Desktop */}
-            <div className="hidden lg:block h-full overflow-y-auto pr-4">
+            <div className="hidden lg:block h-full overflow-y-auto">
               <RealTimeInfo />
             </div>
           </div>
