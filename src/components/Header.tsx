@@ -6,15 +6,19 @@ import { MenuContent } from "./MenuContent";
 import { useToast } from "./ui/use-toast";
 import { useShovelStore } from "@/stores/useShovelStore";
 import { usePrizePoolStore } from "@/stores/usePrizePoolStore";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TreasureFoundDialog } from "./treasure/TreasureFoundDialog";
 
 export const Header = () => {
   const { toast } = useToast();
   const shovels = useShovelStore((state) => state.shovels);
   const [showTreasureDialog, setShowTreasureDialog] = useState(false);
-  const hasUnredeemedTreasure = usePrizePoolStore((state) => state.amount > 0);
-  const [hasRedeemed, setHasRedeemed] = useState(false);
+  const prizePool = usePrizePoolStore((state) => state.amount);
+  const [hasUnredeemedTreasure, setHasUnredeemedTreasure] = useState(false);
+
+  useEffect(() => {
+    setHasUnredeemedTreasure(prizePool > 0);
+  }, [prizePool]);
 
   const handleConnectWallet = () => {
     toast({
@@ -25,7 +29,7 @@ export const Header = () => {
 
   const handleRedeem = () => {
     setShowTreasureDialog(false);
-    setHasRedeemed(true);
+    setHasUnredeemedTreasure(false);
     toast({
       title: "Prize Redeemed! 🎉",
       description: "Your treasure has been successfully claimed!",
@@ -57,7 +61,7 @@ export const Header = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          {hasUnredeemedTreasure && !hasRedeemed && (
+          {hasUnredeemedTreasure && (
             <Button
               variant="ghost"
               size="icon"
