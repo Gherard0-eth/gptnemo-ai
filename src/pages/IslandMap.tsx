@@ -1,50 +1,40 @@
-import { IslandGame } from "@/components/game/IslandGame";
-import { useToast } from "@/components/ui/use-toast";
-import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { IslandMap } from "@/components/IslandMap";
+import { ChevronLeft } from "lucide-react";
 
-export default function IslandMap() {
-  const { toast } = useToast();
-  const [gameKey, setGameKey] = useState(0);
+const islandData = {
+  "001": {
+    coordinates: { lat: -8.4095, lng: 115.1889 },
+  },
+  "002": {
+    coordinates: { lat: 25.0343, lng: -77.3963 },
+  },
+  "003": {
+    coordinates: { lat: 64.9631, lng: -19.0208 },
+  },
+};
 
-  const handleTreasureFound = () => {
-    toast({
-      title: "🎉 Treasure Found!",
-      description: "Congratulations! You've discovered the hidden treasure!",
-    });
-  };
+export default function IslandMapPage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const island = islandData[id as keyof typeof islandData];
 
-  const handleNewGame = () => {
-    setGameKey(prev => prev + 1);
-    toast({
-      title: "New Game Started",
-      description: "A new treasure has been hidden somewhere on the map...",
-    });
-  };
+  if (!island) return <div>Island not found</div>;
 
   return (
-    <div className="container mx-auto px-4 py-8 mt-16">
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight">Treasure Hunt</h1>
-          <button 
-            onClick={handleNewGame}
-            className="apple-button"
-          >
-            New Game
-          </button>
-        </div>
-        
-        <p className="apple-text">
-          Search for the hidden treasure by digging tiles. The treasure could be anywhere on the map!
-        </p>
-
-        <div className="apple-container p-4">
-          <IslandGame 
-            key={gameKey}
-            onTreasureFound={handleTreasureFound}
-          />
-        </div>
-      </div>
+    <div className="fixed inset-0 bg-apple-gray-700">
+      <Button
+        variant="ghost"
+        onClick={() => navigate(-1)}
+        className="absolute top-6 left-6 z-50 bg-white/90 hover:bg-white dark:bg-apple-gray-600/90 
+                   dark:hover:bg-apple-gray-600 backdrop-blur-sm rounded-full shadow-lg"
+      >
+        <ChevronLeft className="h-5 w-5" />
+        <span className="ml-2">Back</span>
+      </Button>
+      
+      <IslandMap coordinates={island.coordinates} />
     </div>
   );
 }

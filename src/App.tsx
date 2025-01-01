@@ -9,7 +9,7 @@ import { PrizePoolBanner } from "@/components/PrizePoolBanner";
 import Index from "./pages/Index";
 import TreasureIslands from "./pages/TreasureIslands";
 import IslandDetails from "./pages/IslandDetails";
-import IslandMap from "./pages/IslandMap";
+import IslandMapPage from "./pages/IslandMap";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,7 +38,7 @@ const App = () => (
                       <Route path="/" element={<Index />} />
                       <Route path="/treasure-islands" element={<TreasureIslands />} />
                       <Route path="/island/:id" element={<IslandDetails />} />
-                      <Route path="/island/:id/map" element={<IslandMap />} />
+                      <Route path="/island/:id/map" element={<IslandMapPage />} />
                     </Routes>
                   </div>
                 </div>
