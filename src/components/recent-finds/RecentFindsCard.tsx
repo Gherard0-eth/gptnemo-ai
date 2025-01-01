@@ -19,15 +19,21 @@ export const RecentFindsCard = () => {
   const [ethPrice, setEthPrice] = useState<number>(0);
 
   useEffect(() => {
-    // Fetch ETH price
-    fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
-      .then(res => res.json())
-      .then(data => {
+    const fetchEthPrice = async () => {
+      try {
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+        const data = await response.json();
         setEthPrice(data.ethereum.usd);
-      })
-      .catch(err => console.error('Error fetching ETH price:', err));
+      } catch (err) {
+        console.error('Error fetching ETH price:', err);
+      }
+    };
 
-    // Get recent finds from leaderboard data
+    fetchEthPrice();
+  }, []);
+
+  useEffect(() => {
+    // Update recent finds whenever the leaderboard changes
     const hunters = getTopHunters();
     const finds = hunters.map((hunter, index) => ({
       id: index + 1,

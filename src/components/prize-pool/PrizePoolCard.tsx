@@ -8,12 +8,20 @@ export const PrizePoolCard = () => {
   const [ethPrice, setEthPrice] = useState<number>(0);
 
   useEffect(() => {
-    fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
-      .then(res => res.json())
-      .then(data => {
+    const fetchEthPrice = async () => {
+      try {
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+        const data = await response.json();
         setEthPrice(data.ethereum.usd);
-      })
-      .catch(err => console.error('Error fetching ETH price:', err));
+      } catch (err) {
+        console.error('Error fetching ETH price:', err);
+      }
+    };
+
+    fetchEthPrice();
+    // Refresh price every minute
+    const interval = setInterval(fetchEthPrice, 60000);
+    return () => clearInterval(interval);
   }, []);
 
   const usdValue = (amount * ethPrice).toLocaleString('en-US', {

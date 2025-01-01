@@ -9,6 +9,7 @@ import { Trophy, Coins } from "lucide-react";
 import { useLeaderboardStore } from "@/stores/useLeaderboardStore";
 import { useUserStore } from "@/stores/useUserStore";
 import { usePrizePoolStore } from "@/stores/usePrizePoolStore";
+import { useState, useEffect } from "react";
 
 interface TreasureFoundDialogProps {
   isOpen: boolean;
@@ -24,6 +25,23 @@ export function TreasureFoundDialog({
   const addWin = useLeaderboardStore((state) => state.addWin);
   const username = useUserStore((state) => state.username);
   const { amount: prizePool, resetPool } = usePrizePoolStore();
+  const [ethPrice, setEthPrice] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchEthPrice = async () => {
+      try {
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+        const data = await response.json();
+        setEthPrice(data.ethereum.usd);
+      } catch (err) {
+        console.error('Error fetching ETH price:', err);
+      }
+    };
+
+    if (isOpen) {
+      fetchEthPrice();
+    }
+  }, [isOpen]);
 
   const handleRedeem = () => {
     if (username) {
@@ -32,6 +50,12 @@ export function TreasureFoundDialog({
       onRedeem();
     }
   };
+
+  const usdValue = (prizePool * ethPrice).toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0
+  });
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -54,7 +78,7 @@ export function TreasureFoundDialog({
               {prizePool.toFixed(1)} ETH
             </div>
             <p className="text-sm text-apple-gray-500 dark:text-apple-gray-300 mt-2">
-              ≈ ${(prizePool * 2150).toLocaleString()} USD
+              ≈ {usdValue}
             </p>
           </div>
           <Button
