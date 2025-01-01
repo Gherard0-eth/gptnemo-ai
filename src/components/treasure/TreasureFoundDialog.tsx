@@ -11,6 +11,7 @@ import { useUserStore } from "@/stores/useUserStore";
 import { usePrizePoolStore } from "@/stores/usePrizePoolStore";
 import { useDashboardStore } from "@/stores/useDashboardStore";
 import { useState, useEffect } from "react";
+import { useTreasureHunt } from "@/hooks/useTreasureHunt";
 
 interface TreasureFoundDialogProps {
   isOpen: boolean;
@@ -29,6 +30,7 @@ export function TreasureFoundDialog({
   const username = useUserStore((state) => state.username);
   const { amount: prizePool, resetPool, setAmount } = usePrizePoolStore();
   const { addInflow } = useDashboardStore();
+  const { generateNewTreasure } = useTreasureHunt();
   const [ethPrice, setEthPrice] = useState<number>(0);
 
   useEffect(() => {
@@ -56,9 +58,13 @@ export function TreasureFoundDialog({
       const nextPoolAmount = prizePool * 0.15;  // 15% to next pool
 
       addWin(username, userAmount);
-      addInflow(prizePool, islandId); // Add islandId to track winning islands
+      addInflow(prizePool, islandId);
       resetPool();
-      setAmount(nextPoolAmount); // Set the new pool to 15% of previous prize
+      setAmount(nextPoolAmount);
+      
+      // Start new game
+      generateNewTreasure();
+      
       onRedeem();
     }
   };
@@ -87,7 +93,7 @@ export function TreasureFoundDialog({
             <p className="text-xl mb-2">Your Prize:</p>
             <div className="flex items-center justify-center gap-2 text-3xl font-bold text-apple-accent">
               <Coins className="h-8 w-8" />
-              {prizePool.toFixed(1)} ETH
+              {prizePool.toFixed(3)} ETH
             </div>
             <p className="text-sm text-apple-gray-500 dark:text-apple-gray-300 mt-2">
               ≈ {usdValue}

@@ -12,7 +12,7 @@ export const PrizePoolBanner = () => {
         <div className="flex items-center gap-2 group">
           <Coins className="h-5 w-5 text-apple-accent group-hover:text-apple-accent/90 transition-colors" />
           <span className="font-display text-base sm:text-lg">Current Prize Pool:</span>
-          <span className="font-bold text-base sm:text-lg">{prizePool.toFixed(1)} ETH</span>
+          <span className="font-bold text-base sm:text-lg">{prizePool.toFixed(3)} ETH</span>
         </div>
       </div>
     </div>
