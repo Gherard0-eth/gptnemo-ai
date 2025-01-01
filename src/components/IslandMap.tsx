@@ -28,23 +28,27 @@ export function IslandMap({ coordinates }: IslandMapProps) {
   const [dugTiles, setDugTiles] = useState<Set<string>>(new Set());
   const isMobile = useIsMobile();
 
-  // Calculate bounds based on container size and scale
+  // Improved bounds calculation to keep the map centered
   const getBounds = () => {
     if (!mapContainer.current) return { minX: 0, maxX: 0, minY: 0, maxY: 0 };
     
     const containerWidth = mapContainer.current.clientWidth;
     const containerHeight = mapContainer.current.clientHeight;
-    const mapWidth = containerWidth * 2; // 200vw
-    const mapHeight = containerHeight * 2; // 200vh
+    
+    // Adjust these values to control how much of the map can be scrolled
+    const mapWidth = containerWidth * 1.5; // Reduced from 2 to 1.5
+    const mapHeight = containerHeight * 1.5; // Reduced from 2 to 1.5
     
     const scaledMapWidth = mapWidth * scale;
     const scaledMapHeight = mapHeight * scale;
     
+    // Calculate bounds with a buffer to prevent empty spaces
+    const buffer = 20; // pixels of buffer space
     return {
-      minX: -(scaledMapWidth - containerWidth) / 2,
-      maxX: (scaledMapWidth - containerWidth) / 2,
-      minY: -(scaledMapHeight - containerHeight) / 2,
-      maxY: (scaledMapHeight - containerHeight) / 2,
+      minX: -Math.max(0, (scaledMapWidth - containerWidth) / 2) - buffer,
+      maxX: Math.max(0, (scaledMapWidth - containerWidth) / 2) + buffer,
+      minY: -Math.max(0, (scaledMapHeight - containerHeight) / 2) - buffer,
+      maxY: Math.max(0, (scaledMapHeight - containerHeight) / 2) + buffer,
     };
   };
 
@@ -96,6 +100,8 @@ export function IslandMap({ coordinates }: IslandMapProps) {
   const handleClusterClick = (clusterId: number) => {
     setCurrentCluster(clusterId);
     setScale(isMobile ? 1.5 : 2);
+    // Reset position when changing clusters to ensure it's centered
+    setPosition({ x: 0, y: 0 });
   };
 
   return (
@@ -137,7 +143,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
             onTouchEnd={handleMouseUp}
           >
             <div
-              className="absolute w-[200vw] h-[200vw] md:w-[150vw] md:h-[150vw]"
+              className="absolute w-[150vw] h-[150vw] md:w-[150vw] md:h-[150vw]"
               style={{
                 transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
                 transformOrigin: "center",
