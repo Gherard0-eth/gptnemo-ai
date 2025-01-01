@@ -11,6 +11,7 @@ interface LeaderboardState {
   entries: LeaderboardEntry[];
   addWin: (username: string, worth: number) => void;
   getTopHunters: () => LeaderboardEntry[];
+  resetEntries: () => void;
 }
 
 export const useLeaderboardStore = create<LeaderboardState>()(
@@ -42,6 +43,15 @@ export const useLeaderboardStore = create<LeaderboardState>()(
       getTopHunters: () => {
         const { entries } = get();
         return [...entries].sort((a, b) => b.worth - a.worth);
+      },
+      resetEntries: () => {
+        set({
+          entries: [
+            { username: "Nina", finds: 3, worth: 25.5 },
+            { username: "Pinta", finds: 2, worth: 18.3 },
+            { username: "Santa Maria", finds: 1, worth: 12.7 }
+          ]
+        });
       },
     }),
     {
