@@ -29,7 +29,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
   const isMobile = useIsMobile();
 
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault(); // Prevent default touch behavior
+    e.preventDefault();
     setIsDragging(true);
     const clientX = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
     const clientY = 'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
@@ -38,7 +38,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
 
   const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (isDragging) {
-      e.preventDefault(); // Prevent default touch behavior
+      e.preventDefault();
       const clientX = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
       const clientY = 'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
       setPosition({
@@ -66,20 +66,21 @@ export function IslandMap({ coordinates }: IslandMapProps) {
 
   const handleClusterClick = (clusterId: number) => {
     setCurrentCluster(clusterId);
-    setScale(isMobile ? 2 : 3); // Smaller zoom on mobile
+    setScale(isMobile ? 1.5 : 2); // Reduced zoom levels for better visibility
   };
 
   return (
-    <div className="relative w-full h-[calc(100vh-12rem)] md:h-[calc(100vh-6rem)] mx-auto max-w-7xl px-4 py-8">
+    <div className="relative w-full h-[calc(100vh-8rem)] mx-auto max-w-7xl px-2 md:px-4 py-4 md:py-8">
       <div className="apple-container h-full bg-apple-gray-100/80 dark:bg-apple-gray-600/80 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden">
         {/* Mini-map toggle */}
         <Button
           variant="ghost"
-          className="absolute top-4 right-4 z-10"
+          size="icon"
+          className="absolute top-2 right-2 z-10 bg-white/80 dark:bg-black/80 rounded-full shadow-lg"
           onClick={() => setShowMiniMap(!showMiniMap)}
         >
           <Compass className={cn(
-            "w-6 h-6 transition-transform",
+            "w-5 h-5 transition-transform",
             showMiniMap && "rotate-180"
           )} />
         </Button>
@@ -108,7 +109,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
             onTouchEnd={handleMouseUp}
           >
             <div
-              className="absolute w-[300vw] h-[300vw] md:w-[200vw] md:h-[200vw]"
+              className="absolute w-[200vw] h-[200vw] md:w-[150vw] md:h-[150vw]"
               style={{
                 transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
                 transformOrigin: "center",
