@@ -104,6 +104,62 @@ const islandData: Record<string, Island> = {
       { label: "Frozen Ships", icon: Anchor },
     ]
   },
+  "007": {
+    name: "Serpent's Isle",
+    description: "A mysterious island where giant sea serpents patrol the waters. Ancient mariners' logs speak of a treasure chamber hidden beneath the coils of a sleeping serpent god.",
+    climate: "Tropical",
+    terrain: "Jungle",
+    dangerLevel: "High",
+    coordinates: { lat: -16.5004, lng: -151.7415 },
+    characteristics: [
+      { label: "Sea Serpents", icon: Skull },
+      { label: "Dense Jungle", icon: Cloud },
+      { label: "Hidden Temple", icon: Mountain },
+      { label: "Treacherous Waters", icon: Anchor },
+    ]
+  },
+  "008": {
+    name: "Desert Mirage",
+    description: "An island that appears and disappears with the desert winds. Legends tell of a vast treasure chamber that only reveals itself during the full moon.",
+    climate: "Arid",
+    terrain: "Desert",
+    dangerLevel: "Medium",
+    coordinates: { lat: 23.4162, lng: 25.6628 },
+    characteristics: [
+      { label: "Shifting Sands", icon: Cloud },
+      { label: "Ancient Ruins", icon: Mountain },
+      { label: "Desert Spirits", icon: Skull },
+      { label: "Hidden Oasis", icon: Anchor },
+    ]
+  },
+  "009": {
+    name: "Komodo Sanctuary",
+    description: "A tropical paradise guarded by ancient dragons. Pirates of old used this island as their ultimate vault, knowing the fearsome guardians would keep their treasures safe.",
+    climate: "Tropical",
+    terrain: "Savanna",
+    dangerLevel: "High",
+    coordinates: { lat: -8.5527, lng: 119.4917 },
+    characteristics: [
+      { label: "Dragon Guardians", icon: Skull },
+      { label: "Tropical Heat", icon: Cloud },
+      { label: "Hidden Caves", icon: Mountain },
+      { label: "Ancient Traps", icon: Anchor },
+    ]
+  },
+  "010": {
+    name: "Mountain Haven",
+    description: "A mystical peak shrouded in eternal clouds. They say the mountain itself guards the accumulated wealth of an ancient civilization that once thrived here.",
+    climate: "Alpine",
+    terrain: "Mountains",
+    dangerLevel: "Medium",
+    coordinates: { lat: 27.9881, lng: 86.9250 },
+    characteristics: [
+      { label: "High Altitude", icon: Mountain },
+      { label: "Eternal Snow", icon: Cloud },
+      { label: "Mountain Spirits", icon: Skull },
+      { label: "Ancient Temples", icon: Anchor },
+    ]
+  },
 };
 
 export default function IslandDetails() {
