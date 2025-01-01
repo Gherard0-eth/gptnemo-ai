@@ -16,6 +16,7 @@ export const Header = () => {
   const prizePool = usePrizePoolStore((state) => state.amount);
   const [hasUnredeemedTreasure, setHasUnredeemedTreasure] = useState(false);
 
+  // Update treasure icon visibility whenever prize pool changes
   useEffect(() => {
     setHasUnredeemedTreasure(prizePool > 0);
   }, [prizePool]);

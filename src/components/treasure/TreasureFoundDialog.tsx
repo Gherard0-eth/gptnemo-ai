@@ -59,9 +59,11 @@ export function TreasureFoundDialog({
       const islandAmount = prizePool * 0.05;  // 5% to island
       const nextPoolAmount = prizePool * 0.15;  // 15% to next pool
 
+      // Important: Reset the pool first to ensure the header icon updates immediately
+      resetPool();
+      
       addWin(username, userAmount);
       addInflow(prizePool, islandId);
-      resetPool();
       setAmount(nextPoolAmount);
       
       // Start new game
