@@ -5,15 +5,51 @@ import { usePrizePoolStore } from "@/stores/usePrizePoolStore";
 import { useLeaderboardStore } from "@/stores/useLeaderboardStore";
 import { DollarSign, TrendingUp, Map, Users } from "lucide-react";
 import { useState, useEffect } from "react";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+interface DashboardStore {
+  totalInflow: number;
+  founderzInflow: number;
+  islandInflows: { [key: string]: number };
+  addInflow: (amount: number, islandId?: string) => void;
+  reset: () => void;
+}
+
+const useDashboardStore = create<DashboardStore>()(
+  persist(
+    (set) => ({
+      totalInflow: 0,
+      founderzInflow: 0,
+      islandInflows: {},
+      addInflow: (amount, islandId) => set((state) => ({
+        totalInflow: state.totalInflow + amount,
+        founderzInflow: state.founderzInflow + (amount * 0.1),
+        islandInflows: islandId 
+          ? {
+              ...state.islandInflows,
+              [islandId]: (state.islandInflows[islandId] || 0) + (amount * 0.05)
+            }
+          : state.islandInflows
+      })),
+      reset: () => set({
+        totalInflow: 0,
+        founderzInflow: 0,
+        islandInflows: {}
+      })
+    }),
+    {
+      name: 'dashboard-storage'
+    }
+  )
+);
 
 export default function Dashboard() {
   const { toast } = useToast();
   const resetPrizePool = usePrizePoolStore((state) => state.resetPool);
   const resetLeaderboard = useLeaderboardStore((state) => state.resetEntries);
+  const { totalInflow, founderzInflow, islandInflows, reset: resetDashboard } = useDashboardStore();
   const [ethPrice, setEthPrice] = useState<number>(0);
-  const [totalInflow, setTotalInflow] = useState<number>(0);
-  const [founderzInflow, setFounderzInflow] = useState<number>(0);
-  const [islandInflows, setIslandInflows] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
     const fetchEthPrice = async () => {
@@ -34,9 +70,7 @@ export default function Dashboard() {
   const handleClearCache = () => {
     resetPrizePool();
     resetLeaderboard();
-    setTotalInflow(0);
-    setFounderzInflow(0);
-    setIslandInflows({});
+    resetDashboard();
     toast({
       title: "Cache Cleared",
       description: "All data has been reset successfully.",

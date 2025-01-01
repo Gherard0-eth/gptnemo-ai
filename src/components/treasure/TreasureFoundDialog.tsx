@@ -45,7 +45,13 @@ export function TreasureFoundDialog({
 
   const handleRedeem = () => {
     if (username) {
-      addWin(username, prizePool);
+      // Calculate distributions
+      const userAmount = prizePool * 0.7;  // 70% to user
+      const founderzAmount = prizePool * 0.1;  // 10% to founders
+      const islandAmount = prizePool * 0.05;  // 5% to island
+      const nextPoolAmount = prizePool * 0.15;  // 15% to next pool
+
+      addWin(username, userAmount);
       resetPool();
       onRedeem();
     }
