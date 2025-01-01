@@ -5,6 +5,9 @@ import { IslandCharacteristics } from "@/components/island/IslandCharacteristics
 import { IslandStats } from "@/components/island/IslandStats";
 import { useToast } from "@/components/ui/use-toast";
 import { useTreasureHunt } from "@/hooks/useTreasureHunt";
+import { MapGrid } from "@/components/map/MapGrid";
+import { DigDialog } from "@/components/map/DigDialog";
+import { useState } from "react";
 
 type DangerLevel = "Low" | "Medium" | "High";
 
@@ -167,16 +170,27 @@ export default function IslandDetails() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { data: treasureLocation } = useTreasureHunt();
+  const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
+  const [dugTiles, setDugTiles] = useState<Set<string>>(new Set());
+  
   const island = islandData[id as keyof typeof islandData];
 
   if (!island) return <div>Island not found</div>;
 
-  const checkTreasure = () => {
+  const handleSquareClick = (row: number, col: number) => {
+    setSelectedSquare(`${row}-${col}`);
+  };
+
+  const handleDig = (tileId: string) => {
+    setDugTiles(new Set([...dugTiles, tileId]));
+    setSelectedSquare(null);
+
     if (id === treasureLocation) {
       toast({
-        title: "Congratulations! 🎉",
-        description: "You found the treasure! This is indeed the correct island.",
-        duration: 5000,
+        title: "🎉 CONGRATULATIONS! 🎉",
+        description: "You've found the treasure! This is indeed the correct island!",
+        duration: null, // Makes the toast stay until dismissed
+        className: "w-full max-w-3xl", // Makes the toast wider
       });
     } else {
       toast({
@@ -225,27 +239,21 @@ export default function IslandDetails() {
               alt="Island visualization"
               className="w-full h-full object-cover"
             />
+            <div className="absolute inset-0 bg-black/30">
+              <MapGrid
+                onSquareClick={handleSquareClick}
+                clusterId={parseInt(id || "0", 10) - 1}
+                dugTiles={dugTiles}
+              />
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-col gap-4">
-          <Button 
-            className="w-full apple-button" 
-            onClick={checkTreasure}
-            variant="default"
-          >
-            Check for Treasure
-          </Button>
-
-          <Button 
-            className="w-full apple-button" 
-            disabled
-            title="Coming soon: A new treasure hunting experience!"
-          >
-            <Map className="mr-2 h-5 w-5" />
-            Dig in the Island (Coming Soon)
-          </Button>
-        </div>
+        <DigDialog
+          selectedSquare={selectedSquare}
+          onOpenChange={(open) => !open && setSelectedSquare(null)}
+          onDig={handleDig}
+        />
       </div>
     </div>
   );

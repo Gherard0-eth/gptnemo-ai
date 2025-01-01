@@ -5,6 +5,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Filter, ChevronRight, ChevronLeft } from "lucide-react";
 import { useState } from "react";
+import { useTreasureHunt } from "@/hooks/useTreasureHunt";
 
 const mockIslands = [
   {
@@ -91,6 +92,7 @@ const mockIslands = [
 
 const TreasureIslands = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const { data: treasureLocation } = useTreasureHunt();
 
   return (
     <div className="min-h-screen bg-background dark:bg-apple-gray-700 transition-colors duration-300">
@@ -120,6 +122,16 @@ const TreasureIslands = () => {
                 ))}
               </div>
             </div>
+          </div>
+
+          {/* Debug Information */}
+          <div className="mt-8 p-4 bg-black/10 rounded-lg">
+            <h2 className="text-xl font-display text-apple-gray-700 dark:text-apple-gray-100 mb-2">
+              Debug Information
+            </h2>
+            <p className="text-apple-gray-500 dark:text-apple-gray-300">
+              Treasure Location: Island {treasureLocation}
+            </p>
           </div>
         </main>
       </div>
