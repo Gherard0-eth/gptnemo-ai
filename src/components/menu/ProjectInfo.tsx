@@ -1,42 +1,36 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { useShovelStore } from "@/stores/useShovelStore";
+import { Button } from "../ui/button";
+import { Shovel } from "lucide-react";
+import { useToast } from "../ui/use-toast";
 
-export const ProjectInfo = () => {
-  const [isOpen, setIsOpen] = useState(false);
+export function ProjectInfo() {
+  const { shovels, addShovels } = useShovelStore();
+  const { toast } = useToast();
+
+  const handleGetTestShovels = () => {
+    addShovels(5);
+    toast({
+      title: "Shovels Added!",
+      description: "You received 5 test shovels.",
+    });
+  };
 
   return (
     <div className="space-y-4">
-      <h2 className="font-display text-xl text-apple-gray-700 dark:text-apple-gray-100">
-        Project Info
-      </h2>
-      <div className="space-y-4">
-        <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-          <div className="text-sm text-muted-foreground">
-            <p>
-              Welcome to Epirates, where blockchain meets adventure! Our platform transforms
-              treasure hunting into an exciting Web3 experience.
-            </p>
-            <CollapsibleContent>
-              <p className="mt-2">
-                Using smart contracts and geolocation, we've created a unique game where
-                players can discover real-world locations, solve puzzles, and earn
-                cryptocurrency rewards. Join our community of modern-day pirates and start
-                your treasure hunting journey today!
-              </p>
-            </CollapsibleContent>
-          </div>
-          <CollapsibleTrigger asChild>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="mt-2 w-full justify-start"
-            >
-              {isOpen ? "Show less" : "Show more..."}
-            </Button>
-          </CollapsibleTrigger>
-        </Collapsible>
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-semibold">Treasure Hunter Stats</h2>
+        <div className="flex items-center gap-1">
+          <Shovel className="h-4 w-4" />
+          <span>{shovels}</span>
+        </div>
       </div>
+      <Button 
+        variant="outline" 
+        className="w-full"
+        onClick={handleGetTestShovels}
+      >
+        Get Test Shovels
+      </Button>
     </div>
   );
-};
+}

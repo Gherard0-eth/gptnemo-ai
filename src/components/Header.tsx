@@ -1,12 +1,14 @@
-import { Menu, Wallet } from "lucide-react";
+import { Menu, Wallet, Shovel } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { MenuContent } from "./MenuContent";
 import { useToast } from "./ui/use-toast";
+import { useShovelStore } from "@/stores/useShovelStore";
 
 export const Header = () => {
   const { toast } = useToast();
+  const shovels = useShovelStore((state) => state.shovels);
 
   const handleConnectWallet = () => {
     toast({
@@ -18,7 +20,6 @@ export const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-apple-gray-700/95 border-b border-apple-gray-200/20 dark:border-apple-gray-600/20 backdrop-blur-sm">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Menu Button (Both Mobile and Desktop) */}
         <div>
           <Sheet>
             <SheetTrigger asChild>
@@ -32,7 +33,6 @@ export const Header = () => {
           </Sheet>
         </div>
 
-        {/* Logo - Now centered */}
         <div className="flex-1 flex justify-center">
           <Link to="/" className="flex items-center">
             <span className="font-display text-2xl text-apple-gray-700 dark:text-apple-gray-100">
@@ -41,8 +41,11 @@ export const Header = () => {
           </Link>
         </div>
 
-        {/* Right side buttons */}
         <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 mr-2 text-apple-gray-700 dark:text-apple-gray-100">
+            <Shovel className="h-4 w-4" />
+            <span>{shovels}</span>
+          </div>
           <Button
             variant="outline"
             className="flex items-center gap-2"

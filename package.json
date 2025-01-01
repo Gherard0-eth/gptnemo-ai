@@ -67,7 +67,8 @@
     "vaul": "^0.9.3",
     "viem": "^2.21.57",
     "wagmi": "^2.14.6",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
