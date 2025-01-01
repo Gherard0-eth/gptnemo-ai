@@ -3,9 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { LeaderboardEntry } from "./LeaderboardEntry";
 import { useLeaderboardStore } from "@/stores/useLeaderboardStore";
+import { useEffect, useState } from "react";
 
 export const LeaderboardCard = () => {
-  const topHunters = useLeaderboardStore((state) => state.getTopHunters());
+  const [topHunters, setTopHunters] = useState([] as ReturnType<typeof useLeaderboardStore.getState>['entries']);
+  const getTopHunters = useLeaderboardStore((state) => state.getTopHunters);
+  
+  useEffect(() => {
+    setTopHunters(getTopHunters());
+  }, [getTopHunters]);
 
   return (
     <Card>
