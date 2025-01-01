@@ -1,39 +1,19 @@
-import { Menu, Wallet, Shovel, Coins } from "lucide-react";
+import { Menu, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { MenuContent } from "./MenuContent";
 import { useToast } from "./ui/use-toast";
 import { useShovelStore } from "@/stores/useShovelStore";
-import { usePrizePoolStore } from "@/stores/usePrizePoolStore";
-import { useState, useEffect } from "react";
-import { TreasureFoundDialog } from "./treasure/TreasureFoundDialog";
 
 export const Header = () => {
   const { toast } = useToast();
   const shovels = useShovelStore((state) => state.shovels);
-  const [showTreasureDialog, setShowTreasureDialog] = useState(false);
-  const prizePool = usePrizePoolStore((state) => state.amount);
-  const [hasUnredeemedTreasure, setHasUnredeemedTreasure] = useState(false);
-
-  // Update treasure icon visibility whenever prize pool changes
-  useEffect(() => {
-    setHasUnredeemedTreasure(prizePool > 0);
-  }, [prizePool]);
 
   const handleConnectWallet = () => {
     toast({
       title: "Coming Soon",
       description: "Wallet connection functionality will be available soon!",
-    });
-  };
-
-  const handleRedeem = () => {
-    setShowTreasureDialog(false);
-    setHasUnredeemedTreasure(false);
-    toast({
-      title: "Prize Redeemed! 🎉",
-      description: "Your treasure has been successfully claimed!",
     });
   };
 
@@ -62,42 +42,24 @@ export const Header = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          {hasUnredeemedTreasure && (
+          <Link to="/profile">
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setShowTreasureDialog(true)}
-              className="relative animate-pulse"
+              className="text-apple-gray-700 dark:text-apple-gray-100"
             >
-              <Coins className="h-6 w-6 text-apple-accent" 
-                     style={{ 
-                       filter: 'drop-shadow(0 0 4px currentColor)',
-                       strokeWidth: 2.5 
-                     }}
-              />
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full" />
+              <Wallet className="h-5 w-5" />
             </Button>
-          )}
-          <div className="flex items-center gap-1 mr-2 text-apple-gray-700 dark:text-apple-gray-100">
-            <Shovel className="h-4 w-4" />
-            <span>{shovels}</span>
-          </div>
+          </Link>
           <Button
             variant="outline"
             className="flex items-center gap-2"
             onClick={handleConnectWallet}
           >
-            <Wallet className="h-4 w-4" />
             <span className="hidden md:inline">Connect Wallet</span>
           </Button>
         </div>
       </div>
-
-      <TreasureFoundDialog
-        isOpen={showTreasureDialog}
-        onOpenChange={setShowTreasureDialog}
-        onRedeem={handleRedeem}
-      />
     </header>
   );
-};
+}
