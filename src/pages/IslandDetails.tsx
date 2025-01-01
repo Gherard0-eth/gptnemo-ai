@@ -12,7 +12,7 @@ import { islandData } from "@/data/islandData";
 export default function IslandDetails() {
   const { id } = useParams();
   const { toast } = useToast();
-  const { data: treasureLocation } = useTreasureHunt();
+  const { data: treasureLocation, isLoading, error } = useTreasureHunt();
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [dugTiles, setDugTiles] = useState<Set<string>>(new Set());
   
@@ -39,7 +39,8 @@ export default function IslandDetails() {
 
     const [row, col] = tileId.split('-').map(Number);
 
-    if (treasureLocation?.islandId === id && 
+    if (treasureLocation && 
+        treasureLocation.islandId === id && 
         row === treasureLocation.coordinates.y && 
         col === treasureLocation.coordinates.x) {
       toast({
@@ -89,6 +90,18 @@ export default function IslandDetails() {
             </div>
           </div>
         </div>
+
+        {/* Debug Information */}
+        {!isLoading && !error && treasureLocation && (
+          <div className="mt-8 p-4 bg-black/10 rounded-lg">
+            <h2 className="text-xl font-display text-apple-gray-700 dark:text-apple-gray-100 mb-2">
+              Debug Information
+            </h2>
+            <p className="text-apple-gray-500 dark:text-apple-gray-300">
+              Treasure Location: Island {treasureLocation.islandId} at coordinates ({treasureLocation.coordinates.x}, {treasureLocation.coordinates.y})
+            </p>
+          </div>
+        )}
 
         <DigDialog
           selectedSquare={selectedSquare}
