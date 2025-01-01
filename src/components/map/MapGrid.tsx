@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { cn } from "@/lib/utils";
-import { Treasure } from "lucide-react";
+import { Gem } from "lucide-react";
 
 interface MapGridProps {
   onSquareClick: (row: number, col: number) => void;
@@ -69,7 +69,7 @@ export const MapGrid = memo(function MapGrid({ onSquareClick, clusterId, dugTile
           {isDug && (
             <div className="absolute inset-0 flex items-center justify-center text-2xl">
               {isTreasure ? (
-                <Treasure className="w-8 h-8 text-yellow-500 animate-bounce" />
+                <Gem className="w-8 h-8 text-yellow-500 animate-bounce" />
               ) : (
                 "❌"
               )}
