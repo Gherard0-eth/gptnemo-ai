@@ -66,6 +66,9 @@ export function TreasureFoundDialog({
       generateNewTreasure();
       
       onRedeem();
+      
+      // Force page refresh
+      window.location.reload();
     }
   };
 

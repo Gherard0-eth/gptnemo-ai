@@ -1,13 +1,15 @@
 import { memo } from "react";
 import { cn } from "@/lib/utils";
+import { Treasure } from "lucide-react";
 
 interface MapGridProps {
   onSquareClick: (row: number, col: number) => void;
   clusterId: number;
   dugTiles: Set<string>;
+  treasureFound?: string | null;
 }
 
-export const MapGrid = memo(function MapGrid({ onSquareClick, clusterId, dugTiles }: MapGridProps) {
+export const MapGrid = memo(function MapGrid({ onSquareClick, clusterId, dugTiles, treasureFound }: MapGridProps) {
   const gridSize = 6;
   const squares = [];
 
@@ -47,6 +49,7 @@ export const MapGrid = memo(function MapGrid({ onSquareClick, clusterId, dugTile
       const col = j;
       const tileId = `${row}-${col}`;
       const isDug = dugTiles.has(tileId);
+      const isTreasure = treasureFound === tileId;
 
       squares.push(
         <div
@@ -65,7 +68,11 @@ export const MapGrid = memo(function MapGrid({ onSquareClick, clusterId, dugTile
         >
           {isDug && (
             <div className="absolute inset-0 flex items-center justify-center text-2xl">
-              ❌
+              {isTreasure ? (
+                <Treasure className="w-8 h-8 text-yellow-500 animate-bounce" />
+              ) : (
+                "❌"
+              )}
             </div>
           )}
         </div>

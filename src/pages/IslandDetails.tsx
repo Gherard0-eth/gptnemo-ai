@@ -19,6 +19,7 @@ export default function IslandDetails() {
   const [dugTiles, setDugTiles] = useState<Set<string>>(new Set());
   const [showTreasureDialog, setShowTreasureDialog] = useState(false);
   const [hasUnredeemedTreasure, setHasUnredeemedTreasure] = useState(false);
+  const [treasureFound, setTreasureFound] = useState<string | null>(null);
   
   const island = islandData[id as keyof typeof islandData];
 
@@ -47,6 +48,7 @@ export default function IslandDetails() {
         treasureLocation.islandId === id && 
         row === treasureLocation.coordinates.y && 
         col === treasureLocation.coordinates.x) {
+      setTreasureFound(tileId);
       setShowTreasureDialog(true);
     } else {
       toast({
@@ -66,6 +68,7 @@ export default function IslandDetails() {
       description: "Your treasure has been successfully claimed!",
       duration: 5000,
     });
+    window.location.reload();
   };
 
   const handleTreasureDialogClose = (open: boolean) => {
@@ -103,6 +106,7 @@ export default function IslandDetails() {
                 onSquareClick={handleSquareClick}
                 clusterId={parseInt(id || "0", 10) - 1}
                 dugTiles={dugTiles}
+                treasureFound={treasureFound}
               />
             </div>
           </div>
