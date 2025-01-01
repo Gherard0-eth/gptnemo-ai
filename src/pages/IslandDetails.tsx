@@ -3,7 +3,6 @@ import { Map, ArrowLeft, Mountain, Cloud, Anchor, Skull, LucideIcon } from "luci
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { IslandCharacteristics } from "@/components/island/IslandCharacteristics";
 import { IslandStats } from "@/components/island/IslandStats";
-import { IslandGame } from "@/components/game/IslandGame";
 import { useToast } from "@/components/ui/use-toast";
 
 type DangerLevel = "Low" | "Medium" | "High";
@@ -114,13 +113,6 @@ export default function IslandDetails() {
 
   if (!island) return <div>Island not found</div>;
 
-  const handleDig = (x: number, y: number) => {
-    toast({
-      title: "Digging...",
-      description: `Searching for treasure at coordinates (${x}, ${y})`,
-    });
-  };
-
   return (
     <div className="min-h-screen bg-background dark:bg-apple-gray-700 p-4">
       <Button
@@ -153,15 +145,23 @@ export default function IslandDetails() {
           <h2 className="text-2xl font-display text-apple-gray-700 dark:text-apple-gray-100 mb-4">
             Explore the Island
           </h2>
-          <IslandGame onDig={handleDig} />
+          <div className="w-full h-[400px] rounded-lg overflow-hidden relative">
+            <img 
+              src="/lovable-uploads/b8de5ac2-3913-4942-bbc3-5b76abaa913d.png"
+              alt="Island visualization"
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
 
-        <Link to={`/island/${id}/map`}>
-          <Button className="w-full apple-button mt-6">
-            <Map className="mr-2 h-5 w-5" />
-            Dig in the Island
-          </Button>
-        </Link>
+        <Button 
+          className="w-full apple-button mt-6" 
+          disabled
+          title="Coming soon: A new treasure hunting experience!"
+        >
+          <Map className="mr-2 h-5 w-5" />
+          Dig in the Island (Coming Soon)
+        </Button>
       </div>
     </div>
   );
