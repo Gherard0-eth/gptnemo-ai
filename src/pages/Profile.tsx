@@ -6,8 +6,8 @@ import { useUserStore } from "@/stores/useUserStore";
 import { usePrizePoolStore } from "@/stores/usePrizePoolStore";
 import { TreasureFoundDialog } from "@/components/treasure/TreasureFoundDialog";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Switch } from "@/components/ui/switch";
 
 export default function Profile() {
   const username = useUserStore((state) => state.username);
@@ -15,12 +15,18 @@ export default function Profile() {
   const getTopHunters = useLeaderboardStore((state) => state.getTopHunters);
   const prizePool = usePrizePoolStore((state) => state.amount);
   const [showTreasureDialog, setShowTreasureDialog] = useState(false);
+  const [selectedTreasureId, setSelectedTreasureId] = useState<number | null>(null);
 
-  const userTreasures = getTopHunters().filter(hunter => hunter.username === username);
-  const hasUnredeemedTreasure = prizePool > 0;
+  const userTreasures = getTopHunters()
+    .filter(hunter => hunter.username === username)
+    .map(treasure => ({
+      ...treasure,
+      redeemed: false // This should come from your database in a real implementation
+    }));
 
-  const handleRedeem = () => {
-    setShowTreasureDialog(false);
+  const handleRedeem = (treasureId: number) => {
+    setSelectedTreasureId(treasureId);
+    setShowTreasureDialog(true);
   };
 
   return (
@@ -63,7 +69,21 @@ export default function Profile() {
                       <p className="font-medium">{treasure.worth.toFixed(1)} ETH</p>
                       <p className="text-sm text-muted-foreground">Found on Island #{index + 1}</p>
                     </div>
-                    <Award className="h-5 w-5 text-yellow-500" />
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-muted-foreground">
+                        {treasure.redeemed ? 'Redeemed' : 'Redeem'}
+                      </span>
+                      <Switch
+                        checked={treasure.redeemed}
+                        onCheckedChange={() => !treasure.redeemed && handleRedeem(index)}
+                        className={`${
+                          treasure.redeemed
+                            ? 'bg-red-500 hover:bg-red-600'
+                            : 'bg-green-500 hover:bg-green-600'
+                        }`}
+                        disabled={treasure.redeemed}
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -73,24 +93,16 @@ export default function Profile() {
               </p>
             )}
           </ScrollArea>
-
-          {hasUnredeemedTreasure && (
-            <div className="mt-4">
-              <Button
-                className="w-full"
-                onClick={() => setShowTreasureDialog(true)}
-              >
-                Redeem Available Treasure
-              </Button>
-            </div>
-          )}
         </CardContent>
       </Card>
 
       <TreasureFoundDialog
         isOpen={showTreasureDialog}
         onOpenChange={setShowTreasureDialog}
-        onRedeem={handleRedeem}
+        onRedeem={() => {
+          // Here you would update the redeemed status in your database
+          setShowTreasureDialog(false);
+        }}
       />
     </div>
   );
