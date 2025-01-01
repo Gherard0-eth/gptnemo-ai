@@ -5,9 +5,10 @@ import { ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Shovel } from "lucide-react"
 
 interface IslandGameProps {
   onDig: (x: number, y: number) => void;
+  onTreasureFound: () => void;  // Added this prop definition
 }
 
-export function IslandGame({ onDig }: IslandGameProps) {
+export function IslandGame({ onDig, onTreasureFound }: IslandGameProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [activeDirection, setActiveDirection] = useState<string | null>(null);
@@ -132,6 +133,7 @@ export function IslandGame({ onDig }: IslandGameProps) {
     const gridX = Math.round(position.x);
     const gridY = Math.round(position.y);
     onDig(gridX, gridY);
+    onTreasureFound(); // Call onTreasureFound when digging
   };
 
   return (
