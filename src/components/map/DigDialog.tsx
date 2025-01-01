@@ -10,9 +10,16 @@ import { Shovel } from "lucide-react";
 interface DigDialogProps {
   selectedSquare: string | null;
   onOpenChange: (open: boolean) => void;
+  onDig: (tileId: string) => void;
 }
 
-export function DigDialog({ selectedSquare, onOpenChange }: DigDialogProps) {
+export function DigDialog({ selectedSquare, onOpenChange, onDig }: DigDialogProps) {
+  const handleDig = () => {
+    if (selectedSquare) {
+      onDig(selectedSquare);
+    }
+  };
+
   return (
     <Dialog open={!!selectedSquare} onOpenChange={onOpenChange}>
       <DialogContent className="apple-container max-w-sm mx-auto">
@@ -28,7 +35,7 @@ export function DigDialog({ selectedSquare, onOpenChange }: DigDialogProps) {
           <Button
             className="apple-button w-full max-w-[200px] mx-auto group transition-all duration-300 
                      hover:transform hover:scale-105 active:scale-95"
-            onClick={() => console.log(`Digging at square ${selectedSquare}`)}
+            onClick={handleDig}
           >
             <Shovel className="mr-2 h-5 w-5 group-hover:animate-bounce" />
             Dig Here
