@@ -21,7 +21,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
   const isMobile = useIsMobile();
 
   const handleZoomIn = () => {
-    setScale((prev) => Math.min(prev * 1.2, 3));
+    setScale((prev) => Math.min(prev * 1.2, 5));
   };
 
   const handleZoomOut = () => {
@@ -54,17 +54,23 @@ export function IslandMap({ coordinates }: IslandMapProps) {
     setSelectedSquare(`${row}-${col}`);
   };
 
-  // Reset position and scale when component mounts
   useEffect(() => {
-    setPosition({ x: 0, y: 0 });
-    setScale(1);
+    const centerMap = () => {
+      if (!mapContainer.current) return;
+      const { width, height } = mapContainer.current.getBoundingClientRect();
+      setPosition({ x: width / 4, y: height / 4 });
+    };
+
+    centerMap();
+    window.addEventListener('resize', centerMap);
+    return () => window.removeEventListener('resize', centerMap);
   }, []);
 
   return (
     <div className="relative w-full h-full">
       <div
         ref={mapContainer}
-        className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing rounded-lg touch-none"
+        className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing rounded-lg touch-none bg-apple-gray-700"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove as any}
         onMouseUp={handleMouseUp}
@@ -82,7 +88,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
           }}
         >
           <img
-            src="https://images.unsplash.com/photo-1501854140801-50d01698950b"
+            src="/lovable-uploads/83bb3fee-d72f-4649-85c3-c54b5bd5f72f.png"
             alt="Island Map"
             className="w-full h-full object-cover"
           />
@@ -90,7 +96,11 @@ export function IslandMap({ coordinates }: IslandMapProps) {
         </div>
       </div>
 
-      <MapControls onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} />
+      <MapControls 
+        onZoomIn={handleZoomIn} 
+        onZoomOut={handleZoomOut}
+        className={`absolute ${isMobile ? 'bottom-4 right-4' : 'top-4 right-4'}`}
+      />
 
       <DigDialog
         selectedSquare={selectedSquare}

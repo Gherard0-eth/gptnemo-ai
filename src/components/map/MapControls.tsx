@@ -1,36 +1,31 @@
+import { Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ZoomIn, ZoomOut, Move } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface MapControlsProps {
   onZoomIn: () => void;
   onZoomOut: () => void;
+  className?: string;
 }
 
-export function MapControls({ onZoomIn, onZoomOut }: MapControlsProps) {
+export function MapControls({ onZoomIn, onZoomOut, className }: MapControlsProps) {
   return (
-    <div className="absolute bottom-4 right-4 flex gap-2 z-10">
+    <div className={cn("flex flex-col gap-2", className)}>
       <Button
         variant="secondary"
         size="icon"
-        className="bg-white/80 dark:bg-pirate-navy/80 shadow-lg"
         onClick={onZoomIn}
+        className="w-10 h-10 rounded-full bg-white/80 hover:bg-white/90 dark:bg-apple-gray-600/80 dark:hover:bg-apple-gray-600/90 backdrop-blur-sm"
       >
-        <ZoomIn className="h-4 w-4" />
+        <Plus className="h-4 w-4" />
       </Button>
       <Button
         variant="secondary"
         size="icon"
-        className="bg-white/80 dark:bg-pirate-navy/80 shadow-lg"
         onClick={onZoomOut}
+        className="w-10 h-10 rounded-full bg-white/80 hover:bg-white/90 dark:bg-apple-gray-600/80 dark:hover:bg-apple-gray-600/90 backdrop-blur-sm"
       >
-        <ZoomOut className="h-4 w-4" />
-      </Button>
-      <Button
-        variant="secondary"
-        size="icon"
-        className="bg-white/80 dark:bg-pirate-navy/80 shadow-lg"
-      >
-        <Move className="h-4 w-4" />
+        <Minus className="h-4 w-4" />
       </Button>
     </div>
   );
