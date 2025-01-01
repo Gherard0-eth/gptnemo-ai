@@ -1,26 +1,28 @@
+import { formatInTimeZone } from 'date-fns-tz';
+
 interface Find {
   id: number;
   finder: string;
   island: string;
   worth: string;
   time: string;
+  timestamp?: Date;
 }
 
-interface RecentFindEntryProps {
-  find: Find;
-}
+export const RecentFindEntry = ({ find }: { find: Find }) => {
+  const formattedTime = find.timestamp 
+    ? formatInTimeZone(find.timestamp, 'Europe/Rome', 'HH:mm:ss')
+    : find.time;
 
-export const RecentFindEntry = ({ find }: RecentFindEntryProps) => {
   return (
-    <div className="space-y-1">
-      <div className="flex items-center justify-between">
-        <div className="font-medium">{find.finder}</div>
-        <div className="text-sm text-muted-foreground">{find.time}</div>
+    <div className="flex items-center justify-between">
+      <div className="space-y-1">
+        <p className="text-sm font-medium leading-none">{find.finder}</p>
+        <p className="text-sm text-muted-foreground">
+          Found {find.worth} on {find.island}
+        </p>
       </div>
-      <div className="flex items-center justify-between text-sm">
-        <div className="text-muted-foreground">{find.island}</div>
-        <div className="text-apple-accent">{find.worth}</div>
-      </div>
+      <p className="text-sm text-muted-foreground">{formattedTime}</p>
     </div>
   );
 };

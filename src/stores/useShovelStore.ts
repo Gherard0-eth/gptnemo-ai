@@ -5,6 +5,7 @@ interface ShovelStore {
   shovels: number;
   addShovels: (amount: number) => void;
   useShovel: () => boolean;
+  reset: () => void;
 }
 
 export const useShovelStore = create<ShovelStore>()(
@@ -20,6 +21,7 @@ export const useShovelStore = create<ShovelStore>()(
         }
         return false;
       },
+      reset: () => set({ shovels: 0 }),
     }),
     {
       name: 'shovel-storage',

@@ -11,6 +11,7 @@ interface Find {
   island: string;
   worth: string;
   time: string;
+  timestamp: Date;
 }
 
 export const RecentFindsCard = () => {
@@ -33,14 +34,14 @@ export const RecentFindsCard = () => {
   }, []);
 
   useEffect(() => {
-    // Update recent finds whenever the leaderboard changes
     const hunters = getTopHunters();
     const finds = hunters.map((hunter, index) => ({
       id: index + 1,
       finder: hunter.username,
       island: ["Skull's Haven", "Dragon's Lair", "Mermaid's Cove"][Math.floor(Math.random() * 3)],
       worth: `${hunter.worth.toFixed(1)} ETH`,
-      time: `${Math.floor(Math.random() * 12 + 1)}h ago`
+      time: 'Just now',
+      timestamp: new Date()
     }));
     setRecentFinds(finds);
   }, [getTopHunters]);

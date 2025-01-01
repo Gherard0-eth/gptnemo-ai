@@ -1,9 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { usePrizePoolStore } from "@/stores/usePrizePoolStore";
 import { useLeaderboardStore } from "@/stores/useLeaderboardStore";
-import { DollarSign, TrendingUp, Map, Users } from "lucide-react";
+import { useShovelStore } from "@/stores/useShovelStore";
+import { DollarSign, TrendingUp, Map, Users, Shovel } from "lucide-react";
 import { useState, useEffect } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -12,7 +14,9 @@ interface DashboardStore {
   totalInflow: number;
   founderzInflow: number;
   islandInflows: { [key: string]: number };
+  shovelRatio: number;
   addInflow: (amount: number, islandId?: string) => void;
+  setShovelRatio: (ratio: number) => void;
   reset: () => void;
 }
 
@@ -22,6 +26,7 @@ const useDashboardStore = create<DashboardStore>()(
       totalInflow: 0,
       founderzInflow: 0,
       islandInflows: {},
+      shovelRatio: 1,
       addInflow: (amount, islandId) => set((state) => ({
         totalInflow: state.totalInflow + amount,
         founderzInflow: state.founderzInflow + (amount * 0.1),
@@ -32,10 +37,12 @@ const useDashboardStore = create<DashboardStore>()(
             }
           : state.islandInflows
       })),
+      setShovelRatio: (ratio) => set({ shovelRatio: ratio }),
       reset: () => set({
         totalInflow: 0,
         founderzInflow: 0,
-        islandInflows: {}
+        islandInflows: {},
+        shovelRatio: 1
       })
     }),
     {
@@ -48,8 +55,10 @@ export default function Dashboard() {
   const { toast } = useToast();
   const resetPrizePool = usePrizePoolStore((state) => state.resetPool);
   const resetLeaderboard = useLeaderboardStore((state) => state.resetEntries);
-  const { totalInflow, founderzInflow, islandInflows, reset: resetDashboard } = useDashboardStore();
+  const { totalInflow, founderzInflow, islandInflows, shovelRatio, reset: resetDashboard, setShovelRatio } = useDashboardStore();
+  const resetShovels = useShovelStore((state) => state.reset);
   const [ethPrice, setEthPrice] = useState<number>(0);
+  const [newRatio, setNewRatio] = useState<string>(shovelRatio.toString());
 
   useEffect(() => {
     const fetchEthPrice = async () => {
@@ -77,6 +86,31 @@ export default function Dashboard() {
     });
   };
 
+  const handleResetShovels = () => {
+    resetShovels();
+    toast({
+      title: "Shovels Reset",
+      description: "Your shovel count has been reset to 0.",
+    });
+  };
+
+  const handleUpdateRatio = () => {
+    const ratio = parseFloat(newRatio);
+    if (isNaN(ratio) || ratio <= 0) {
+      toast({
+        title: "Invalid Ratio",
+        description: "Please enter a valid positive number.",
+        variant: "destructive"
+      });
+      return;
+    }
+    setShovelRatio(ratio);
+    toast({
+      title: "Ratio Updated",
+      description: `New shovel-ETH ratio set to ${ratio}.`,
+    });
+  };
+
   const formatUSD = (eth: number) => {
     return (eth * ethPrice).toLocaleString('en-US', {
       style: 'currency',
@@ -89,14 +123,45 @@ export default function Dashboard() {
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Dashboard</h1>
-        <Button 
-          variant="destructive"
-          onClick={handleClearCache}
-          className="gap-2"
-        >
-          Clear Cache
-        </Button>
+        <div className="space-x-4">
+          <Button 
+            variant="outline"
+            onClick={handleResetShovels}
+            className="gap-2"
+          >
+            <Shovel className="h-4 w-4" />
+            Reset Shovels
+          </Button>
+          <Button 
+            variant="destructive"
+            onClick={handleClearCache}
+            className="gap-2"
+          >
+            Clear Cache
+          </Button>
+        </div>
       </div>
+
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle className="text-lg">Shovel-ETH Ratio Settings</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center gap-4">
+            <Input
+              type="number"
+              value={newRatio}
+              onChange={(e) => setNewRatio(e.target.value)}
+              placeholder="Enter new ratio"
+              className="max-w-[200px]"
+            />
+            <Button onClick={handleUpdateRatio}>Update Ratio</Button>
+          </div>
+          <p className="text-sm text-muted-foreground mt-2">
+            Current ratio: 1 ETH = {shovelRatio} shovels
+          </p>
+        </CardContent>
+      </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card>
