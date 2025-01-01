@@ -8,15 +8,43 @@ interface MapGridProps {
 }
 
 export const MapGrid = memo(function MapGrid({ onSquareClick, clusterId, dugTiles }: MapGridProps) {
-  const gridSize = 10; // 10x10 grid per cluster
-  const clusterRow = Math.floor(clusterId / 5);
-  const clusterCol = clusterId % 5;
+  const gridSize = 6; // Changed from 10 to 6
   const squares = [];
 
+  // Add coordinate labels
+  const xAxisLabels = Array.from({ length: gridSize }, (_, i) => (
+    <div
+      key={`x-${i}`}
+      className="absolute text-white text-xs font-mono"
+      style={{
+        left: `${((i + 0.5) * 100) / gridSize}%`,
+        top: '-20px',
+        transform: 'translateX(-50%)',
+      }}
+    >
+      {i}
+    </div>
+  ));
+
+  const yAxisLabels = Array.from({ length: gridSize }, (_, i) => (
+    <div
+      key={`y-${i}`}
+      className="absolute text-white text-xs font-mono"
+      style={{
+        top: `${((i + 0.5) * 100) / gridSize}%`,
+        left: '-20px',
+        transform: 'translateY(-50%)',
+      }}
+    >
+      {i}
+    </div>
+  ));
+
+  // Create grid squares
   for (let i = 0; i < gridSize; i++) {
     for (let j = 0; j < gridSize; j++) {
-      const row = clusterRow * gridSize + i;
-      const col = clusterCol * gridSize + j;
+      const row = i;
+      const col = j;
       const tileId = `${row}-${col}`;
       const isDug = dugTiles.has(tileId);
 
@@ -40,8 +68,13 @@ export const MapGrid = memo(function MapGrid({ onSquareClick, clusterId, dugTile
   }
 
   return (
-    <div className="absolute inset-0 pointer-events-auto">
-      {squares}
+    <div className="absolute inset-0 pointer-events-auto p-6">
+      {/* Coordinate labels */}
+      <div className="relative w-full h-full">
+        {xAxisLabels}
+        {yAxisLabels}
+        {squares}
+      </div>
     </div>
   );
 });

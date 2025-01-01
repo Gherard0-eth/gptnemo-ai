@@ -185,17 +185,22 @@ export default function IslandDetails() {
     setDugTiles(new Set([...dugTiles, tileId]));
     setSelectedSquare(null);
 
-    if (id === treasureLocation) {
+    // Parse the coordinates from the tileId (format: "row-col")
+    const [row, col] = tileId.split('-').map(Number);
+
+    if (id === treasureLocation?.islandId && 
+        row === treasureLocation.coordinates.y && 
+        col === treasureLocation.coordinates.x) {
       toast({
         title: "🎉 CONGRATULATIONS! 🎉",
-        description: "You've found the treasure! This is indeed the correct island!",
-        duration: null, // Makes the toast stay until dismissed
-        className: "w-full max-w-3xl", // Makes the toast wider
+        description: "You've found the treasure! This is the correct location!",
+        duration: null,
+        className: "w-full max-w-3xl",
       });
     } else {
       toast({
         title: "Keep searching! ⛵",
-        description: "The treasure is not on this island. Try another one!",
+        description: "The treasure is not here. Try another location!",
         duration: 3000,
       });
     }
