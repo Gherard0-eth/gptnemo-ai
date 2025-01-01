@@ -1,4 +1,4 @@
-import { Github, Twitter } from "lucide-react";
+import { Github, Twitter, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const SocialLinks = () => {
@@ -7,27 +7,38 @@ export const SocialLinks = () => {
       <h2 className="font-display text-lg text-apple-gray-700 dark:text-apple-gray-100 mb-3">
         Social Links
       </h2>
-      <div className="flex gap-3">
+      <div className="flex gap-2">
         <Button 
           variant="outline" 
           size="sm"
-          className="flex-1 text-sm" 
+          className="flex-1 text-xs" 
           asChild
         >
           <a href="https://github.com/your-repo" target="_blank" rel="noopener noreferrer">
-            <Github className="mr-2 h-3.5 w-3.5" />
+            <Github className="mr-1 h-3 w-3" />
             GitHub
           </a>
         </Button>
         <Button 
           variant="outline" 
           size="sm"
-          className="flex-1 text-sm" 
+          className="flex-1 text-xs" 
           asChild
         >
           <a href="https://twitter.com/your-handle" target="_blank" rel="noopener noreferrer">
-            <Twitter className="mr-2 h-3.5 w-3.5" />
+            <Twitter className="mr-1 h-3 w-3" />
             Twitter
+          </a>
+        </Button>
+        <Button 
+          variant="outline" 
+          size="sm"
+          className="flex-1 text-xs" 
+          asChild
+        >
+          <a href="/docs" target="_blank" rel="noopener noreferrer">
+            <FileText className="mr-1 h-3 w-3" />
+            Docs
           </a>
         </Button>
       </div>
