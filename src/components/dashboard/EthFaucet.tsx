@@ -5,11 +5,13 @@ import { useState } from "react";
 import { DollarSign } from "lucide-react";
 import { useDashboardStore } from "@/stores/useDashboardStore";
 import { useShovelStore } from "@/stores/useShovelStore";
+import { usePrizePoolStore } from "@/stores/usePrizePoolStore";
 import { useToast } from "@/components/ui/use-toast";
 
 export const EthFaucet = () => {
-  const [amount, setAmount] = useState("0.001");
+  const [amount, setAmount] = useState("0.01");
   const addShovels = useShovelStore((state) => state.addShovels);
+  const { addAmount } = usePrizePoolStore();
   const { toast } = useToast();
 
   const handleGetShovels = () => {
@@ -23,13 +25,13 @@ export const EthFaucet = () => {
       return;
     }
 
-    // Convert ETH to shovels (1:1 ratio)
-    const shovels = Math.floor(ethAmount * 1000);
-    addShovels(shovels);
+    // Add the selected amount to prize pool and give 1 shovel
+    addAmount(ethAmount);
+    addShovels(1);
     
     toast({
       title: "Success!",
-      description: `Added ${shovels} test shovels to your account`,
+      description: `Added 1 test shovel and ${ethAmount} ETH to the prize pool`,
     });
   };
 
@@ -57,4 +59,4 @@ export const EthFaucet = () => {
       </CardContent>
     </Card>
   );
-};
+}

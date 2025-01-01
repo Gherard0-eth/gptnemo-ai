@@ -14,14 +14,13 @@ import { FloatingRedeemButton } from "@/components/treasure/FloatingRedeemButton
 export default function IslandDetails() {
   const { id } = useParams();
   const { toast } = useToast();
-  const { data: treasureLocation, isLoading, error } = useTreasureHunt();
+  const { treasureLocation, generateNewTreasure } = useTreasureHunt();
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [dugTiles, setDugTiles] = useState<Set<string>>(new Set());
   const [showTreasureDialog, setShowTreasureDialog] = useState(false);
   const [hasUnredeemedTreasure, setHasUnredeemedTreasure] = useState(false);
   
   const island = islandData[id as keyof typeof islandData];
-  const currentPrizePool = 45.8; // This should be fetched from your actual prize pool state
 
   if (!island) {
     return (
@@ -59,8 +58,7 @@ export default function IslandDetails() {
   };
 
   const handleRedeem = () => {
-    // Implement your redemption logic here
-    console.log("Redeeming treasure...");
+    generateNewTreasure(); // Generate new treasure location after claiming
     setShowTreasureDialog(false);
     setHasUnredeemedTreasure(false);
     toast({
@@ -110,18 +108,6 @@ export default function IslandDetails() {
           </div>
         </div>
 
-        {/* Debug Information */}
-        {!isLoading && !error && treasureLocation && (
-          <div className="mt-8 p-4 bg-black/10 rounded-lg">
-            <h2 className="text-xl font-display text-apple-gray-700 dark:text-apple-gray-100 mb-2">
-              Debug Information
-            </h2>
-            <p className="text-apple-gray-500 dark:text-apple-gray-300">
-              Treasure Location: Island {treasureLocation.islandId} at coordinates ({treasureLocation.coordinates.x}, {treasureLocation.coordinates.y})
-            </p>
-          </div>
-        )}
-
         <DigDialog
           selectedSquare={selectedSquare}
           onOpenChange={(open) => !open && setSelectedSquare(null)}
@@ -131,8 +117,8 @@ export default function IslandDetails() {
         <TreasureFoundDialog
           isOpen={showTreasureDialog}
           onOpenChange={handleTreasureDialogClose}
-          prizeAmount={currentPrizePool}
           onRedeem={handleRedeem}
+          islandId={id}
         />
 
         {hasUnredeemedTreasure && (

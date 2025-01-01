@@ -34,11 +34,11 @@ export function ProjectInfo() {
       });
       return;
     }
-    addShovels(5);
-    addAmount(10);
+    addShovels(1); // Changed from 5 to 1
+    addAmount(0.01); // Changed from 10 to 0.01
     toast({
       title: "Shovels Added!",
-      description: "You received 5 test shovels and added 10 ETH to the prize pool!",
+      description: "You received 1 test shovel and added 0.01 ETH to the prize pool!",
     });
   };
 

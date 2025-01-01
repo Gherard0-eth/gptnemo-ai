@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 interface TreasureLocation {
   islandId: string;
@@ -26,9 +27,20 @@ const selectRandomLocation = (): TreasureLocation => {
 };
 
 export const useTreasureHunt = () => {
-  return useQuery({
-    queryKey: ["treasureLocation"],
-    queryFn: () => selectRandomLocation(),
-    staleTime: Infinity, // Keep the same treasure location until page refresh
-  });
+  const [currentTreasure, setCurrentTreasure] = useState<TreasureLocation | null>(null);
+
+  useEffect(() => {
+    if (!currentTreasure) {
+      setCurrentTreasure(selectRandomLocation());
+    }
+  }, [currentTreasure]);
+
+  const generateNewTreasure = () => {
+    setCurrentTreasure(selectRandomLocation());
+  };
+
+  return {
+    treasureLocation: currentTreasure,
+    generateNewTreasure,
+  };
 };

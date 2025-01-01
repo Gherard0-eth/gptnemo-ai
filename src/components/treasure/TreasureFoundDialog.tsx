@@ -16,17 +16,19 @@ interface TreasureFoundDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   onRedeem: () => void;
+  islandId?: string;
 }
 
 export function TreasureFoundDialog({
   isOpen,
   onOpenChange,
   onRedeem,
+  islandId,
 }: TreasureFoundDialogProps) {
   const addWin = useLeaderboardStore((state) => state.addWin);
   const username = useUserStore((state) => state.username);
-  const { amount: prizePool, resetPool } = usePrizePoolStore();
-  const addInflow = useDashboardStore((state) => state.addInflow);
+  const { amount: prizePool, resetPool, setAmount } = usePrizePoolStore();
+  const { addInflow } = useDashboardStore();
   const [ethPrice, setEthPrice] = useState<number>(0);
 
   useEffect(() => {
@@ -46,7 +48,7 @@ export function TreasureFoundDialog({
   }, [isOpen]);
 
   const handleRedeem = () => {
-    if (username) {
+    if (username && islandId) {
       // Calculate distributions
       const userAmount = prizePool * 0.7;  // 70% to user
       const founderzAmount = prizePool * 0.1;  // 10% to founders
@@ -54,8 +56,9 @@ export function TreasureFoundDialog({
       const nextPoolAmount = prizePool * 0.15;  // 15% to next pool
 
       addWin(username, userAmount);
-      addInflow(prizePool); // Add to total inflow
+      addInflow(prizePool, islandId); // Add islandId to track winning islands
       resetPool();
+      setAmount(nextPoolAmount); // Set the new pool to 15% of previous prize
       onRedeem();
     }
   };
