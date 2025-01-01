@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { useTreasureHunt } from "@/hooks/useTreasureHunt";
 import { MapGrid } from "@/components/map/MapGrid";
 import { DigDialog } from "@/components/map/DigDialog";
@@ -8,6 +8,8 @@ import { IslandStats } from "@/components/island/IslandStats";
 import { IslandCharacteristics } from "@/components/island/IslandCharacteristics";
 import { IslandHeader } from "@/components/island/IslandHeader";
 import { islandData } from "@/data/islandData";
+import { TreasureFoundDialog } from "@/components/treasure/TreasureFoundDialog";
+import { FloatingRedeemButton } from "@/components/treasure/FloatingRedeemButton";
 
 export default function IslandDetails() {
   const { id } = useParams();
@@ -15,8 +17,11 @@ export default function IslandDetails() {
   const { data: treasureLocation, isLoading, error } = useTreasureHunt();
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [dugTiles, setDugTiles] = useState<Set<string>>(new Set());
+  const [showTreasureDialog, setShowTreasureDialog] = useState(false);
+  const [hasUnredeemedTreasure, setHasUnredeemedTreasure] = useState(false);
   
   const island = islandData[id as keyof typeof islandData];
+  const currentPrizePool = 45.8; // This should be fetched from your actual prize pool state
 
   if (!island) {
     return (
@@ -43,18 +48,32 @@ export default function IslandDetails() {
         treasureLocation.islandId === id && 
         row === treasureLocation.coordinates.y && 
         col === treasureLocation.coordinates.x) {
-      toast({
-        title: "🎉 CONGRATULATIONS! 🎉",
-        description: "You've found the treasure! This is the correct location!",
-        duration: null,
-        className: "w-full max-w-3xl",
-      });
+      setShowTreasureDialog(true);
     } else {
       toast({
         title: "Keep searching! ⛵",
         description: "The treasure is not here. Try another location!",
         duration: 3000,
       });
+    }
+  };
+
+  const handleRedeem = () => {
+    // Implement your redemption logic here
+    console.log("Redeeming treasure...");
+    setShowTreasureDialog(false);
+    setHasUnredeemedTreasure(false);
+    toast({
+      title: "Prize Redeemed! 🎉",
+      description: "Your treasure has been successfully claimed!",
+      duration: 5000,
+    });
+  };
+
+  const handleTreasureDialogClose = (open: boolean) => {
+    setShowTreasureDialog(open);
+    if (!open) {
+      setHasUnredeemedTreasure(true);
     }
   };
 
@@ -108,6 +127,17 @@ export default function IslandDetails() {
           onOpenChange={(open) => !open && setSelectedSquare(null)}
           onDig={handleDig}
         />
+
+        <TreasureFoundDialog
+          isOpen={showTreasureDialog}
+          onOpenChange={handleTreasureDialogClose}
+          prizeAmount={currentPrizePool}
+          onRedeem={handleRedeem}
+        />
+
+        {hasUnredeemedTreasure && (
+          <FloatingRedeemButton onClick={() => setShowTreasureDialog(true)} />
+        )}
       </div>
     </div>
   );
