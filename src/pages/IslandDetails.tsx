@@ -21,7 +21,6 @@ export default function IslandDetails() {
   const [hasUnredeemedTreasure, setHasUnredeemedTreasure] = useState(false);
   
   const island = islandData[id as keyof typeof islandData];
-  const currentPrizePool = 45.8; // This should be fetched from your actual prize pool state
 
   if (!island) {
     return (
@@ -59,7 +58,6 @@ export default function IslandDetails() {
   };
 
   const handleRedeem = () => {
-    // Implement your redemption logic here
     console.log("Redeeming treasure...");
     setShowTreasureDialog(false);
     setHasUnredeemedTreasure(false);
@@ -77,7 +75,7 @@ export default function IslandDetails() {
     }
   };
 
-return (
+  return (
     <div className="min-h-screen bg-background dark:bg-apple-gray-700 p-4">
       <div className="space-y-6 apple-container p-6">
         <IslandHeader name={island.name} description={island.description} />
@@ -110,18 +108,6 @@ return (
           </div>
         </div>
 
-        {/* Debug Information */}
-        {!isLoading && !error && treasureLocation && (
-          <div className="mt-8 p-4 bg-black/10 rounded-lg">
-            <h2 className="text-xl font-display text-apple-gray-700 dark:text-apple-gray-100 mb-2">
-              Debug Information
-            </h2>
-            <p className="text-apple-gray-500 dark:text-apple-gray-300">
-              Treasure Location: Island {treasureLocation.islandId} at coordinates ({treasureLocation.coordinates.x}, {treasureLocation.coordinates.y})
-            </p>
-          </div>
-        )}
-
         <DigDialog
           selectedSquare={selectedSquare}
           onOpenChange={(open) => !open && setSelectedSquare(null)}
@@ -140,3 +126,4 @@ return (
       </div>
     </div>
   );
+}
