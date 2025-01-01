@@ -9,6 +9,7 @@ import { Trophy, Coins } from "lucide-react";
 import { useLeaderboardStore } from "@/stores/useLeaderboardStore";
 import { useUserStore } from "@/stores/useUserStore";
 import { usePrizePoolStore } from "@/stores/usePrizePoolStore";
+import { useDashboardStore } from "@/stores/useDashboardStore";
 import { useState, useEffect } from "react";
 
 interface TreasureFoundDialogProps {
@@ -25,6 +26,7 @@ export function TreasureFoundDialog({
   const addWin = useLeaderboardStore((state) => state.addWin);
   const username = useUserStore((state) => state.username);
   const { amount: prizePool, resetPool } = usePrizePoolStore();
+  const addInflow = useDashboardStore((state) => state.addInflow);
   const [ethPrice, setEthPrice] = useState<number>(0);
 
   useEffect(() => {
@@ -52,6 +54,7 @@ export function TreasureFoundDialog({
       const nextPoolAmount = prizePool * 0.15;  // 15% to next pool
 
       addWin(username, userAmount);
+      addInflow(prizePool); // Add to total inflow
       resetPool();
       onRedeem();
     }
