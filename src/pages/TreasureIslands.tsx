@@ -5,7 +5,34 @@ import { islandData } from "@/data/islandData";
 
 const TreasureIslands = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const { treasureLocation } = useTreasureHunt();
+  const { data: treasureLocation, isLoading, error } = useTreasureHunt();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background p-4">
+        <h1 className="text-2xl font-bold mb-4">Treasure Islands</h1>
+        <div>Loading treasure location...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background p-4">
+        <h1 className="text-2xl font-bold mb-4">Treasure Islands</h1>
+        <div className="text-red-500">Error loading treasure location</div>
+      </div>
+    );
+  }
+
+  const islands = Object.entries(islandData).map(([id, data]) => ({
+    id,
+    name: data.name,
+    climate: data.climate,
+    terrain: data.terrain,
+    dangerLevel: data.dangerLevel,
+    imageUrl: `/lovable-uploads/b8de5ac2-3913-4942-bbc3-5b76abaa913d.png`
+  }));
 
   return (
     <div className="min-h-screen bg-background dark:bg-apple-gray-700 transition-colors duration-300">
