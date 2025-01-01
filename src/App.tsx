@@ -11,7 +11,14 @@ import TreasureIslands from "./pages/TreasureIslands";
 import IslandDetails from "./pages/IslandDetails";
 import IslandMapPage from "./pages/IslandMap";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -19,7 +26,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter basename="/">
           <div className="min-h-screen bg-apple-gray-100 dark:bg-apple-gray-700 transition-colors duration-300">
             <div className="min-h-screen backdrop-blur-sm bg-white/30 dark:bg-black/30">
               <Header />
