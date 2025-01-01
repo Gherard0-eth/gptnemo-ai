@@ -1,4 +1,4 @@
-import { Menu, Wallet } from "lucide-react";
+import { Menu, Wallet, Shovel } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
@@ -35,13 +35,19 @@ export const Header = () => {
 
         <div className="flex-1 flex justify-center">
           <Link to="/" className="flex items-center">
-            <span className="font-display text-2xl text-apple-gray-700 dark:text-apple-gray-100">
+            <span className="font-display text-xl md:text-2xl text-apple-gray-700 dark:text-apple-gray-100">
               Epirates
             </span>
           </Link>
         </div>
 
         <div className="flex items-center gap-2">
+          <div className="flex items-center mr-2">
+            <Shovel className="h-4 w-4 text-apple-gray-700 dark:text-apple-gray-100" />
+            <span className="ml-1 text-sm font-medium text-apple-gray-700 dark:text-apple-gray-100">
+              {shovels}
+            </span>
+          </div>
           <Link to="/profile">
             <Button
               variant="ghost"
@@ -53,10 +59,10 @@ export const Header = () => {
           </Link>
           <Button
             variant="outline"
-            className="flex items-center gap-2"
+            className="hidden md:flex items-center gap-2"
             onClick={handleConnectWallet}
           >
-            <span className="hidden md:inline">Connect Wallet</span>
+            <span>Connect Wallet</span>
           </Button>
         </div>
       </div>

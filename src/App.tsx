@@ -12,6 +12,7 @@ import IslandDetails from "./pages/IslandDetails";
 import IslandMapPage from "./pages/IslandMap";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
+import Documentation from "./pages/Documentation";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,6 +44,7 @@ const App = () => (
                       <Route path="/island/:id/map" element={<IslandMapPage />} />
                       <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/profile" element={<Profile />} />
+                      <Route path="/docs" element={<Documentation />} />
                     </Routes>
                   </div>
                 </div>
