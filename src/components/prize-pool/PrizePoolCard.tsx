@@ -6,6 +6,11 @@ import { useEffect, useState } from "react";
 export const PrizePoolCard = () => {
   const amount = usePrizePoolStore((state) => state.amount);
   const [ethPrice, setEthPrice] = useState<number>(0);
+  const [displayAmount, setDisplayAmount] = useState(amount);
+
+  useEffect(() => {
+    setDisplayAmount(amount);
+  }, [amount]);
 
   useEffect(() => {
     const fetchEthPrice = async () => {
@@ -19,12 +24,11 @@ export const PrizePoolCard = () => {
     };
 
     fetchEthPrice();
-    // Refresh price every minute
     const interval = setInterval(fetchEthPrice, 60000);
     return () => clearInterval(interval);
   }, []);
 
-  const usdValue = (amount * ethPrice).toLocaleString('en-US', {
+  const usdValue = (displayAmount * ethPrice).toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
     maximumFractionDigits: 0
@@ -39,7 +43,7 @@ export const PrizePoolCard = () => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold text-apple-accent">{amount.toFixed(1)} ETH</div>
+        <div className="text-2xl font-bold text-apple-accent">{displayAmount.toFixed(1)} ETH</div>
         <p className="text-sm text-muted-foreground">≈ {usdValue}</p>
       </CardContent>
     </Card>

@@ -3,10 +3,23 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { LeaderboardEntry } from "./LeaderboardEntry";
 import { useLeaderboardStore } from "@/stores/useLeaderboardStore";
+import { useEffect, useState } from "react";
+
+interface Hunter {
+  username: string;
+  finds: number;
+  worth: number;
+}
 
 export const LeaderboardCard = () => {
   const getTopHunters = useLeaderboardStore((state) => state.getTopHunters);
-  const leaderboard = getTopHunters();
+  const [leaderboard, setLeaderboard] = useState<Hunter[]>([]);
+
+  useEffect(() => {
+    const hunters = getTopHunters();
+    const sortedHunters = [...hunters].sort((a, b) => b.worth - a.worth);
+    setLeaderboard(sortedHunters);
+  }, [getTopHunters]);
 
   return (
     <Card>
@@ -19,18 +32,24 @@ export const LeaderboardCard = () => {
       <CardContent>
         <ScrollArea className="h-[180px] pr-4">
           <div className="space-y-6">
-            {leaderboard.map((hunter, index) => (
-              <LeaderboardEntry
-                key={hunter.username}
-                hunter={{
-                  id: index,
-                  name: hunter.username,
-                  finds: hunter.finds,
-                  worth: `${hunter.worth.toFixed(1)} ETH`
-                }}
-                position={index + 1}
-              />
-            ))}
+            {leaderboard.length > 0 ? (
+              leaderboard.map((hunter, index) => (
+                <LeaderboardEntry
+                  key={hunter.username}
+                  hunter={{
+                    id: index,
+                    name: hunter.username,
+                    finds: hunter.finds,
+                    worth: `${hunter.worth.toFixed(1)} ETH`
+                  }}
+                  position={index + 1}
+                />
+              ))
+            ) : (
+              <p className="text-sm text-muted-foreground text-center">
+                No hunters on the leaderboard yet
+              </p>
+            )}
           </div>
         </ScrollArea>
       </CardContent>

@@ -12,39 +12,33 @@ interface Find {
   worth: string;
   time: string;
   timestamp: Date;
+  redeemed: boolean;
 }
 
 export const RecentFindsCard = () => {
   const getTopHunters = useLeaderboardStore((state) => state.getTopHunters);
   const [recentFinds, setRecentFinds] = useState<Find[]>([]);
-  const [ethPrice, setEthPrice] = useState<number>(0);
 
   useEffect(() => {
-    const fetchEthPrice = async () => {
-      try {
-        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
-        const data = await response.json();
-        setEthPrice(data.ethereum.usd);
-      } catch (err) {
-        console.error('Error fetching ETH price:', err);
-      }
-    };
-
-    fetchEthPrice();
-  }, []);
-
-  useEffect(() => {
+    // Transform the hunters data into finds
     const hunters = getTopHunters();
     const finds = hunters.map((hunter, index) => ({
       id: index + 1,
       finder: hunter.username,
-      island: ["Skull's Haven", "Dragon's Lair", "Mermaid's Cove"][Math.floor(Math.random() * 3)],
+      island: `Island #${Math.floor(Math.random() * 3) + 1}`,
       worth: `${hunter.worth.toFixed(1)} ETH`,
-      time: 'Just now',
-      timestamp: new Date()
+      time: new Date(Date.now() - Math.random() * 86400000).toISOString(),
+      timestamp: new Date(),
+      redeemed: false
     }));
-    setRecentFinds(finds);
-  }, [getTopHunters]);
+    
+    // Sort by most recent first
+    const sortedFinds = finds.sort((a, b) => 
+      b.timestamp.getTime() - a.timestamp.getTime()
+    );
+    
+    setRecentFinds(sortedFinds);
+  }, [getTopHunters]); // Update whenever the hunters list changes
 
   return (
     <Card>
@@ -57,9 +51,15 @@ export const RecentFindsCard = () => {
       <CardContent>
         <ScrollArea className="h-[160px] pr-4">
           <div className="space-y-4">
-            {recentFinds.map((find) => (
-              <RecentFindEntry key={find.id} find={find} />
-            ))}
+            {recentFinds.length > 0 ? (
+              recentFinds.map((find) => (
+                <RecentFindEntry key={find.id} find={find} />
+              ))
+            ) : (
+              <p className="text-sm text-muted-foreground text-center">
+                No treasure finds yet
+              </p>
+            )}
           </div>
         </ScrollArea>
       </CardContent>
