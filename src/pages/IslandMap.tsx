@@ -23,11 +23,12 @@ export default function IslandMapPage() {
   if (!island) return <div>Island not found</div>;
 
   return (
-    <div className="h-screen w-screen relative bg-apple-gray-700">
+    <div className="fixed inset-0 bg-apple-gray-700">
       <Button
         variant="ghost"
         onClick={() => navigate(-1)}
-        className="absolute top-4 left-4 z-10 bg-white/80 hover:bg-white/90 dark:bg-apple-gray-600/80 dark:hover:bg-apple-gray-600/90 backdrop-blur-sm rounded-full"
+        className="absolute top-6 left-6 z-50 bg-white/90 hover:bg-white dark:bg-apple-gray-600/90 
+                   dark:hover:bg-apple-gray-600 backdrop-blur-sm rounded-full shadow-lg"
       >
         <ChevronLeft className="h-5 w-5" />
         <span className="ml-2">Back</span>

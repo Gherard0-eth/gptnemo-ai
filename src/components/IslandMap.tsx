@@ -12,7 +12,7 @@ interface IslandMapProps {
 export function IslandMap({ coordinates }: IslandMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
-  const [scale, setScale] = useState(2);
+  const [scale, setScale] = useState(1.5);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
@@ -69,7 +69,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
       
       if (initialDistance && initialScale) {
         const newScale = (distance / initialDistance) * initialScale;
-        setScale(Math.min(Math.max(newScale, 0.8), 8));
+        setScale(Math.min(Math.max(newScale, 0.8), 5));
       }
     }
   };
@@ -78,7 +78,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
     const centerMap = () => {
       if (!mapContainer.current) return;
       const { width, height } = mapContainer.current.getBoundingClientRect();
-      setPosition({ x: width / 4, y: height / 4 });
+      setPosition({ x: width / 3, y: height / 3 });
     };
 
     centerMap();
@@ -100,7 +100,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
   }, []);
 
   return (
-    <div className="absolute inset-0">
+    <div className="fixed inset-0 bg-apple-gray-700/90 backdrop-blur-sm">
       <div
         ref={mapContainer}
         className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing touch-none"
@@ -113,7 +113,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
         onTouchEnd={handleMouseUp}
       >
         <div
-          className="absolute w-[300vw] h-[300vw]"
+          className="absolute w-[200vw] h-[200vw]"
           style={{
             transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
             transformOrigin: "center",

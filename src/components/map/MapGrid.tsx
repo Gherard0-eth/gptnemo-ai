@@ -11,7 +11,8 @@ export function MapGrid({ onSquareClick }: MapGridProps) {
       squares.push(
         <div
           key={`${i}-${j}`}
-          className="absolute border border-white/10 cursor-pointer hover:bg-white/10 transition-colors"
+          className="absolute border border-white/20 cursor-pointer hover:bg-white/20 
+                     active:bg-white/30 transition-colors duration-150"
           style={{
             width: `${100 / gridSize}%`,
             height: `${100 / gridSize}%`,
