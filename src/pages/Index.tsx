@@ -4,32 +4,35 @@ import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Map, Compass, Skull, Ship } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Index = () => {
+  const isMobile = useIsMobile();
+
   return (
     <div className="min-h-screen bg-apple-gray-100 dark:bg-apple-gray-700 transition-colors duration-300">
-      <div className="flex h-[calc(100vh-8rem)] pt-8">
+      <div className="flex flex-col min-h-[calc(100vh-8rem)] pt-8">
         {/* Main Content */}
-        <main className="flex-1 px-6 h-full overflow-hidden">
+        <main className="flex-1 px-4 sm:px-6 h-full">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 h-full">
             <div className="space-y-6 flex flex-col h-full">
               <div className="flex-shrink-0">
-                <h1 className="text-4xl font-display text-apple-gray-700 dark:text-apple-gray-100 mb-2">
+                <h1 className="text-3xl sm:text-4xl font-display text-apple-gray-700 dark:text-apple-gray-100 mb-2">
                   Welcome, Treasure Hunter!
                 </h1>
-                <p className="text-apple-gray-500 dark:text-apple-gray-300">
+                <p className="text-sm sm:text-base text-apple-gray-500 dark:text-apple-gray-300">
                   Chat with our AI Pirate guide and track real-time treasure hunting activity.
                 </p>
               </div>
 
-              {/* Chat Box - Now more responsive */}
-              <div className="flex-1 min-h-0 w-full">
+              {/* Chat Box */}
+              <div className="flex-1 min-h-[400px] w-full">
                 <PirateChat />
               </div>
 
               {/* Treasure Islands Link Section */}
               <div 
-                className="flex-shrink-0 p-6 rounded-lg border border-apple-gray-200/20 dark:border-apple-gray-600/20 relative overflow-hidden group"
+                className="flex-shrink-0 p-4 sm:p-6 rounded-lg border border-apple-gray-200/20 dark:border-apple-gray-600/20 relative overflow-hidden group"
                 style={{
                   backgroundImage: "url('/lovable-uploads/89c3491b-16e9-4b19-8004-9f5e66b901f5.png')",
                   backgroundSize: 'cover',
@@ -41,21 +44,21 @@ const Index = () => {
                 
                 <div className="relative flex flex-col items-center text-center space-y-4">
                   <div className="flex gap-4 mb-2">
-                    <Ship className="h-6 w-6 text-white" />
-                    <Compass className="h-6 w-6 text-white" />
-                    <Skull className="h-6 w-6 text-white" />
+                    <Ship className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+                    <Compass className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+                    <Skull className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-display text-white mb-2">
+                    <h2 className="text-xl sm:text-2xl font-display text-white mb-2">
                       Explore Treasure Islands
                     </h2>
-                    <p className="text-white/90 mb-4">
+                    <p className="text-sm sm:text-base text-white/90 mb-4">
                       Discover mysterious islands and hunt for hidden treasures in our vast ocean of opportunities
                     </p>
                   </div>
                   <Link to="/treasure-islands" className="w-full sm:w-auto">
-                    <Button className="w-full sm:w-auto bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/20 font-display text-lg">
-                      <Map className="mr-2 h-5 w-5" />
+                    <Button className="w-full sm:w-auto bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/20 font-display text-base sm:text-lg">
+                      <Map className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                       View Islands
                     </Button>
                   </Link>
@@ -63,10 +66,16 @@ const Index = () => {
               </div>
             </div>
 
-            {/* Leaderboard - Desktop */}
-            <div className="hidden lg:block h-full overflow-y-auto">
-              <RealTimeInfo />
-            </div>
+            {/* Leaderboard - Show at bottom on mobile */}
+            {isMobile ? (
+              <div className="mt-6 pb-6">
+                <RealTimeInfo />
+              </div>
+            ) : (
+              <div className="hidden lg:block h-full overflow-y-auto">
+                <RealTimeInfo />
+              </div>
+            )}
           </div>
         </main>
       </div>
