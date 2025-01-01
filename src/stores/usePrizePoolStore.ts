@@ -5,6 +5,7 @@ interface PrizePoolState {
   amount: number;
   addAmount: (amount: number) => void;
   resetPool: () => void;
+  setAmount: (amount: number) => void;
 }
 
 export const usePrizePoolStore = create<PrizePoolState>()(
@@ -13,6 +14,7 @@ export const usePrizePoolStore = create<PrizePoolState>()(
       amount: 0,
       addAmount: (amount) => set((state) => ({ amount: state.amount + amount })),
       resetPool: () => set({ amount: 0 }),
+      setAmount: (amount) => set({ amount }),
     }),
     {
       name: 'prize-pool-storage',
