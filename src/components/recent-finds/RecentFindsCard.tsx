@@ -2,14 +2,43 @@ import { Sparkles } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { RecentFindEntry } from "./RecentFindEntry";
+import { useLeaderboardStore } from "@/stores/useLeaderboardStore";
+import { useEffect, useState } from "react";
 
-const mockRecentFinds = [
-  { id: 1, finder: "Jack Sparrow", island: "Skull's Haven", worth: "2.3 ETH", time: "2h ago" },
-  { id: 2, finder: "Anne Bonny", island: "Dragon's Lair", worth: "1.8 ETH", time: "3h ago" },
-  { id: 3, finder: "Mary Read", island: "Mermaid's Cove", worth: "1.5 ETH", time: "5h ago" },
-];
+interface Find {
+  id: number;
+  finder: string;
+  island: string;
+  worth: string;
+  time: string;
+}
 
 export const RecentFindsCard = () => {
+  const getTopHunters = useLeaderboardStore((state) => state.getTopHunters);
+  const [recentFinds, setRecentFinds] = useState<Find[]>([]);
+  const [ethPrice, setEthPrice] = useState<number>(0);
+
+  useEffect(() => {
+    // Fetch ETH price
+    fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
+      .then(res => res.json())
+      .then(data => {
+        setEthPrice(data.ethereum.usd);
+      })
+      .catch(err => console.error('Error fetching ETH price:', err));
+
+    // Get recent finds from leaderboard data
+    const hunters = getTopHunters();
+    const finds = hunters.map((hunter, index) => ({
+      id: index + 1,
+      finder: hunter.username,
+      island: ["Skull's Haven", "Dragon's Lair", "Mermaid's Cove"][Math.floor(Math.random() * 3)],
+      worth: `${hunter.worth.toFixed(1)} ETH`,
+      time: `${Math.floor(Math.random() * 12 + 1)}h ago`
+    }));
+    setRecentFinds(finds);
+  }, [getTopHunters]);
+
   return (
     <Card>
       <CardHeader className="pb-2">
@@ -21,7 +50,7 @@ export const RecentFindsCard = () => {
       <CardContent>
         <ScrollArea className="h-[160px] pr-4">
           <div className="space-y-4">
-            {mockRecentFinds.map((find) => (
+            {recentFinds.map((find) => (
               <RecentFindEntry key={find.id} find={find} />
             ))}
           </div>
