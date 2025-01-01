@@ -77,7 +77,7 @@ export default function IslandDetails() {
     }
   };
 
-  return (
+return (
     <div className="min-h-screen bg-background dark:bg-apple-gray-700 p-4">
       <div className="space-y-6 apple-container p-6">
         <IslandHeader name={island.name} description={island.description} />
@@ -131,7 +131,6 @@ export default function IslandDetails() {
         <TreasureFoundDialog
           isOpen={showTreasureDialog}
           onOpenChange={handleTreasureDialogClose}
-          prizeAmount={currentPrizePool}
           onRedeem={handleRedeem}
         />
 
@@ -141,4 +140,3 @@ export default function IslandDetails() {
       </div>
     </div>
   );
-}
