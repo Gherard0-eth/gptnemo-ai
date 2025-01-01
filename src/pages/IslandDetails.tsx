@@ -4,6 +4,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { IslandCharacteristics } from "@/components/island/IslandCharacteristics";
 import { IslandStats } from "@/components/island/IslandStats";
 import { useToast } from "@/components/ui/use-toast";
+import { useTreasureHunt } from "@/hooks/useTreasureHunt";
 
 type DangerLevel = "Low" | "Medium" | "High";
 
@@ -109,9 +110,26 @@ export default function IslandDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { data: treasureLocation } = useTreasureHunt();
   const island = islandData[id as keyof typeof islandData];
 
   if (!island) return <div>Island not found</div>;
+
+  const checkTreasure = () => {
+    if (id === treasureLocation) {
+      toast({
+        title: "Congratulations! 🎉",
+        description: "You found the treasure! This is indeed the correct island.",
+        duration: 5000,
+      });
+    } else {
+      toast({
+        title: "Keep searching! ⛵",
+        description: "The treasure is not on this island. Try another one!",
+        duration: 3000,
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background dark:bg-apple-gray-700 p-4">
@@ -154,14 +172,24 @@ export default function IslandDetails() {
           </div>
         </div>
 
-        <Button 
-          className="w-full apple-button mt-6" 
-          disabled
-          title="Coming soon: A new treasure hunting experience!"
-        >
-          <Map className="mr-2 h-5 w-5" />
-          Dig in the Island (Coming Soon)
-        </Button>
+        <div className="flex flex-col gap-4">
+          <Button 
+            className="w-full apple-button" 
+            onClick={checkTreasure}
+            variant="default"
+          >
+            Check for Treasure
+          </Button>
+
+          <Button 
+            className="w-full apple-button" 
+            disabled
+            title="Coming soon: A new treasure hunting experience!"
+          >
+            <Map className="mr-2 h-5 w-5" />
+            Dig in the Island (Coming Soon)
+          </Button>
+        </div>
       </div>
     </div>
   );
