@@ -12,7 +12,7 @@ interface IslandMapProps {
 export function IslandMap({ coordinates }: IslandMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
-  const [scale, setScale] = useState(1.5);
+  const [scale, setScale] = useState(2);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
@@ -100,7 +100,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-apple-gray-700/90 backdrop-blur-sm">
+    <div className="apple-container mx-4 my-4 p-4 h-[80vh] relative overflow-hidden">
       <div
         ref={mapContainer}
         className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing touch-none"
@@ -113,7 +113,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
         onTouchEnd={handleMouseUp}
       >
         <div
-          className="absolute w-[200vw] h-[200vw]"
+          className="absolute w-[400vw] h-[400vw]"
           style={{
             transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
             transformOrigin: "center",

@@ -3,7 +3,7 @@ interface MapGridProps {
 }
 
 export function MapGrid({ onSquareClick }: MapGridProps) {
-  const gridSize = 100;
+  const gridSize = 50; // Reduced grid size for larger cells
   const squares = [];
 
   for (let i = 0; i < gridSize; i++) {
