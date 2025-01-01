@@ -21,7 +21,7 @@ export default function IslandDetails() {
   const [hasUnredeemedTreasure, setHasUnredeemedTreasure] = useState(false);
   
   const island = islandData[id as keyof typeof islandData];
-  const currentPrizePool = "45.8"; // Changed to string to match expected type
+  const currentPrizePool = 45.8; // This should be fetched from your actual prize pool state
 
   if (!island) {
     return (
@@ -142,4 +142,3 @@ export default function IslandDetails() {
     </div>
   );
 }
-};
