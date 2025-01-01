@@ -6,21 +6,33 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Trophy, Coins } from "lucide-react";
-import { useState } from "react";
+import { useLeaderboardStore } from "@/stores/useLeaderboardStore";
+import { useUserStore } from "@/stores/useUserStore";
+import { usePrizePoolStore } from "@/stores/usePrizePoolStore";
 
 interface TreasureFoundDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  prizeAmount: number;
   onRedeem: () => void;
 }
 
 export function TreasureFoundDialog({
   isOpen,
   onOpenChange,
-  prizeAmount,
   onRedeem,
 }: TreasureFoundDialogProps) {
+  const addWin = useLeaderboardStore((state) => state.addWin);
+  const username = useUserStore((state) => state.username);
+  const { amount: prizePool, resetPool } = usePrizePoolStore();
+
+  const handleRedeem = () => {
+    if (username) {
+      addWin(username, prizePool);
+      resetPool();
+      onRedeem();
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="apple-container max-w-2xl mx-auto">
@@ -39,16 +51,16 @@ export function TreasureFoundDialog({
             <p className="text-xl mb-2">Your Prize:</p>
             <div className="flex items-center justify-center gap-2 text-3xl font-bold text-apple-accent">
               <Coins className="h-8 w-8" />
-              {prizeAmount.toFixed(2)} ETH
+              {prizePool.toFixed(1)} ETH
             </div>
             <p className="text-sm text-apple-gray-500 dark:text-apple-gray-300 mt-2">
-              ≈ ${(prizeAmount * 2150).toLocaleString()} USD
+              ≈ ${(prizePool * 2150).toLocaleString()} USD
             </p>
           </div>
           <Button
             className="apple-button w-full max-w-[300px] mx-auto group transition-all duration-300 
                      text-xl py-6 hover:transform hover:scale-105 active:scale-95"
-            onClick={onRedeem}
+            onClick={handleRedeem}
           >
             Redeem Prize
           </Button>
