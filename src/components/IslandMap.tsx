@@ -7,6 +7,7 @@ import { MapCluster } from "./map/MapCluster";
 import { Button } from "./ui/button";
 import { Compass } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface IslandMapProps {
   coordinates: {
@@ -25,8 +26,10 @@ export function IslandMap({ coordinates }: IslandMapProps) {
   const [showMiniMap, setShowMiniMap] = useState(true);
   const [currentCluster, setCurrentCluster] = useState<number | null>(null);
   const [dugTiles, setDugTiles] = useState<Set<string>>(new Set());
+  const isMobile = useIsMobile();
 
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault(); // Prevent default touch behavior
     setIsDragging(true);
     const clientX = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
     const clientY = 'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
@@ -35,6 +38,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
 
   const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (isDragging) {
+      e.preventDefault(); // Prevent default touch behavior
       const clientX = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
       const clientY = 'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
       setPosition({
@@ -62,12 +66,12 @@ export function IslandMap({ coordinates }: IslandMapProps) {
 
   const handleClusterClick = (clusterId: number) => {
     setCurrentCluster(clusterId);
-    setScale(3); // Zoom in when selecting a cluster
+    setScale(isMobile ? 2 : 3); // Smaller zoom on mobile
   };
 
   return (
-    <div className="relative h-[calc(100vh-6rem)] mx-auto max-w-7xl px-4 py-8">
-      <div className="apple-container bg-apple-gray-100/80 dark:bg-apple-gray-600/80 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden">
+    <div className="relative w-full h-[calc(100vh-12rem)] md:h-[calc(100vh-6rem)] mx-auto max-w-7xl px-4 py-8">
+      <div className="apple-container h-full bg-apple-gray-100/80 dark:bg-apple-gray-600/80 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden">
         {/* Mini-map toggle */}
         <Button
           variant="ghost"
@@ -104,17 +108,19 @@ export function IslandMap({ coordinates }: IslandMapProps) {
             onTouchEnd={handleMouseUp}
           >
             <div
-              className="absolute w-[300vw] h-[300vw]"
+              className="absolute w-[300vw] h-[300vw] md:w-[200vw] md:h-[200vw]"
               style={{
                 transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
                 transformOrigin: "center",
                 transition: isDragging ? "none" : "transform 0.1s ease-out",
+                willChange: "transform",
               }}
             >
               <img
                 src="/lovable-uploads/83bb3fee-d72f-4649-85c3-c54b5bd5f72f.png"
                 alt="Island Map"
                 className="w-full h-full object-cover"
+                draggable="false"
               />
               
               {currentCluster === null ? (
