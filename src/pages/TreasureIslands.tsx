@@ -5,25 +5,7 @@ import { islandData } from "@/data/islandData";
 
 const TreasureIslands = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const { data: treasureLocation, isLoading, error } = useTreasureHunt();
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background p-4">
-        <h1 className="text-2xl font-bold mb-4">Treasure Islands</h1>
-        <div>Loading treasure location...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-background p-4">
-        <h1 className="text-2xl font-bold mb-4">Treasure Islands</h1>
-        <div className="text-red-500">Error loading treasure location</div>
-      </div>
-    );
-  }
+  const { treasureLocation } = useTreasureHunt();
 
   const islands = Object.entries(islandData).map(([id, data]) => ({
     id,
@@ -43,14 +25,12 @@ const TreasureIslands = () => {
         </button>
       </header>
 
-      {/* Island Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
         {islands.map((island) => (
           <IslandCard key={island.id} {...island} />
         ))}
       </div>
 
-      {/* Debug Information */}
       {treasureLocation && (
         <div className="mt-8 p-4 bg-black/10 rounded-lg">
           <h2 className="text-xl font-display text-apple-gray-700 dark:text-apple-gray-100 mb-2">

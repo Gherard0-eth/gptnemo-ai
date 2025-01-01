@@ -4,7 +4,7 @@ import { WalletButton } from "./menu/WalletButton";
 import { SocialLinks } from "./menu/SocialLinks";
 import { ThemeToggle } from "./ThemeToggle";
 import { Link } from "react-router-dom";
-import { LayoutDashboard } from "lucide-react";
+import { LayoutDashboard, Home, Map } from "lucide-react";
 
 export const MenuContent = () => {
   return (
@@ -12,13 +12,29 @@ export const MenuContent = () => {
       <ProjectInfo />
       <TldrSection />
       <WalletButton />
-      <Link
-        to="/dashboard"
-        className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
-      >
-        <LayoutDashboard className="h-4 w-4" />
-        <span>Dashboard</span>
-      </Link>
+      <div className="space-y-2">
+        <Link
+          to="/"
+          className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
+        >
+          <Home className="h-4 w-4" />
+          <span>Home</span>
+        </Link>
+        <Link
+          to="/treasure-islands"
+          className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
+        >
+          <Map className="h-4 w-4" />
+          <span>Treasure Islands</span>
+        </Link>
+        <Link
+          to="/dashboard"
+          className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-accent"
+        >
+          <LayoutDashboard className="h-4 w-4" />
+          <span>Dashboard</span>
+        </Link>
+      </div>
       <SocialLinks />
       <div className="pt-4 border-t border-border">
         <ThemeToggle className="w-full justify-start" />

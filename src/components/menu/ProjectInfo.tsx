@@ -34,11 +34,12 @@ export function ProjectInfo() {
       });
       return;
     }
-    addShovels(1); // Changed from 5 to 1
-    addAmount(0.01); // Changed from 10 to 0.01
+    const ethAmount = parseFloat(localStorage.getItem('faucetAmount') || '0.01');
+    addShovels(1);
+    addAmount(ethAmount);
     toast({
       title: "Shovels Added!",
-      description: "You received 1 test shovel and added 0.01 ETH to the prize pool!",
+      description: `You received 1 test shovel and added ${ethAmount} ETH to the prize pool!`,
     });
   };
 

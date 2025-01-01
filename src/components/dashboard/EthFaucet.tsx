@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DollarSign } from "lucide-react";
 import { useDashboardStore } from "@/stores/useDashboardStore";
 import { useShovelStore } from "@/stores/useShovelStore";
@@ -14,6 +14,13 @@ export const EthFaucet = () => {
   const { addAmount } = usePrizePoolStore();
   const { toast } = useToast();
 
+  useEffect(() => {
+    const storedAmount = localStorage.getItem('faucetAmount');
+    if (storedAmount) {
+      setAmount(storedAmount);
+    }
+  }, []);
+
   const handleGetShovels = () => {
     const ethAmount = parseFloat(amount);
     if (isNaN(ethAmount) || ethAmount < 0.001) {
@@ -25,7 +32,7 @@ export const EthFaucet = () => {
       return;
     }
 
-    // Add the selected amount to prize pool and give 1 shovel
+    localStorage.setItem('faucetAmount', amount);
     addAmount(ethAmount);
     addShovels(1);
     

@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 interface TreasureLocation {
@@ -27,16 +26,23 @@ const selectRandomLocation = (): TreasureLocation => {
 };
 
 export const useTreasureHunt = () => {
-  const [currentTreasure, setCurrentTreasure] = useState<TreasureLocation | null>(null);
+  const [currentTreasure, setCurrentTreasure] = useState<TreasureLocation | null>(() => {
+    const stored = localStorage.getItem('currentTreasure');
+    return stored ? JSON.parse(stored) : null;
+  });
 
   useEffect(() => {
     if (!currentTreasure) {
-      setCurrentTreasure(selectRandomLocation());
+      const newLocation = selectRandomLocation();
+      setCurrentTreasure(newLocation);
+      localStorage.setItem('currentTreasure', JSON.stringify(newLocation));
     }
   }, [currentTreasure]);
 
   const generateNewTreasure = () => {
-    setCurrentTreasure(selectRandomLocation());
+    const newLocation = selectRandomLocation();
+    setCurrentTreasure(newLocation);
+    localStorage.setItem('currentTreasure', JSON.stringify(newLocation));
   };
 
   return {
