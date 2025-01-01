@@ -5,7 +5,7 @@ interface MapClusterProps {
 }
 
 export const MapCluster = memo(function MapCluster({ onClusterClick }: MapClusterProps) {
-  const clusterSize = 5;
+  const clusterSize = 20; // Increased from 5 to 20 for 400 clusters
   const clusters = [];
 
   for (let i = 0; i < clusterSize; i++) {
@@ -26,10 +26,10 @@ export const MapCluster = memo(function MapCluster({ onClusterClick }: MapCluste
           onClick={() => onClusterClick(clusterId)}
         >
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-white text-base md:text-lg font-display font-semibold 
-                           bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm
-                           group-hover:bg-black/70 transition-colors">
-              Region {clusterId + 1}
+            <span className="text-white text-xs md:text-sm font-display font-semibold 
+                           bg-black/50 px-2 py-0.5 rounded-full backdrop-blur-sm
+                           group-hover:bg-black/70 transition-colors scale-75 md:scale-100">
+              {clusterId + 1}
             </span>
           </div>
         </div>

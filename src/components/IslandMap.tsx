@@ -66,11 +66,11 @@ export function IslandMap({ coordinates }: IslandMapProps) {
 
   const handleClusterClick = (clusterId: number) => {
     setCurrentCluster(clusterId);
-    setScale(isMobile ? 1.5 : 2); // Reduced zoom levels for better visibility
+    setScale(isMobile ? 1.5 : 2);
   };
 
   return (
-    <div className="relative w-full h-[calc(100vh-8rem)] mx-auto max-w-7xl px-2 md:px-4 py-4 md:py-8">
+    <div className="w-full h-[calc(100vh-16rem)] mx-auto max-w-7xl px-2 md:px-4 py-4 md:py-8">
       <div className="apple-container h-full bg-apple-gray-100/80 dark:bg-apple-gray-600/80 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden">
         {/* Mini-map toggle */}
         <Button
@@ -85,7 +85,6 @@ export function IslandMap({ coordinates }: IslandMapProps) {
           )} />
         </Button>
 
-        {/* Mini-map */}
         {showMiniMap && (
           <MiniMap
             position={position}
