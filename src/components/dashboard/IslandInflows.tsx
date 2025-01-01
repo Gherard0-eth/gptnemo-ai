@@ -39,17 +39,21 @@ export const IslandInflows = () => {
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
-          {Object.entries(islandInflows).map(([island, amount]) => (
-            <div key={island} className="flex justify-between items-center">
-              <span>Island {island}:</span>
-              <div className="text-right">
-                <div className="font-medium">{amount.toFixed(3)} ETH</div>
-                <div className="text-xs text-muted-foreground">
-                  {formatUSD(amount)}
+          {Object.entries(islandInflows).length > 0 ? (
+            Object.entries(islandInflows).map(([island, amount]) => (
+              <div key={island} className="flex justify-between items-center">
+                <span>Island {island}:</span>
+                <div className="text-right">
+                  <div className="font-medium">{amount.toFixed(3)} ETH</div>
+                  <div className="text-xs text-muted-foreground">
+                    {formatUSD(amount)}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div className="text-sm text-muted-foreground">No island inflows recorded yet</div>
+          )}
         </div>
       </CardContent>
     </Card>

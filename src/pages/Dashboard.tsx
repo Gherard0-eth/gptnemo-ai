@@ -4,10 +4,12 @@ import { useDashboardStore } from "@/stores/useDashboardStore";
 import { useLeaderboardStore } from "@/stores/useLeaderboardStore";
 import { usePrizePoolStore } from "@/stores/usePrizePoolStore";
 import { useShovelStore } from "@/stores/useShovelStore";
+import { useTreasureHunt } from "@/hooks/useTreasureHunt";
 import { TotalInflow } from "@/components/dashboard/TotalInflow";
 import { FounderzInflow } from "@/components/dashboard/FounderzInflow";
 import { IslandInflows } from "@/components/dashboard/IslandInflows";
 import { EthFaucet } from "@/components/dashboard/EthFaucet";
+import { WinningCoordinates } from "@/components/dashboard/WinningCoordinates";
 
 export default function Dashboard() {
   const { toast } = useToast();
@@ -15,16 +17,20 @@ export default function Dashboard() {
   const resetLeaderboard = useLeaderboardStore((state) => state.resetEntries);
   const resetDashboard = useDashboardStore((state) => state.reset);
   const resetShovels = useShovelStore((state) => state.reset);
+  const { generateNewTreasure } = useTreasureHunt();
 
   const handleClearCache = () => {
     resetPrizePool();
     resetLeaderboard();
     resetDashboard();
     resetShovels();
+    generateNewTreasure();
     toast({
       title: "Cache Cleared",
       description: "All data has been reset successfully.",
     });
+    // Force page refresh
+    window.location.reload();
   };
 
   return (
@@ -43,6 +49,7 @@ export default function Dashboard() {
         <TotalInflow />
         <FounderzInflow />
         <EthFaucet />
+        <WinningCoordinates />
       </div>
 
       <div className="mt-6">
