@@ -8,7 +8,7 @@ interface MapGridProps {
 }
 
 export const MapGrid = memo(function MapGrid({ onSquareClick, clusterId, dugTiles }: MapGridProps) {
-  const gridSize = 6; // Changed from 10 to 6
+  const gridSize = 6;
   const squares = [];
 
   // Add coordinate labels
@@ -62,14 +62,19 @@ export const MapGrid = memo(function MapGrid({ onSquareClick, clusterId, dugTile
             top: `${(i * 100) / gridSize}%`,
           }}
           onClick={() => !isDug && onSquareClick(row, col)}
-        />
+        >
+          {isDug && (
+            <div className="absolute inset-0 flex items-center justify-center text-2xl">
+              ❌
+            </div>
+          )}
+        </div>
       );
     }
   }
 
   return (
     <div className="absolute inset-0 pointer-events-auto p-6">
-      {/* Coordinate labels */}
       <div className="relative w-full h-full">
         {xAxisLabels}
         {yAxisLabels}

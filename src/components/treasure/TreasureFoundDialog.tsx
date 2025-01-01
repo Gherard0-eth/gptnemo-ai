@@ -89,7 +89,9 @@ export function TreasureFoundDialog({
           <p className="apple-text text-2xl">
             You've found the treasure!
           </p>
-          <div className="bg-apple-gray-100 dark:bg-apple-gray-600 p-8 rounded-xl">
+          <div className="bg-apple-gray-100 dark:bg-apple-gray-600 p-8 rounded-xl relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shine_2s_infinite]" 
+                 style={{ transform: 'skewX(-20deg)', backgroundSize: '200% 100%' }} />
             <p className="text-xl mb-2">Your Prize:</p>
             <div className="flex items-center justify-center gap-2 text-3xl font-bold text-apple-accent">
               <Coins className="h-8 w-8" />

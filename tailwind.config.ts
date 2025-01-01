@@ -82,11 +82,16 @@ export default {
         pulse: {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.7' }
-        }
+        },
+        shine: {
+          '0%': { backgroundPosition: '200% center' },
+          '100%': { backgroundPosition: '-200% center' },
+        },
       },
       animation: {
         float: 'float 3s ease-in-out infinite',
-        pulse: 'pulse 4s ease-in-out infinite'
+        pulse: 'pulse 4s ease-in-out infinite',
+        shine: 'shine 2s linear infinite',
       }
     },
   },
