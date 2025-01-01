@@ -28,6 +28,34 @@ export function IslandMap({ coordinates }: IslandMapProps) {
   const [dugTiles, setDugTiles] = useState<Set<string>>(new Set());
   const isMobile = useIsMobile();
 
+  // Calculate bounds based on container size and scale
+  const getBounds = () => {
+    if (!mapContainer.current) return { minX: 0, maxX: 0, minY: 0, maxY: 0 };
+    
+    const containerWidth = mapContainer.current.clientWidth;
+    const containerHeight = mapContainer.current.clientHeight;
+    const mapWidth = containerWidth * 2; // 200vw
+    const mapHeight = containerHeight * 2; // 200vh
+    
+    const scaledMapWidth = mapWidth * scale;
+    const scaledMapHeight = mapHeight * scale;
+    
+    return {
+      minX: -(scaledMapWidth - containerWidth) / 2,
+      maxX: (scaledMapWidth - containerWidth) / 2,
+      minY: -(scaledMapHeight - containerHeight) / 2,
+      maxY: (scaledMapHeight - containerHeight) / 2,
+    };
+  };
+
+  const clampPosition = (pos: { x: number; y: number }) => {
+    const bounds = getBounds();
+    return {
+      x: Math.min(Math.max(pos.x, bounds.minX), bounds.maxX),
+      y: Math.min(Math.max(pos.y, bounds.minY), bounds.maxY),
+    };
+  };
+
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     setIsDragging(true);
@@ -41,10 +69,11 @@ export function IslandMap({ coordinates }: IslandMapProps) {
       e.preventDefault();
       const clientX = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
       const clientY = 'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
-      setPosition({
+      const newPosition = {
         x: clientX - dragStart.x,
         y: clientY - dragStart.y,
-      });
+      };
+      setPosition(clampPosition(newPosition));
     }
   };
 
@@ -70,7 +99,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-16rem)] mx-auto max-w-7xl px-2 md:px-4 py-4 md:py-8">
+    <div className="w-full h-[calc(100vh-6rem)] mt-16 mx-auto max-w-7xl px-2 md:px-4 py-4 md:py-8">
       <div className="apple-container h-full bg-apple-gray-100/80 dark:bg-apple-gray-600/80 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden">
         {/* Mini-map toggle */}
         <Button
@@ -89,7 +118,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
           <MiniMap
             position={position}
             scale={scale}
-            onNavigate={(x, y) => setPosition({ x, y })}
+            onNavigate={(x, y) => setPosition(clampPosition({ x, y }))}
             dugTiles={dugTiles}
           />
         )}
