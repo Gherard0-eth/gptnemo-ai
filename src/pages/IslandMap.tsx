@@ -23,19 +23,17 @@ export default function IslandMapPage() {
   if (!island) return <div>Island not found</div>;
 
   return (
-    <div className="min-h-screen bg-apple-gray-100 dark:bg-apple-gray-700 p-4">
+    <div className="h-screen w-screen relative bg-apple-gray-700">
       <Button
         variant="ghost"
         onClick={() => navigate(-1)}
-        className="mb-4 text-apple-gray-700 dark:text-apple-gray-100"
+        className="absolute top-4 left-4 z-10 bg-white/80 hover:bg-white/90 dark:bg-apple-gray-600/80 dark:hover:bg-apple-gray-600/90 backdrop-blur-sm rounded-full"
       >
-        <ChevronLeft className="mr-2 h-5 w-5" />
-        Back to Island Details
+        <ChevronLeft className="h-5 w-5" />
+        <span className="ml-2">Back</span>
       </Button>
       
-      <div className="h-[calc(100vh-8rem)] apple-container p-4">
-        <IslandMap coordinates={island.coordinates} />
-      </div>
+      <IslandMap coordinates={island.coordinates} />
     </div>
   );
 }

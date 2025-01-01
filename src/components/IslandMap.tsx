@@ -1,6 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { MapControls } from "./map/MapControls";
 import { MapGrid } from "./map/MapGrid";
 import { DigDialog } from "./map/DigDialog";
 
@@ -14,19 +12,10 @@ interface IslandMapProps {
 export function IslandMap({ coordinates }: IslandMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
-  const [scale, setScale] = useState(2); // Start with a larger scale
+  const [scale, setScale] = useState(2);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const isMobile = useIsMobile();
-
-  const handleZoomIn = () => {
-    setScale((prev) => Math.min(prev * 1.2, 8)); // Increased max zoom
-  };
-
-  const handleZoomOut = () => {
-    setScale((prev) => Math.max(prev * 0.8, 0.8)); // Increased min zoom
-  };
 
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     setIsDragging(true);
@@ -54,7 +43,6 @@ export function IslandMap({ coordinates }: IslandMapProps) {
     setSelectedSquare(`${row}-${col}`);
   };
 
-  // Handle pinch zoom on mobile
   const handleTouchStart = (e: TouchEvent) => {
     if (e.touches.length === 2) {
       const touch1 = e.touches[0];
@@ -96,7 +84,6 @@ export function IslandMap({ coordinates }: IslandMapProps) {
     centerMap();
     window.addEventListener('resize', centerMap);
 
-    // Add touch event listeners for pinch zoom
     const element = mapContainer.current;
     if (element) {
       element.addEventListener('touchstart', handleTouchStart);
@@ -113,10 +100,10 @@ export function IslandMap({ coordinates }: IslandMapProps) {
   }, []);
 
   return (
-    <div className="relative w-full h-full">
+    <div className="absolute inset-0">
       <div
         ref={mapContainer}
-        className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing rounded-lg touch-none bg-apple-gray-700"
+        className="w-full h-full relative overflow-hidden cursor-grab active:cursor-grabbing touch-none"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove as any}
         onMouseUp={handleMouseUp}
@@ -126,7 +113,7 @@ export function IslandMap({ coordinates }: IslandMapProps) {
         onTouchEnd={handleMouseUp}
       >
         <div
-          className="absolute w-[200vw] h-[200vw]" // Make the map container much larger
+          className="absolute w-[300vw] h-[300vw]"
           style={{
             transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
             transformOrigin: "center",
@@ -141,12 +128,6 @@ export function IslandMap({ coordinates }: IslandMapProps) {
           <MapGrid onSquareClick={handleSquareClick} />
         </div>
       </div>
-
-      <MapControls 
-        onZoomIn={handleZoomIn} 
-        onZoomOut={handleZoomOut}
-        className={`absolute ${isMobile ? 'bottom-4 right-4' : 'top-4 right-4'}`}
-      />
 
       <DigDialog
         selectedSquare={selectedSquare}
