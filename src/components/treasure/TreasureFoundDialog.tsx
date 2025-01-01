@@ -12,6 +12,7 @@ import { usePrizePoolStore } from "@/stores/usePrizePoolStore";
 import { useDashboardStore } from "@/stores/useDashboardStore";
 import { useState, useEffect } from "react";
 import { useTreasureHunt } from "@/hooks/useTreasureHunt";
+import { LoadingScreen } from "@/components/LoadingScreen";
 
 interface TreasureFoundDialogProps {
   isOpen: boolean;
@@ -32,6 +33,7 @@ export function TreasureFoundDialog({
   const { addInflow } = useDashboardStore();
   const { generateNewTreasure } = useTreasureHunt();
   const [ethPrice, setEthPrice] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchEthPrice = async () => {
@@ -67,8 +69,11 @@ export function TreasureFoundDialog({
       
       onRedeem();
       
-      // Force page refresh
-      window.location.reload();
+      // Show loading screen for 2 seconds before refresh
+      setIsLoading(true);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     }
   };
 
@@ -79,40 +84,43 @@ export function TreasureFoundDialog({
   });
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="apple-container max-w-2xl mx-auto">
-        <DialogHeader>
-          <DialogTitle className="text-4xl font-display text-apple-gray-700 dark:text-apple-gray-100 text-center flex items-center justify-center gap-4">
-            <Trophy className="h-12 w-12 text-yellow-500 animate-bounce" />
-            Congratulations!
-            <Trophy className="h-12 w-12 text-yellow-500 animate-bounce" />
-          </DialogTitle>
-        </DialogHeader>
-        <div className="text-center space-y-8 py-8">
-          <p className="apple-text text-2xl">
-            You've found the treasure!
-          </p>
-          <div className="bg-apple-gray-100 dark:bg-apple-gray-600 p-8 rounded-xl relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shine_2s_infinite]" 
-                 style={{ transform: 'skewX(-20deg)', backgroundSize: '200% 100%' }} />
-            <p className="text-xl mb-2">Your Prize:</p>
-            <div className="flex items-center justify-center gap-2 text-3xl font-bold text-apple-accent">
-              <Coins className="h-8 w-8" />
-              {prizePool.toFixed(3)} ETH
-            </div>
-            <p className="text-sm text-apple-gray-500 dark:text-apple-gray-300 mt-2">
-              ≈ {usdValue}
+    <>
+      {isLoading && <LoadingScreen />}
+      <Dialog open={isOpen} onOpenChange={onOpenChange}>
+        <DialogContent className="apple-container max-w-2xl mx-auto">
+          <DialogHeader>
+            <DialogTitle className="text-4xl font-display text-apple-gray-700 dark:text-apple-gray-100 text-center flex items-center justify-center gap-4">
+              <Trophy className="h-12 w-12 text-yellow-500 animate-bounce" />
+              Congratulations!
+              <Trophy className="h-12 w-12 text-yellow-500 animate-bounce" />
+            </DialogTitle>
+          </DialogHeader>
+          <div className="text-center space-y-8 py-8">
+            <p className="apple-text text-2xl">
+              You've found the treasure!
             </p>
+            <div className="bg-apple-gray-100 dark:bg-apple-gray-600 p-8 rounded-xl relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shine_2s_infinite]" 
+                   style={{ transform: 'skewX(-20deg)', backgroundSize: '200% 100%' }} />
+              <p className="text-xl mb-2">Your Prize:</p>
+              <div className="flex items-center justify-center gap-2 text-3xl font-bold text-apple-accent">
+                <Coins className="h-8 w-8" />
+                {prizePool.toFixed(3)} ETH
+              </div>
+              <p className="text-sm text-apple-gray-500 dark:text-apple-gray-300 mt-2">
+                ≈ {usdValue}
+              </p>
+            </div>
+            <Button
+              className="apple-button w-full max-w-[300px] mx-auto group transition-all duration-300 
+                       text-xl py-6 hover:transform hover:scale-105 active:scale-95"
+              onClick={handleRedeem}
+            >
+              Redeem Prize
+            </Button>
           </div>
-          <Button
-            className="apple-button w-full max-w-[300px] mx-auto group transition-all duration-300 
-                     text-xl py-6 hover:transform hover:scale-105 active:scale-95"
-            onClick={handleRedeem}
-          >
-            Redeem Prize
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
