@@ -13,6 +13,7 @@ import IslandMapPage from "./pages/IslandMap";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Documentation from "./pages/Documentation";
+import ShovelAuction from "./pages/ShovelAuction";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -45,6 +46,7 @@ const App = () => (
                       <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/profile" element={<Profile />} />
                       <Route path="/docs" element={<Documentation />} />
+                      <Route path="/auction" element={<ShovelAuction />} />
                     </Routes>
                   </div>
                 </div>
