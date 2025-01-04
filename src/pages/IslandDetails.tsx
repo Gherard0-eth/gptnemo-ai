@@ -7,7 +7,6 @@ import { DigDialog } from "@/components/map/DigDialog";
 import { IslandStats } from "@/components/island/IslandStats";
 import { IslandCharacteristics } from "@/components/island/IslandCharacteristics";
 import { IslandHeader } from "@/components/island/IslandHeader";
-import { islandData } from "@/data/islandData";
 import { TreasureFoundDialog } from "@/components/treasure/TreasureFoundDialog";
 import { FloatingRedeemButton } from "@/components/treasure/FloatingRedeemButton";
 
@@ -21,7 +20,10 @@ export default function IslandDetails() {
   const [hasUnredeemedTreasure, setHasUnredeemedTreasure] = useState(false);
   const [treasureFound, setTreasureFound] = useState<string | null>(null);
   
-  const island = islandData[id as keyof typeof islandData];
+  // Get island data from localStorage if it exists, otherwise fall back to default data
+  const savedIslands = localStorage.getItem('treasureIslands');
+  const islands = savedIslands ? JSON.parse(savedIslands) : {};
+  const island = islands[id as string];
 
   if (!island) {
     return (

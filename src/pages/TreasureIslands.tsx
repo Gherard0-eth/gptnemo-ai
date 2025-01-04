@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTreasureHunt } from "@/hooks/useTreasureHunt";
 import { IslandCard } from "@/components/IslandCard";
-import { islandData, generateNewIsland } from "@/data/islandData";
+import { islandData, generateNewIsland, type Island } from "@/data/islandData";
 import { Button } from "@/components/ui/button";
 import { MapPin, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -10,7 +10,7 @@ const TreasureIslands = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { treasureLocation } = useTreasureHunt();
   const { toast } = useToast();
-  const [islands, setIslands] = useState(() => {
+  const [islands, setIslands] = useState<Record<string, Island>>(() => {
     const savedIslands = localStorage.getItem('treasureIslands');
     return savedIslands ? JSON.parse(savedIslands) : islandData;
   });
