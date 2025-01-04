@@ -1,0 +1,17 @@
+.toast-success {
+  @apply bg-emerald-500/95 text-white backdrop-blur-xl
+         border border-emerald-400/30 
+         shadow-lg shadow-emerald-500/20;
+}
+
+.toast-error {
+  @apply bg-red-500/95 text-white backdrop-blur-xl
+         border border-red-400/30 
+         shadow-lg shadow-red-500/20;
+}
+
+.toast-info {
+  @apply bg-blue-500/95 text-white backdrop-blur-xl
+         border border-blue-400/30 
+         shadow-lg shadow-blue-500/20;
+}
