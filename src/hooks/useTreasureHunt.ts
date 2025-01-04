@@ -8,7 +8,7 @@ interface TreasureLocation {
   };
 }
 
-const ISLANDS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+const ISLANDS = ["1", "2", "3"];
 const GRID_SIZE = 6;
 
 const selectRandomLocation = (): TreasureLocation => {
