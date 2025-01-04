@@ -27,24 +27,24 @@
   }
  
   .dark {
-    --background: 0 0% 20%;
+    --background: 0 0% 32%;
     --foreground: 210 40% 98%;
-    --card: 0 0% 25%;
+    --card: 0 0% 32%;
     --card-foreground: 210 40% 98%;
-    --popover: 0 0% 95%;
-    --popover-foreground: 0 0% 20%;
+    --popover: 0 0% 85%;
+    --popover-foreground: 0 0% 32%;
     --primary: 217 91% 60%;
     --primary-foreground: 222.2 47% 11%;
-    --secondary: 0 0% 25%;
+    --secondary: 0 0% 32%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 0 0% 25%;
+    --muted: 0 0% 32%;
     --muted-foreground: 215 20.2% 65.1%;
-    --accent: 0 0% 25%;
+    --accent: 0 0% 32%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    --border: 0 0% 25%;
-    --input: 0 0% 25%;
+    --border: 0 0% 32%;
+    --input: 0 0% 32%;
     --ring: 224.3 76.3% 48%;
   }
 
@@ -81,8 +81,8 @@
   .glass-popup {
     @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
            w-[90vw] md:w-auto max-w-2xl mx-auto
-           bg-white/95 dark:bg-neutral-200/95 backdrop-blur-xl 
-           border border-gray-200/50 dark:border-neutral-300/50
+           bg-white/95 dark:bg-neutral-800/95 backdrop-blur-xl 
+           border border-gray-200/50 dark:border-neutral-700/50
            shadow-2xl dark:shadow-neutral-900/30
            rounded-2xl z-50;
   }
@@ -110,8 +110,8 @@
   }
 
   .island-characteristic {
-    @apply bg-gray-100/80 dark:bg-neutral-700/80
-           border border-gray-200/50 dark:border-neutral-600/50
+    @apply bg-gray-100/80 dark:bg-neutral-800/80
+           border border-gray-200/50 dark:border-neutral-700/50
            rounded-full px-4 py-2;
   }
 }
