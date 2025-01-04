@@ -4,10 +4,12 @@ import { Button } from "@/components/ui/button";
 import { useAuctionStore } from "@/stores/useAuctionStore";
 import { Timer, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 export const AuctionStatus = () => {
   const [timeLeft, setTimeLeft] = useState("");
-  const { currentPrice, endTime, highestBidder } = useAuctionStore();
+  const { currentPrice, endTime, highestBidder, startNewAuction } = useAuctionStore();
+  const { toast } = useToast();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -16,16 +18,29 @@ export const AuctionStatus = () => {
       const diff = end.getTime() - now.getTime();
 
       if (diff <= 0) {
-        setTimeLeft("Auction ended");
+        setTimeLeft("Starting new auction...");
+        startNewAuction();
+        toast({
+          title: "New Auction Started",
+          description: "A new shovel auction has begun!",
+        });
       } else {
         const minutes = Math.floor(diff / 1000 / 60);
         const seconds = Math.floor((diff / 1000) % 60);
         setTimeLeft(`${minutes}:${seconds.toString().padStart(2, "0")}`);
+
+        // Show warning when less than 1 minute remains
+        if (diff <= 60000 && diff > 59000) {
+          toast({
+            title: "Last Minute!",
+            description: "Bids now extend the auction by 30 seconds!",
+          });
+        }
       }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [endTime]);
+  }, [endTime, startNewAuction, toast]);
 
   return (
     <Card>
