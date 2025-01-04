@@ -8,19 +8,16 @@ interface TreasureLocation {
   };
 }
 
+const ISLANDS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
 const GRID_SIZE = 6;
 
 const selectRandomLocation = (): TreasureLocation => {
-  // Get available islands from localStorage or use default
-  const savedIslands = localStorage.getItem('treasureIslands');
-  const islands = savedIslands ? Object.keys(JSON.parse(savedIslands)) : ["1", "2", "3"];
-  
-  const randomIslandIndex = Math.floor(Math.random() * islands.length);
+  const randomIslandIndex = Math.floor(Math.random() * ISLANDS.length);
   const randomX = Math.floor(Math.random() * GRID_SIZE);
   const randomY = Math.floor(Math.random() * GRID_SIZE);
 
   return {
-    islandId: islands[randomIslandIndex],
+    islandId: ISLANDS[randomIslandIndex],
     coordinates: {
       x: randomX,
       y: randomY,
