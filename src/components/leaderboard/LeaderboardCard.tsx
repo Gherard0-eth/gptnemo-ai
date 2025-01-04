@@ -22,7 +22,7 @@ export const LeaderboardCard = () => {
   }, [getTopHunters]);
 
   return (
-    <Card>
+    <Card className="bg-neutral-800/90 dark:bg-neutral-800/90">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-lg">
           <Award className="h-5 w-5 text-apple-accent" />
