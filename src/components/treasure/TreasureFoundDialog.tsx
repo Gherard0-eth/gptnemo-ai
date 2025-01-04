@@ -89,35 +89,33 @@ export function TreasureFoundDialog({
     <>
       {isLoading && <LoadingScreen />}
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
-        <DialogContent className="glass-popup">
+        <DialogContent className="apple-container max-w-2xl mx-auto">
           <DialogHeader>
-            <DialogTitle className="text-4xl font-display text-gray-800 dark:text-gray-100 text-center flex items-center justify-center gap-4">
+            <DialogTitle className="text-4xl font-display text-apple-gray-700 dark:text-apple-gray-100 text-center flex items-center justify-center gap-4">
               <Trophy className="h-12 w-12 text-yellow-500 animate-bounce" />
               Congratulations!
               <Trophy className="h-12 w-12 text-yellow-500 animate-bounce" />
             </DialogTitle>
           </DialogHeader>
           <div className="text-center space-y-8 py-8">
-            <p className="text-2xl text-gray-700 dark:text-gray-200">
+            <p className="apple-text text-2xl">
               You've found the treasure!
             </p>
-            <div className="card-gradient p-8 rounded-xl relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shine" 
+            <div className="bg-apple-gray-100 dark:bg-apple-gray-600 p-8 rounded-xl relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shine_2s_infinite]" 
                    style={{ transform: 'skewX(-20deg)', backgroundSize: '200% 100%' }} />
-              <p className="text-xl mb-2 text-gray-700 dark:text-gray-200">Your Prize:</p>
-              <div className="flex items-center justify-center gap-2 text-3xl font-bold text-blue-500 dark:text-blue-400">
+              <p className="text-xl mb-2">Your Prize:</p>
+              <div className="flex items-center justify-center gap-2 text-3xl font-bold text-apple-accent">
                 <Coins className="h-8 w-8" />
                 {prizePool.toFixed(3)} ETH
               </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+              <p className="text-sm text-apple-gray-500 dark:text-apple-gray-300 mt-2">
                 ≈ {usdValue}
               </p>
             </div>
             <Button
-              className="w-full max-w-[300px] mx-auto group transition-all duration-300 
-                       text-xl py-6 bg-blue-500 hover:bg-blue-600 text-white
-                       hover:transform hover:scale-105 active:scale-95
-                       shadow-lg shadow-blue-500/20"
+              className="apple-button w-full max-w-[300px] mx-auto group transition-all duration-300 
+                       text-xl py-6 hover:transform hover:scale-105 active:scale-95"
               onClick={handleRedeem}
             >
               Redeem Prize
