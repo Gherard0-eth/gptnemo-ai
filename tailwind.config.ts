@@ -92,7 +92,14 @@ export default {
         float: 'float 3s ease-in-out infinite',
         pulse: 'pulse 4s ease-in-out infinite',
         shine: 'shine 2s linear infinite',
-      }
+      },
+      boxShadow: {
+        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+        'glass-sm': '0 4px 16px 0 rgba(31, 38, 135, 0.37)',
+      },
+      backdropBlur: {
+        'glass': '20px',
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
