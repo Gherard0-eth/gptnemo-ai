@@ -4,18 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useAuctionStore } from "@/stores/useAuctionStore";
-import { useUserStore } from "@/stores/useUserStore";
 import { useShovelStore } from "@/stores/useShovelStore";
-import { Timer, Gavel, Shovel } from "lucide-react";
+import { Timer, Gavel, Shovel, ArrowLeft, History } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const ShovelAuction = () => {
   const { toast } = useToast();
   const [bidAmount, setBidAmount] = useState("");
   const [timeLeft, setTimeLeft] = useState("");
   
-  const { currentPrice, endTime, highestBidder, placeBid, isActive, startNewAuction } = useAuctionStore();
-  const username = useUserStore((state) => state.username);
-  const addShovels = useShovelStore((state) => state.addShovels);
+  const { currentPrice, endTime, highestBidder, placeBid, isActive, bids, startNewAuction } = useAuctionStore();
+  const username = "TestUser"; // This will be replaced with actual Web3 wallet address
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -26,7 +25,6 @@ const ShovelAuction = () => {
       if (diff <= 0) {
         setTimeLeft("Auction ended");
         if (isActive && highestBidder === username) {
-          addShovels(1);
           toast({
             title: "Congratulations!",
             description: "You won the auction! A new shovel has been added to your inventory.",
@@ -41,7 +39,7 @@ const ShovelAuction = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [endTime, highestBidder, username, addShovels, isActive, startNewAuction, toast]);
+  }, [endTime, highestBidder, username, isActive, startNewAuction, toast]);
 
   const handleBid = () => {
     if (!username) {
@@ -73,6 +71,15 @@ const ShovelAuction = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <div className="mb-6">
+        <Link to="/">
+          <Button variant="outline" className="gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Home
+          </Button>
+        </Link>
+      </div>
+
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-2xl">
@@ -94,7 +101,7 @@ const ShovelAuction = () => {
               <Shovel className="h-5 w-5 text-apple-accent" />
               <span className="font-medium">Current Price:</span>
             </div>
-            <span className="text-xl font-bold">{currentPrice.toFixed(3)} ETH</span>
+            <span className="text-xl font-bold">{currentPrice.toString()} ETH</span>
           </div>
 
           <div className="flex items-center justify-between p-4 bg-apple-gray-100 dark:bg-apple-gray-600 rounded-lg">
@@ -115,6 +122,28 @@ const ShovelAuction = () => {
             <Button onClick={handleBid} className="whitespace-nowrap">
               Place Bid
             </Button>
+          </div>
+
+          {/* Bid History Section */}
+          <div className="mt-8">
+            <div className="flex items-center gap-2 mb-4">
+              <History className="h-5 w-5 text-apple-accent" />
+              <h3 className="text-lg font-semibold">Bid History</h3>
+            </div>
+            <div className="space-y-2 max-h-60 overflow-y-auto">
+              {bids.slice().reverse().map((bid, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-center p-3 bg-apple-gray-100 dark:bg-apple-gray-600 rounded-lg"
+                >
+                  <span className="font-medium">{bid.username}</span>
+                  <span className="text-sm">{bid.amount.toString()} ETH</span>
+                </div>
+              ))}
+              {bids.length === 0 && (
+                <p className="text-muted-foreground text-center py-4">No bids yet</p>
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>
