@@ -81,7 +81,7 @@
   .glass-popup {
     @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
            w-[90vw] md:w-auto max-w-2xl mx-auto
-           bg-white/98 dark:bg-[#1a2234]/98 backdrop-blur-xl 
+           bg-white/95 dark:bg-[#1a2234]/95 backdrop-blur-xl 
            border border-gray-200/50 dark:border-blue-900/50
            shadow-2xl dark:shadow-blue-900/30
            rounded-2xl z-50;
@@ -103,7 +103,7 @@
 
   /* Island details specific styles */
   .island-details {
-    @apply bg-white/98 dark:bg-[#1a2234]/98
+    @apply bg-white/95 dark:bg-[#1a2234]/95
            shadow-xl dark:shadow-blue-900/30
            border border-gray-200/50 dark:border-blue-900/50
            rounded-2xl p-6 space-y-6;
@@ -136,19 +136,19 @@
 
 /* Enhanced toast styles */
 .toast-success {
-  @apply bg-emerald-500/98 text-white backdrop-blur-xl
+  @apply bg-emerald-500/95 text-white backdrop-blur-xl
          border border-emerald-400/30 
          shadow-lg shadow-emerald-500/20;
 }
 
 .toast-error {
-  @apply bg-red-500/98 text-white backdrop-blur-xl
+  @apply bg-red-500/95 text-white backdrop-blur-xl
          border border-red-400/30 
          shadow-lg shadow-red-500/20;
 }
 
 .toast-info {
-  @apply bg-blue-500/98 text-white backdrop-blur-xl
+  @apply bg-blue-500/95 text-white backdrop-blur-xl
          border border-blue-400/30 
          shadow-lg shadow-blue-500/20;
 }
