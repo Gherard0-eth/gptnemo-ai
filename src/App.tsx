@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { Header } from "@/components/Header";
-import { PrizePoolBanner } from "@/components/PrizePoolBanner";
 import Index from "./pages/Index";
 import TreasureIslands from "./pages/TreasureIslands";
 import IslandDetails from "./pages/IslandDetails";
@@ -36,7 +35,6 @@ const App = () => (
               <Header />
               <main className="flex flex-col md:h-screen md:overflow-hidden">
                 <div className="mt-16 h-full overflow-y-auto md:overflow-hidden">
-                  <PrizePoolBanner />
                   <div className="h-full overflow-y-auto">
                     <Routes>
                       <Route path="/" element={<Index />} />
