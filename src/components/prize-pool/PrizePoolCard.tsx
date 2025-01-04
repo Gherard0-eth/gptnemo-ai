@@ -39,7 +39,7 @@ export const PrizePoolCard = () => {
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-lg">
           <DollarSign className="h-5 w-5 text-apple-accent" />
-          Current Prize Pool
+          Current Treasury Pool
         </CardTitle>
       </CardHeader>
       <CardContent>

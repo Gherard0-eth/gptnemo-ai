@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { ethers } from 'ethers';
+import { usePrizePoolStore } from './usePrizePoolStore';
 
 interface Bid {
   username: string;
@@ -24,17 +25,16 @@ export const useAuctionStore = create<AuctionState>()(
   persist(
     (set, get) => ({
       currentPrice: 0.1,
-      endTime: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes from now
+      endTime: new Date(Date.now() + 2 * 60 * 1000), // Changed to 2 minutes
       bids: [],
       highestBidder: null,
       isActive: true,
       placeBid: (username: string, amount: number) => {
         const { currentPrice, bids, endTime } = get();
         if (amount > currentPrice) {
-          // Check if we need to extend time (less than 1 minute remaining)
           const timeLeft = new Date(endTime).getTime() - Date.now();
-          if (timeLeft <= 60000) { // less than 1 minute
-            const newEndTime = new Date(new Date(endTime).getTime() + 30000); // add 30 seconds
+          if (timeLeft <= 60000) {
+            const newEndTime = new Date(new Date(endTime).getTime() + 30000);
             set({ endTime: newEndTime });
           }
 
@@ -50,9 +50,14 @@ export const useAuctionStore = create<AuctionState>()(
         }
       },
       startNewAuction: () => {
+        const { currentPrice, highestBidder } = get();
+        if (highestBidder) {
+          // Add the winning bid to the Treasury Pool
+          usePrizePoolStore.getState().addAmount(currentPrice);
+        }
         set({
           currentPrice: 0.1,
-          endTime: new Date(Date.now() + 10 * 60 * 1000),
+          endTime: new Date(Date.now() + 2 * 60 * 1000), // Changed to 2 minutes
           bids: [],
           highestBidder: null,
           isActive: true,
@@ -61,7 +66,7 @@ export const useAuctionStore = create<AuctionState>()(
       resetAuction: () => {
         set({
           currentPrice: 0.1,
-          endTime: new Date(Date.now() + 10 * 60 * 1000),
+          endTime: new Date(Date.now() + 2 * 60 * 1000), // Changed to 2 minutes
           bids: [],
           highestBidder: null,
           isActive: true,
