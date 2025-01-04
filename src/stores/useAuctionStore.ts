@@ -25,7 +25,7 @@ export const useAuctionStore = create<AuctionState>()(
   persist(
     (set, get) => ({
       currentPrice: 0.1,
-      endTime: new Date(Date.now() + 2 * 60 * 1000), // Changed to 2 minutes
+      endTime: new Date(Date.now() + 2 * 60 * 1000),
       bids: [],
       highestBidder: null,
       isActive: true,
@@ -38,12 +38,15 @@ export const useAuctionStore = create<AuctionState>()(
             set({ endTime: newEndTime });
           }
 
+          // Convert the amount to a proper decimal string for storage
+          const formattedAmount = parseFloat(amount.toString());
+          
           set({
-            currentPrice: amount,
+            currentPrice: formattedAmount,
             highestBidder: username,
             bids: [...bids, { 
               username, 
-              amount: parseFloat(ethers.formatEther(amount.toString())), 
+              amount: formattedAmount,
               timestamp: new Date() 
             }],
           });
@@ -57,7 +60,7 @@ export const useAuctionStore = create<AuctionState>()(
         }
         set({
           currentPrice: 0.1,
-          endTime: new Date(Date.now() + 2 * 60 * 1000), // Changed to 2 minutes
+          endTime: new Date(Date.now() + 2 * 60 * 1000),
           bids: [],
           highestBidder: null,
           isActive: true,
@@ -66,7 +69,7 @@ export const useAuctionStore = create<AuctionState>()(
       resetAuction: () => {
         set({
           currentPrice: 0.1,
-          endTime: new Date(Date.now() + 2 * 60 * 1000), // Changed to 2 minutes
+          endTime: new Date(Date.now() + 2 * 60 * 1000),
           bids: [],
           highestBidder: null,
           isActive: true,

@@ -101,7 +101,7 @@ const ShovelAuction = () => {
               <Shovel className="h-5 w-5 text-apple-accent" />
               <span className="font-medium">Current Price:</span>
             </div>
-            <span className="text-xl font-bold">{currentPrice.toString()} ETH</span>
+            <span className="text-xl font-bold">{currentPrice} ETH</span>
           </div>
 
           <div className="flex items-center justify-between p-4 bg-apple-gray-100 dark:bg-apple-gray-600 rounded-lg">
@@ -137,7 +137,7 @@ const ShovelAuction = () => {
                   className="flex justify-between items-center p-3 bg-apple-gray-100 dark:bg-apple-gray-600 rounded-lg"
                 >
                   <span className="font-medium">{bid.username}</span>
-                  <span className="text-sm">{bid.amount.toString()} ETH</span>
+                  <span className="text-sm">{bid.amount} ETH</span>
                 </div>
               ))}
               {bids.length === 0 && (
