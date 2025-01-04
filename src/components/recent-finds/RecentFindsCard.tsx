@@ -41,7 +41,7 @@ export const RecentFindsCard = () => {
   }, [getTopHunters]); // Update whenever the hunters list changes
 
   return (
-    <Card className="bg-neutral-800/90 dark:bg-neutral-800/90 light:bg-neutral-100/90">
+    <Card className="bg-neutral-100/90 dark:bg-neutral-800/90">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center gap-2 text-lg">
           <Sparkles className="h-5 w-5 text-apple-accent" />
