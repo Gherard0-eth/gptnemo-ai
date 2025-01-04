@@ -5,10 +5,10 @@
   }
 
   .apple-container {
-    @apply bg-white/98 dark:bg-neutral-900/98 backdrop-blur-lg 
-           border-2 border-gray-300/70 dark:border-neutral-800/70 
-           rounded-2xl shadow-lg dark:shadow-neutral-900/20
-           hover:border-gray-400/80 dark:hover:border-neutral-700/80 transition-colors;
+    @apply bg-white/[0.98] dark:bg-neutral-900/[0.98] backdrop-blur-lg 
+           border-2 border-gray-300/[0.7] dark:border-neutral-800/[0.7] 
+           rounded-2xl shadow-lg dark:shadow-neutral-900/[0.2]
+           hover:border-gray-400/[0.8] dark:hover:border-neutral-700/[0.8] transition-colors;
   }
 
   .apple-text {
@@ -18,41 +18,35 @@
   .glass-popup {
     @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
            w-[90vw] md:w-auto max-w-2xl mx-auto
-           bg-white/98 dark:bg-neutral-900/98 backdrop-blur-xl 
-           border-2 border-gray-300/70 dark:border-neutral-800/70
-           shadow-2xl dark:shadow-neutral-900/30
+           bg-white/[0.98] dark:bg-neutral-900/[0.98] backdrop-blur-xl 
+           border-2 border-gray-300/[0.7] dark:border-neutral-800/[0.7]
+           shadow-2xl dark:shadow-neutral-900/[0.3]
            rounded-2xl z-50;
   }
 
   .card-gradient {
-    @apply bg-gradient-to-br from-white/98 to-gray-50/95
-           dark:from-neutral-900/98 dark:to-neutral-900/95
-           border-2 border-gray-300/70 dark:border-neutral-800/70
-           shadow-lg dark:shadow-neutral-900/20;
+    @apply bg-gradient-to-br from-white/[0.98] to-gray-50/[0.95]
+           dark:from-neutral-900/[0.98] dark:to-neutral-900/[0.95]
+           border-2 border-gray-300/[0.7] dark:border-neutral-800/[0.7]
+           shadow-lg dark:shadow-neutral-900/[0.2];
   }
 
   .hover-lift {
     @apply transition-all duration-300 hover:translate-y-[-2px] 
-           hover:shadow-lg hover:shadow-gray-200/50 
-           dark:hover:shadow-neutral-900/30;
+           hover:shadow-lg hover:shadow-gray-200/[0.5] 
+           dark:hover:shadow-neutral-900/[0.3];
   }
 
   .island-details {
-    @apply bg-white/98 dark:bg-neutral-900/98
-           shadow-xl dark:shadow-neutral-900/30
-           border-2 border-gray-300/70 dark:border-neutral-800/70
+    @apply bg-white/[0.98] dark:bg-neutral-900/[0.98]
+           shadow-xl dark:shadow-neutral-900/[0.3]
+           border-2 border-gray-300/[0.7] dark:border-neutral-800/[0.7]
            rounded-2xl p-6 space-y-6;
   }
 
   .island-characteristic {
-    @apply bg-gray-100/90 dark:bg-neutral-900/90
-           border-2 border-gray-300/70 dark:border-neutral-800/70
+    @apply bg-gray-100/[0.9] dark:bg-neutral-900/[0.9]
+           border-2 border-gray-300/[0.7] dark:border-neutral-800/[0.7]
            rounded-full px-4 py-2;
-  }
-}
-
-@media (max-width: 768px) {
-  .glass-popup {
-    @apply w-[95vw] mx-auto my-4 max-h-[90vh] overflow-y-auto;
   }
 }
