@@ -14,11 +14,11 @@ export const TldrSection = () => {
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <div className="text-sm text-muted-foreground">
             <p>
-              Welcome to Epirates, the world's first AI-powered treasure hunting game! Join players worldwide in an exciting quest guided by Sandokhan, our AI Pirate.
+              Welcome to Project Nemo, the world's first AI-powered treasure hunting game! Join players worldwide in an exciting quest guided by Captain Nemo, our AI guide.
             </p>
             <CollapsibleContent>
               <p className="mt-2">
-                Acquire shovels through auctions, unlock Sandokhan's valuable hints, and compete to find hidden treasures across mysterious islands. Each successful discovery rewards you with real cryptocurrency prizes!
+                Acquire shovels through auctions, unlock Captain Nemo's valuable hints, and compete to find hidden treasures across mysterious islands. Each successful discovery rewards you with real cryptocurrency prizes!
               </p>
             </CollapsibleContent>
           </div>

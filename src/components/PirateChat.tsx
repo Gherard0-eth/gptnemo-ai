@@ -13,7 +13,7 @@ export const PirateChat = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Ahoy matey! I be the AI Pirate, ready to help ye find treasures. But first, ye'll need some cryptocurrency to unlock me hints!",
+      content: "Greetings! I am Captain Nemo, your AI guide. To unlock my hints for finding treasures, you'll need some cryptocurrency!",
     },
   ]);
   const [input, setInput] = useState("");
@@ -28,7 +28,7 @@ export const PirateChat = () => {
         { role: "user", content: input },
         {
           role: "assistant",
-          content: "Yarr! Ye need to unlock me hints with some cryptocurrency first, ye scurvy dog!",
+          content: "I'm afraid you'll need to unlock my hints with cryptocurrency first before I can assist you further.",
         },
       ]);
     } else {
@@ -37,7 +37,7 @@ export const PirateChat = () => {
         { role: "user", content: input },
         {
           role: "assistant",
-          content: "Arr! That be a fine question. *Feature coming soon with cryptocurrency integration*",
+          content: "An excellent inquiry. *Feature coming soon with cryptocurrency integration*",
         },
       ]);
     }
