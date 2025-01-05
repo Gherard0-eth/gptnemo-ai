@@ -20,7 +20,7 @@ const Index = () => {
                   Embark on an AI-Powered Treasure Hunt!
                 </h1>
                 <p className="text-sm sm:text-base text-apple-gray-500 dark:text-apple-gray-300">
-                  Meet Sandokhan, your AI Pirate guide, and join treasure hunters worldwide in the quest for hidden riches. Bid for shovels, unlock exclusive hints, and discover treasures across mysterious islands.
+                  Meet Captain Nemo, your AI guide, and join treasure hunters worldwide in the quest for hidden riches. Bid for shovels, unlock exclusive hints, and discover treasures across mysterious islands.
                 </p>
               </div>
 
