@@ -3,8 +3,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatHeader } from "./chat/ChatHeader";
 import { ChatMessage } from "./chat/ChatMessage";
 import { ChatInput } from "./chat/ChatInput";
-import { getAIResponse } from "@/utils/aiAgent";
-import { useToast } from "@/components/ui/use-toast";
 
 interface Message {
   role: "user" | "assistant";
@@ -15,22 +13,21 @@ export const PirateChat = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Ahoy, treasure seeker! I be Captain Nemo, keeper of the islands' secrets. Share yer thoughts, and I'll guide ye... for the right price!",
+      content: "Greetings! I am Gaptain Nemo, your AI guide. To unlock my hints for finding treasures, you'll need some cryptocurrency!",
     },
   ]);
   const [input, setInput] = useState("");
   const [isUnlocked, setIsUnlocked] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { toast } = useToast();
 
+  // Auto scroll to bottom when messages change
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }
   }, [messages]);
 
-  const handleSend = async () => {
+  const handleSend = () => {
     if (!input.trim()) return;
 
     if (!isUnlocked) {
@@ -39,25 +36,18 @@ export const PirateChat = () => {
         { role: "user", content: input },
         {
           role: "assistant",
-          content: "Arr! Ye need to unlock my wisdom with some cryptocurrency first, matey!",
+          content: "I'm afraid you'll need to unlock my hints with cryptocurrency first before I can assist you further.",
         },
       ]);
     } else {
-      setIsLoading(true);
-      setMessages((prev) => [...prev, { role: "user", content: input }]);
-
-      try {
-        const aiResponse = await getAIResponse(input);
-        setMessages((prev) => [...prev, { role: "assistant", content: aiResponse }]);
-      } catch (error) {
-        toast({
-          title: "Error",
-          description: "Failed to get response from Captain Nemo. Try again later!",
-          variant: "destructive",
-        });
-      } finally {
-        setIsLoading(false);
-      }
+      setMessages((prev) => [
+        ...prev,
+        { role: "user", content: input },
+        {
+          role: "assistant",
+          content: "An excellent inquiry. *Feature coming soon with cryptocurrency integration*",
+        },
+      ]);
     }
     setInput("");
   };
@@ -70,7 +60,7 @@ export const PirateChat = () => {
           {messages.map((message, i) => (
             <ChatMessage key={i} role={message.role} content={message.content} />
           ))}
-          <div ref={scrollRef} />
+          <div ref={scrollRef} /> {/* Scroll anchor */}
         </div>
       </ScrollArea>
       <ChatInput
@@ -79,7 +69,6 @@ export const PirateChat = () => {
         handleSend={handleSend}
         isUnlocked={isUnlocked}
         setIsUnlocked={setIsUnlocked}
-        isLoading={isLoading}
       />
     </div>
   );
