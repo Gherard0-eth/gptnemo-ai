@@ -23,7 +23,7 @@ export const PirateChat = () => {
   // Auto scroll to bottom when messages change
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: "smooth" });
+      scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }
   }, [messages]);
 
@@ -55,7 +55,7 @@ export const PirateChat = () => {
   return (
     <div className="flex flex-col h-[500px] w-full apple-container">
       <ChatHeader />
-      <ScrollArea className="flex-1 p-4">
+      <ScrollArea className="flex-1 p-4 overflow-hidden">
         <div className="space-y-4">
           {messages.map((message, i) => (
             <ChatMessage key={i} role={message.role} content={message.content} />
