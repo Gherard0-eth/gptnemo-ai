@@ -10,7 +10,7 @@ interface MapGridProps {
 }
 
 export const MapGrid = memo(function MapGrid({ onSquareClick, clusterId, dugTiles, treasureFound }: MapGridProps) {
-  const gridSize = 6;
+  const gridSize = 6; // Updated to match contract's GRID_SIZE
   const squares = [];
 
   // Add coordinate labels

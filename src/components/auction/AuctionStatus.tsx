@@ -25,9 +25,10 @@ export const AuctionStatus = () => {
           description: "A new shovel auction has begun!",
         });
       } else {
-        const minutes = Math.floor(diff / 1000 / 60);
-        const seconds = Math.floor((diff / 1000) % 60);
-        setTimeLeft(`${minutes}:${seconds.toString().padStart(2, "0")}`);
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        setTimeLeft(`${hours}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`);
 
         // Show warning when less than 1 minute remains
         if (diff <= 60000 && diff > 59000) {

@@ -53,11 +53,10 @@ export function TreasureFoundDialog({
 
   const handleRedeem = () => {
     if (username && islandId) {
-      // Calculate distributions
-      const userAmount = prizePool * 0.7;  // 70% to user
-      const founderzAmount = prizePool * 0.1;  // 10% to founders
-      const islandAmount = prizePool * 0.05;  // 5% to island
-      const nextPoolAmount = prizePool * 0.15;  // 15% to next pool
+      // Calculate distributions based on contract constants
+      const userAmount = prizePool * 0.7;  // WINNER_SHARE = 70%
+      const founderzAmount = prizePool * 0.1;  // FOUNDERS_SHARE = 10%
+      const nextPoolAmount = prizePool * 0.3;  // NEXT_GAME_SHARE = 30%
 
       // Important: Reset the pool first to ensure the header icon updates immediately
       resetPool();
@@ -107,7 +106,7 @@ export function TreasureFoundDialog({
               <p className="text-xl mb-2">Your Prize:</p>
               <div className="flex items-center justify-center gap-2 text-3xl font-bold text-apple-accent">
                 <Coins className="h-8 w-8" />
-                {prizePool.toFixed(3)} ETH
+                {(prizePool * 0.7).toFixed(3)} ETH
               </div>
               <p className="text-sm text-apple-gray-500 dark:text-apple-gray-300 mt-2">
                 ≈ {usdValue}
