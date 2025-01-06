@@ -13,7 +13,7 @@ export const PirateChat = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Greetings! I am Captain Nemo, your AI guide. To unlock my hints for finding treasures, you'll need some cryptocurrency!",
+      content: "Greetings! I am Gaptain Nemo, your AI guide. To unlock my hints for finding treasures, you'll need some cryptocurrency!",
     },
   ]);
   const [input, setInput] = useState("");

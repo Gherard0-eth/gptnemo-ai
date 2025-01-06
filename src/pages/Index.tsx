@@ -20,7 +20,7 @@ const Index = () => {
                   Embark on an AI-Powered Treasure Hunt!
                 </h1>
                 <p className="text-sm sm:text-base text-apple-gray-500 dark:text-apple-gray-300">
-                  Meet Captain Nemo, your AI guide, and join treasure hunters worldwide in the quest for hidden riches. Bid for shovels, unlock exclusive hints, and discover treasures across mysterious islands.
+                  Meet Gaptain Nemo, your AI guide, and join treasure hunters worldwide in the quest for hidden riches. Bid for shovels, unlock exclusive hints, and discover treasures across mysterious islands.
                 </p>
               </div>
 
@@ -51,7 +51,7 @@ const Index = () => {
                       Begin Your Adventure
                     </h2>
                     <p className="text-sm sm:text-base text-white/90 mb-4">
-                      Explore our mystical islands where Sandokhan has hidden valuable treasures. Use your wit, follow the hints, and claim your rewards!
+                      Explore our mystical islands where Gaptain Nemo has hidden valuable treasures. Use your wit, follow the hints, and claim your rewards!
                     </p>
                   </div>
                   <Link to="/treasure-islands" className="w-full sm:w-auto">
