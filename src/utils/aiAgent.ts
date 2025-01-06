@@ -58,16 +58,15 @@ Important rules:
 2. You can give subtle hints about the island where the treasure is located
 3. Be mysterious and use pirate-themed language
 4. Keep responses concise and engaging
-5. If asked about coordinates or specific locations, deflect with pirate humor
-
-Respond to the user's message while following these rules.`;
+5. If asked about coordinates or specific locations, deflect with pirate humor`;
 
   try {
     const response = await anthropic.messages.create({
       model: 'claude-3-sonnet-20240229',
       max_tokens: 1000,
       messages: [
-        { role: 'system', content: systemPrompt },
+        { role: 'user', content: systemPrompt },
+        { role: 'assistant', content: 'Understood, I will act as Captain Nemo and follow these rules.' },
         { role: 'user', content: message }
       ],
     });
