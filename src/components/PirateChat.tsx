@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatHeader } from "./chat/ChatHeader";
 import { ChatMessage } from "./chat/ChatMessage";
@@ -18,6 +18,14 @@ export const PirateChat = () => {
   ]);
   const [input, setInput] = useState("");
   const [isUnlocked, setIsUnlocked] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Auto scroll to bottom when messages change
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -52,6 +60,7 @@ export const PirateChat = () => {
           {messages.map((message, i) => (
             <ChatMessage key={i} role={message.role} content={message.content} />
           ))}
+          <div ref={scrollRef} /> {/* Scroll anchor */}
         </div>
       </ScrollArea>
       <ChatInput
