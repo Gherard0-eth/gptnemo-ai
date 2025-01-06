@@ -34,14 +34,9 @@ export const Header = () => {
         </div>
 
         <div className="flex-1 flex justify-center">
-          <Link to="/" className="flex items-center gap-2">
-            <img 
-              src="/lovable-uploads/37796f80-aa07-422a-89d0-d78baea0ed61.png" 
-              alt="Nemo Logo" 
-              className="w-6 h-6"
-            />
+          <Link to="/" className="flex items-center">
             <span className="font-logo text-xl md:text-2xl text-apple-gray-700 dark:text-apple-gray-100">
-              Nemo
+              Nemo.ai
             </span>
           </Link>
         </div>
