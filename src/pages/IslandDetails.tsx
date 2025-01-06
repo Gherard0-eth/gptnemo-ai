@@ -82,7 +82,7 @@ export default function IslandDetails() {
   return (
     <div className="min-h-screen bg-background dark:bg-apple-gray-700 p-4">
       <div className="space-y-6 apple-container p-6">
-        <IslandHeader name={island.name} />
+        <IslandHeader name={island.name} description={island.description} />
         
         <CollapsibleText text={island.description} maxLength={150} />
         
