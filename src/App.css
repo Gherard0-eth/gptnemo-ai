@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Add styles for the chat container */
+.scroll-area-viewport {
+  height: 100%;
+  overflow-y: auto;
+}

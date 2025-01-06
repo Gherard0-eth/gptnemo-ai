@@ -45,7 +45,7 @@ export const PirateChat = () => {
   };
 
   return (
-    <div className="flex flex-col h-full w-full apple-container">
+    <div className="flex flex-col h-[500px] w-full apple-container">
       <ChatHeader />
       <ScrollArea className="flex-1 p-4">
         <div className="space-y-4">
