@@ -68,6 +68,7 @@ export default {
       fontFamily: {
         sans: ["-apple-system", "BlinkMacSystemFont", "system-ui", "sans-serif"],
         display: ["SF Pro Display", "system-ui", "sans-serif"],
+        logo: ["Space Grotesk", "system-ui", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
