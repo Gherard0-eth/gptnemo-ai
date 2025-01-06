@@ -7,7 +7,7 @@ interface CollapsibleTextProps {
   maxLength?: number;
 }
 
-export function CollapsibleText({ text, maxLength = 200 }: CollapsibleTextProps) {
+export function CollapsibleText({ text, maxLength = 150 }: CollapsibleTextProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const isMobile = useIsMobile();
 
