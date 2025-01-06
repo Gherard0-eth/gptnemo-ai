@@ -3,6 +3,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatHeader } from "./chat/ChatHeader";
 import { ChatMessage } from "./chat/ChatMessage";
 import { ChatInput } from "./chat/ChatInput";
+import { aiAgent } from "@/utils/aiAgent";
+import { useToast } from "@/components/ui/use-toast";
 
 interface Message {
   role: "user" | "assistant";
@@ -13,41 +15,51 @@ export const PirateChat = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Greetings! I am Gaptain Nemo, your AI guide. To unlock my hints for finding treasures, you'll need some cryptocurrency!",
+      content: "Ahoy, matey! I be Gaptain Nemo, yer AI guide through these treacherous waters. To unlock me hints for finding treasures, ye'll need to provide a Claude API key!",
     },
   ]);
   const [input, setInput] = useState("");
   const [isUnlocked, setIsUnlocked] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
-  // Auto scroll to bottom when messages change
+  useEffect(() => {
+    const apiKey = localStorage.getItem('CLAUDE_API_KEY');
+    if (apiKey) {
+      setIsUnlocked(true);
+    }
+  }, []);
+
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }
   }, [messages]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!input.trim()) return;
 
     if (!isUnlocked) {
-      setMessages((prev) => [
-        ...prev,
-        { role: "user", content: input },
-        {
-          role: "assistant",
-          content: "I'm afraid you'll need to unlock my hints with cryptocurrency first before I can assist you further.",
-        },
+      const apiKey = input.trim();
+      localStorage.setItem('CLAUDE_API_KEY', apiKey);
+      setIsUnlocked(true);
+      setMessages(prev => [...prev, 
+        { role: "user", content: "Setting up API key..." },
+        { role: "assistant", content: "Arr! Thank ye for the key, matey! Now I can help ye find the treasure!" }
       ]);
     } else {
-      setMessages((prev) => [
-        ...prev,
-        { role: "user", content: input },
-        {
-          role: "assistant",
-          content: "An excellent inquiry. *Feature coming soon with cryptocurrency integration*",
-        },
-      ]);
+      setMessages(prev => [...prev, { role: "user", content: input }]);
+      
+      try {
+        const response = await aiAgent.generateResponse(input);
+        setMessages(prev => [...prev, { role: "assistant", content: response }]);
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to get a response from Gaptain Nemo. Please try again.",
+          variant: "destructive",
+        });
+      }
     }
     setInput("");
   };
@@ -60,7 +72,7 @@ export const PirateChat = () => {
           {messages.map((message, i) => (
             <ChatMessage key={i} role={message.role} content={message.content} />
           ))}
-          <div ref={scrollRef} /> {/* Scroll anchor */}
+          <div ref={scrollRef} />
         </div>
       </ScrollArea>
       <ChatInput
