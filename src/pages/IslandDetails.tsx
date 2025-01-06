@@ -10,6 +10,7 @@ import { IslandHeader } from "@/components/island/IslandHeader";
 import { islandData } from "@/data/islandData";
 import { TreasureFoundDialog } from "@/components/treasure/TreasureFoundDialog";
 import { FloatingRedeemButton } from "@/components/treasure/FloatingRedeemButton";
+import { CollapsibleText } from "@/components/ui/collapsible-text";
 
 export default function IslandDetails() {
   const { id } = useParams();
@@ -60,7 +61,7 @@ export default function IslandDetails() {
   };
 
   const handleRedeem = () => {
-    generateNewTreasure(); // Generate new treasure location after claiming
+    generateNewTreasure();
     setShowTreasureDialog(false);
     setHasUnredeemedTreasure(false);
     toast({
@@ -82,6 +83,8 @@ export default function IslandDetails() {
     <div className="min-h-screen bg-background dark:bg-apple-gray-700 p-4">
       <div className="space-y-6 apple-container p-6">
         <IslandHeader name={island.name} description={island.description} />
+        
+        <CollapsibleText text={island.description} maxLength={200} />
         
         <IslandCharacteristics characteristics={island.characteristics} />
         

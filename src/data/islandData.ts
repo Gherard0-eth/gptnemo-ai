@@ -19,7 +19,7 @@ export interface Island {
 export const islandData: Record<string, Island> = {
   "1": {
     name: "Skull's Haven",
-    description: "A treacherous volcanic island shrouded in mystery. Ancient legends speak of a cursed treasure hidden within its depths, guarded by restless spirits of fallen pirates.",
+    description: "Skull's Haven is a treacherous volcanic island shrouded in mystery, where danger lurks at every turn. Ancient legends speak of a cursed treasure hidden deep within its fiery depths, fiercely protected by the restless spirits of fallen pirates who once ruled these waters. Dense, impenetrable jungles cover its rugged terrain, concealing countless secrets and perilous traps set by the island's past inhabitants. Its cursed waters are patrolled by ghost ships, their spectral crews eternally bound to the island's dark curse.\n\nThe island's volatile climate alternates between scorching heat and torrential tropical storms, making survival a challenge even for the bravest explorers. Lava flows carve through the volcanic landscape, creating an ever-changing terrain of molten rivers and jagged rocks. Whispers of the undead and eerie glowing lights are said to haunt the island at night, driving many who dare to venture there to madness.\n\nDespite the danger, Skull's Haven continues to lure treasure hunters, adventurers, and fortune seekers, drawn by tales of unimaginable wealth hidden beneath its fiery peaks. Yet, none return unscathed—if they return at all. Enter at your own risk, for this island does not easily relinquish its secrets.",
     climate: "Tropical",
     terrain: "Volcanic",
     dangerLevel: "High",
