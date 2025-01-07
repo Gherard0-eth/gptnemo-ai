@@ -3,6 +3,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatHeader } from "./chat/ChatHeader";
 import { ChatMessage } from "./chat/ChatMessage";
 import { ChatInput } from "./chat/ChatInput";
+import { useParams } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface Message {
   role: "user" | "assistant";
@@ -10,45 +13,55 @@ interface Message {
 }
 
 export const PirateChat = () => {
+  const { id: islandId } = useParams();
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Greetings! I am Gaptain Nemo, your AI guide. To unlock my hints for finding treasures, you'll need some cryptocurrency!",
+      content: "Greetings, seeker of treasures! I am the mystical guardian of these islands. To unlock my guidance, you'll need some cryptocurrency for message credits!",
     },
   ]);
   const [input, setInput] = useState("");
   const [isUnlocked, setIsUnlocked] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
-  // Auto scroll to bottom when messages change
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }
   }, [messages]);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
+  const handleSend = async () => {
+    if (!input.trim() || !islandId) return;
 
-    if (!isUnlocked) {
+    try {
+      setMessages((prev) => [...prev, { role: "user", content: input }]);
+      
+      const { data, error } = await supabase.functions.invoke('tee-agent', {
+        body: {
+          action: 'chat',
+          data: {
+            message: input,
+            islandId,
+            userAddress: '0x123', // TODO: Replace with actual user address
+          }
+        }
+      });
+
+      if (error) throw error;
+
       setMessages((prev) => [
         ...prev,
-        { role: "user", content: input },
-        {
-          role: "assistant",
-          content: "I'm afraid you'll need to unlock my hints with cryptocurrency first before I can assist you further.",
-        },
+        { role: "assistant", content: data.response },
       ]);
-    } else {
-      setMessages((prev) => [
-        ...prev,
-        { role: "user", content: input },
-        {
-          role: "assistant",
-          content: "An excellent inquiry. *Feature coming soon with cryptocurrency integration*",
-        },
-      ]);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
     }
+
     setInput("");
   };
 
@@ -60,7 +73,7 @@ export const PirateChat = () => {
           {messages.map((message, i) => (
             <ChatMessage key={i} role={message.role} content={message.content} />
           ))}
-          <div ref={scrollRef} /> {/* Scroll anchor */}
+          <div ref={scrollRef} />
         </div>
       </ScrollArea>
       <ChatInput
