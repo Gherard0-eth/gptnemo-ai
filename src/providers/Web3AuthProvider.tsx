@@ -4,7 +4,12 @@ import { defaultWagmiConfig } from '@web3modal/wagmi/react/config';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { sepolia } from 'wagmi/chains';
 
+// Make sure we have the project ID
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID;
+
+if (!projectId) {
+  throw new Error('Missing VITE_WALLETCONNECT_PROJECT_ID environment variable');
+}
 
 const metadata = {
   name: 'GPTNemo',
@@ -13,14 +18,21 @@ const metadata = {
   icons: ['https://gptnemo.com/favicon.ico']
 };
 
-const chains = [sepolia];
+// Define chains as a const array with at least one chain
+const chains = [sepolia] as const;
+
 export const config = defaultWagmiConfig({
   chains,
   projectId,
   metadata,
 });
 
-createWeb3Modal({ wagmiConfig: config, projectId, chains });
+// Create modal with correct options
+createWeb3Modal({ 
+  wagmiConfig: config, 
+  projectId, 
+  defaultChain: sepolia 
+});
 
 interface Web3AuthContextType {
   address: string | undefined;
@@ -38,7 +50,9 @@ export function Web3AuthProvider({ children }: { children: React.ReactNode }) {
 
   const handleConnect = async () => {
     try {
-      await connectAsync();
+      await connectAsync({
+        chainId: sepolia.id
+      });
     } catch (error) {
       console.error('Failed to connect:', error);
     }
