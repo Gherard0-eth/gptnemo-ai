@@ -5,8 +5,17 @@ import { useUserStore } from '@/stores/useUserStore';
 import { usePrizePoolStore } from '@/stores/usePrizePoolStore';
 import { useDashboardStore } from '@/stores/useDashboardStore';
 
+interface TreasureLocation {
+  islandId: string;
+  coordinates: {
+    x: number;
+    y: number;
+  };
+}
+
 export const useTreasureHunt = () => {
   const [isDigging, setIsDigging] = useState(false);
+  const [treasureLocation, setTreasureLocation] = useState<TreasureLocation | null>(null);
   const { toast } = useToast();
   const { username } = useUserStore();
   const { addAmount } = usePrizePoolStore();
@@ -88,6 +97,10 @@ export const useTreasureHunt = () => {
 
       if (error) throw error;
 
+      if (data?.treasureLocation) {
+        setTreasureLocation(data.treasureLocation);
+      }
+
       toast({
         title: "New Treasure Generated",
         description: "A new treasure has been hidden on the island!",
@@ -135,6 +148,7 @@ export const useTreasureHunt = () => {
     verifyDig,
     generateNewTreasure,
     sendChatMessage,
-    isDigging
+    isDigging,
+    treasureLocation
   };
 };

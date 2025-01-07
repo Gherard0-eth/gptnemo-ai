@@ -24,7 +24,8 @@ export default function Dashboard() {
     resetLeaderboard();
     resetDashboard();
     resetShovels();
-    generateNewTreasure();
+    // Use a default island ID for the dashboard
+    generateNewTreasure("island1");
     toast({
       title: "Cache Cleared",
       description: "All data has been reset successfully.",
