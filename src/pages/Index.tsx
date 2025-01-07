@@ -5,11 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Map, Compass, Skull, Ship } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useUserStore } from "@/stores/useUserStore";
 
 const Index = () => {
   const isMobile = useIsMobile();
-  const userAddress = useUserStore((state) => state.userAddress);
 
   return (
     <div className="min-h-screen bg-apple-gray-100 dark:bg-apple-gray-700 transition-colors duration-300">
@@ -28,7 +26,7 @@ const Index = () => {
 
               {/* Chat Box */}
               <div className="flex-1 min-h-[400px] w-full">
-                <PirateChat islandId="island1" userAddress={userAddress || ""} />
+                <PirateChat />
               </div>
 
               {/* Treasure Islands Link Section */}

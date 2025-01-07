@@ -65,8 +65,8 @@ export function TreasureFoundDialog({
       addInflow(prizePool, islandId);
       setAmount(nextPoolAmount);
       
-      // Start new game with the current island
-      generateNewTreasure(islandId);
+      // Start new game
+      generateNewTreasure();
       
       onRedeem();
       

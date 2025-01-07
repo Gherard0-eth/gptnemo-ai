@@ -61,9 +61,7 @@ export default function IslandDetails() {
   };
 
   const handleRedeem = () => {
-    if (id) {
-      generateNewTreasure(id);
-    }
+    generateNewTreasure();
     setShowTreasureDialog(false);
     setHasUnredeemedTreasure(false);
     toast({

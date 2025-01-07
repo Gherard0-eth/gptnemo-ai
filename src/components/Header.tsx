@@ -5,23 +5,16 @@ import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { MenuContent } from "./MenuContent";
 import { useToast } from "./ui/use-toast";
 import { useShovelStore } from "@/stores/useShovelStore";
-import { useWeb3Auth } from "@/providers/Web3AuthProvider";
 
 export const Header = () => {
   const { toast } = useToast();
   const shovels = useShovelStore((state) => state.shovels);
-  const { address, isConnected, connect, disconnect } = useWeb3Auth();
 
   const handleConnectWallet = () => {
-    if (isConnected) {
-      disconnect();
-      toast({
-        title: "Wallet Disconnected",
-        description: "You've been successfully logged out.",
-      });
-    } else {
-      connect();
-    }
+    toast({
+      title: "Coming Soon",
+      description: "Wallet connection functionality will be available soon!",
+    });
   };
 
   return (
@@ -70,7 +63,7 @@ export const Header = () => {
             className="hidden md:flex items-center gap-2"
             onClick={handleConnectWallet}
           >
-            <span>{isConnected ? `${address?.slice(0, 6)}...${address?.slice(-4)}` : 'Connect Wallet'}</span>
+            <span>Connect Wallet</span>
           </Button>
         </div>
       </div>

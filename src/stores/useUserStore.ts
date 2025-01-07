@@ -3,9 +3,7 @@ import { persist } from 'zustand/middleware';
 
 interface UserState {
   username: string | null;
-  userAddress: string | null;
   setUsername: (username: string) => void;
-  setUserAddress: (address: string) => void;
   logout: () => void;
 }
 
@@ -13,10 +11,8 @@ export const useUserStore = create<UserState>()(
   persist(
     (set) => ({
       username: null,
-      userAddress: null,
       setUsername: (username) => set({ username }),
-      setUserAddress: (address) => set({ userAddress: address }),
-      logout: () => set({ username: null, userAddress: null }),
+      logout: () => set({ username: null }),
     }),
     {
       name: 'user-storage',
