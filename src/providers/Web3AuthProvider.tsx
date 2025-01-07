@@ -5,13 +5,9 @@ import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { sepolia } from 'wagmi/chains';
 
 // Get projectId from environment variable
-const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID;
+const projectId = import.meta.env.WALLETCONNECT_PROJECT_ID;
 
-// Validate projectId is available
-if (!projectId) {
-  console.error('WalletConnect Project ID is required. Please check your environment variables.');
-}
-
+// Define metadata
 const metadata = {
   name: 'GPTNemo',
   description: 'AI-Powered Treasure Hunt Game',
@@ -22,19 +18,21 @@ const metadata = {
 // Define chains
 const chains = [sepolia] as const;
 
-// Create wagmi config
-export const config = defaultWagmiConfig({
+// Create wagmi config only if projectId exists
+export const config = projectId ? defaultWagmiConfig({
   chains,
   projectId,
   metadata,
-});
+}) : null;
 
-// Create modal
-createWeb3Modal({ 
-  wagmiConfig: config, 
-  projectId, 
-  defaultChain: sepolia,
-});
+// Create modal only if config exists
+if (config) {
+  createWeb3Modal({ 
+    wagmiConfig: config, 
+    projectId, 
+    defaultChain: sepolia,
+  });
+}
 
 interface Web3AuthContextType {
   address: string | undefined;
@@ -51,6 +49,11 @@ export function Web3AuthProvider({ children }: { children: React.ReactNode }) {
   const { disconnect } = useDisconnect();
 
   const handleConnect = async () => {
+    if (!projectId) {
+      console.error('WalletConnect Project ID is not configured. Please check your environment variables.');
+      return;
+    }
+
     try {
       const connector = connectors[0];
       if (!connector) {
