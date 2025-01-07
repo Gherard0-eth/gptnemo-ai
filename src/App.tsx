@@ -26,9 +26,9 @@ const queryClient = new QueryClient({
 });
 
 const App = () => (
-  <WagmiProvider config={config}>
-    <Web3AuthProvider>
-      <QueryClientProvider client={queryClient}>
+  <QueryClientProvider client={queryClient}>
+    <WagmiProvider config={config}>
+      <Web3AuthProvider>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <TooltipProvider>
             <Toaster />
@@ -58,9 +58,9 @@ const App = () => (
             </BrowserRouter>
           </TooltipProvider>
         </ThemeProvider>
-      </QueryClientProvider>
-    </Web3AuthProvider>
-  </WagmiProvider>
+      </Web3AuthProvider>
+    </WagmiProvider>
+  </QueryClientProvider>
 );
 
 export default App;

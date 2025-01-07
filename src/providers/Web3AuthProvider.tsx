@@ -1,90 +1,81 @@
-import { createContext, useContext } from 'react';
-import { createWeb3Modal } from '@web3modal/wagmi/react';
-import { defaultWagmiConfig } from '@web3modal/wagmi/react/config';
+import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { createContext, useContext, ReactNode } from 'react';
 import { sepolia } from 'wagmi/chains';
 
 // Get projectId from environment variable
-const projectId = import.meta.env.WALLETCONNECT_PROJECT_ID;
+const projectId = import.meta.env.WALLETCONNECT_PROJECT_ID || 'default_project_id';
 
 // Define metadata
 const metadata = {
   name: 'GPTNemo',
   description: 'AI-Powered Treasure Hunt Game',
   url: 'https://gptnemo.com',
-  icons: ['https://gptnemo.com/favicon.ico']
+  icons: ['https://avatars.githubusercontent.com/u/37784886']
 };
 
 // Define chains
 const chains = [sepolia] as const;
 
-// Create wagmi config only if projectId exists
-export const config = projectId ? defaultWagmiConfig({
+// Create wagmi config
+export const config = defaultWagmiConfig({
   chains,
   projectId,
   metadata,
-}) : null;
+});
 
-// Create modal only if config exists
-if (config) {
-  createWeb3Modal({ 
-    wagmiConfig: config, 
-    projectId, 
-    defaultChain: sepolia,
-  });
-}
+// Create modal
+createWeb3Modal({ 
+  wagmiConfig: config, 
+  projectId, 
+  defaultChain: sepolia,
+});
 
 interface Web3AuthContextType {
   address: string | undefined;
   isConnected: boolean;
-  connect: () => void;
+  connect: () => Promise<void>;
   disconnect: () => void;
 }
 
 const Web3AuthContext = createContext<Web3AuthContextType | undefined>(undefined);
 
-export function Web3AuthProvider({ children }: { children: React.ReactNode }) {
+export const Web3AuthProvider = ({ children }: { children: ReactNode }) => {
   const { address, isConnected } = useAccount();
   const { connectAsync, connectors } = useConnect();
   const { disconnect } = useDisconnect();
 
   const handleConnect = async () => {
-    if (!projectId) {
-      console.error('WalletConnect Project ID is not configured. Please check your environment variables.');
-      return;
-    }
-
     try {
       const connector = connectors[0];
       if (!connector) {
-        throw new Error('No connector available');
+        console.error('No connector available');
+        return;
       }
-
-      await connectAsync({
-        connector,
-        chainId: sepolia.id
-      });
+      await connectAsync({ connector });
     } catch (error) {
       console.error('Failed to connect:', error);
     }
   };
 
   return (
-    <Web3AuthContext.Provider value={{ 
-      address, 
-      isConnected, 
-      connect: handleConnect, 
-      disconnect 
-    }}>
+    <Web3AuthContext.Provider
+      value={{
+        address,
+        isConnected,
+        connect: handleConnect,
+        disconnect,
+      }}
+    >
       {children}
     </Web3AuthContext.Provider>
   );
-}
+};
 
-export function useWeb3Auth() {
+export const useWeb3Auth = () => {
   const context = useContext(Web3AuthContext);
   if (context === undefined) {
     throw new Error('useWeb3Auth must be used within a Web3AuthProvider');
   }
   return context;
-}
+};
