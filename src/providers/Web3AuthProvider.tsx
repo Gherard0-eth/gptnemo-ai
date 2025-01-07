@@ -4,7 +4,7 @@ import { defaultWagmiConfig } from '@web3modal/wagmi/react/config';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { sepolia } from 'wagmi/chains';
 
-// Make sure we have the project ID
+// Get the project ID from Supabase secrets
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID;
 
 if (!projectId) {
@@ -45,12 +45,19 @@ const Web3AuthContext = createContext<Web3AuthContextType | undefined>(undefined
 
 export function Web3AuthProvider({ children }: { children: React.ReactNode }) {
   const { address, isConnected } = useAccount();
-  const { connectAsync } = useConnect();
+  const { connectAsync, connectors } = useConnect();
   const { disconnect } = useDisconnect();
 
   const handleConnect = async () => {
     try {
+      // Get the first available connector (usually WalletConnect)
+      const connector = connectors[0];
+      if (!connector) {
+        throw new Error('No connector available');
+      }
+
       await connectAsync({
+        connector,
         chainId: sepolia.id
       });
     } catch (error) {
