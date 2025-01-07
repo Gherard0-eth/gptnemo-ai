@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext } from 'react';
 import { createWeb3Modal } from '@web3modal/wagmi/react';
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config';
-import { WagmiProvider, useAccount, useConnect, useDisconnect } from 'wagmi';
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { sepolia } from 'wagmi/chains';
 
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID;
@@ -14,7 +14,7 @@ const metadata = {
 };
 
 const chains = [sepolia];
-const config = defaultWagmiConfig({
+export const config = defaultWagmiConfig({
   chains,
   projectId,
   metadata,
@@ -33,11 +33,24 @@ const Web3AuthContext = createContext<Web3AuthContextType | undefined>(undefined
 
 export function Web3AuthProvider({ children }: { children: React.ReactNode }) {
   const { address, isConnected } = useAccount();
-  const { connect } = useConnect();
+  const { connectAsync } = useConnect();
   const { disconnect } = useDisconnect();
 
+  const handleConnect = async () => {
+    try {
+      await connectAsync();
+    } catch (error) {
+      console.error('Failed to connect:', error);
+    }
+  };
+
   return (
-    <Web3AuthContext.Provider value={{ address, isConnected, connect, disconnect }}>
+    <Web3AuthContext.Provider value={{ 
+      address, 
+      isConnected, 
+      connect: handleConnect, 
+      disconnect 
+    }}>
       {children}
     </Web3AuthContext.Provider>
   );

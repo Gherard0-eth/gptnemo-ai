@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { WagmiProvider } from 'wagmi';
-import { Web3AuthProvider } from "./providers/Web3AuthProvider";
+import { Web3AuthProvider, config } from "./providers/Web3AuthProvider";
 import { Header } from "@/components/Header";
 import Index from "./pages/Index";
 import TreasureIslands from "./pages/TreasureIslands";
