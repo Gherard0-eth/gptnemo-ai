@@ -1,10 +1,11 @@
-import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react';
+import { createWeb3Modal } from '@web3modal/wagmi/react';
+import { defaultWagmiConfig } from '@web3modal/wagmi/react/config';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { createContext, useContext, ReactNode } from 'react';
 import { sepolia } from 'wagmi/chains';
 
 // Get projectId from environment variable
-const projectId = import.meta.env.WALLETCONNECT_PROJECT_ID || 'default_project_id';
+const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || 'default_project_id';
 
 // Define metadata
 const metadata = {
